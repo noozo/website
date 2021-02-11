@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Global Site Tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-5950813-1"></script>
+    <script>window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date());gtag('config', 'UA-5950813-1');</script>
+
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta property="og:logo" content="http://pedroassuncao.com/images/500x500.png" />
+
+    <title>Pedro Assunção - Software Developer</title>
+
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Libre+Barcode+128+Text|Share+Tech" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
+    <%=# controller_css(@conn) %>
+    <%= csrf_meta_tag() %>
+    <script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
+  </head>
+  <body>
+    <div class="flex flex-col admin">
+      <%= render(NoozoWeb.LayoutView, "admin_navigation.html", conn: @conn) %>
+
+      <header class="bg-white shadow border">
+        <div class="mx-auto py-6 px-4 sm:px-6 lg:px-8">
+          <h1 class="text-3xl font-bold leading-tight text-gray-900">
+            Backoffice
+          </h1>
+        </div>
+      </header>
+
+      <main>
+        <div class="max-w-7xl flex items-center mx-6 py-6 sm:px-6 lg:px-8">
+          <%= render(NoozoWeb.LayoutView, "flashes.html", conn: @conn) %>
+          <%= @inner_content %>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

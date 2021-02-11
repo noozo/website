@@ -1,0 +1,10 @@
+<%= unless is_nil(get_flash(@conn, :info)) and is_nil(get_flash(@conn, :error)) do %>
+<div class="flex-none p-5">
+  <%= unless is_nil(get_flash(@conn, :info)) do %>
+    <p class="shadow p-5 bg-green-300 rounded-md" role="alert"><%= get_flash(@conn, :info) %></p>
+  <% end %>
+  <%= unless is_nil(get_flash(@conn, :error)) do %>
+    <p class="shadow p-5 bg-red-300 rounded-md" role="alert"><%= get_flash(@conn, :error) %></p>
+  <% end %>
+</div>
+<% end %>

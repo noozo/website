@@ -1,0 +1,3 @@
+<!-- Content -->
+<%= render(NoozoWeb.LayoutView, "flashes.html", conn: @conn) %>
+<%= @inner_content %>

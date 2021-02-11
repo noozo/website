@@ -1,0 +1,29 @@
+<%= form_tag @callback_url, method: "post" do %>
+  <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
+    <div class="grid grid-cols-6 gap-6">
+      <div class="col-span-6 sm:col-span-3">
+        <label for="email" class="block text-sm font-medium text-gray-700">
+          Email
+        </label>
+        <div class="mt-1">
+          <input class='shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border-gray-300 rounded-md'
+                 type='email' name='email' value='<%= @conn.params["email"] %>' />
+        </div>
+      </div>
+
+      <div class="col-span-6 sm:col-span-3">
+        <label for="password" class="block text-sm font-medium text-gray-700">
+          Password
+        </label>
+        <div class="mt-1">
+          <input class='shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border-gray-300 rounded-md'
+                 type='password' name='password' />
+        </div>
+      </div>
+
+      <div class="col-span-6 sm:col-span-3">
+        <button class='btn'>Login</button>
+      </div>
+    </div>
+  </div>
+<% end %>

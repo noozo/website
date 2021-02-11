@@ -1,0 +1,9 @@
+<%= if length(@tags) > 0 do %>
+  <div class="tags">
+    <%= for tag <- @tags do %>
+      <a class="tag badge badge-secondary" href="<%= Routes.live_path(@socket, NoozoWeb.Post.IndexView, tag.name) %>">
+        <%= tag.name %>
+      </a>
+    <% end %>
+  </div>
+<% end %>

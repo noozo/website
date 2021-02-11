@@ -1,0 +1,11 @@
+<footer class="max-h-10 bg-gray-300 bottom-0 text-xs p-2 shadow shadow-lg">
+  <div class="text-center">
+      v<%=
+        {:ok, version} = :application.get_key(:noozo, :vsn)
+        List.to_string(version)
+    %>
+    Made with love using
+    <a href="https://elixir-lang.org"><img class="inline" src="<%= Routes.static_path(@conn, "/images/elixir.png") %>" alt="Elixir" /></a> and the
+    <a href="https://phoenixframework.org/"><img class="inline" src="<%= Routes.static_path(@conn, "/images/phoenix.png") %>" alt="Phoenix Framework" /></a>
+  </div>
+</footer>

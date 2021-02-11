@@ -1,0 +1,122 @@
+.board {
+    padding: 10px;
+    font-size: 80%;
+    background-color: #427AA1;
+    border-radius: 5px;
+    // min-height: 40em;
+    // overflow: scroll;
+    border: 2px solid rgba(0, 0, 0, .15);
+}
+
+::-webkit-scrollbar {
+    -webkit-appearance: block;
+    width: 0px;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 3px;
+    background-color: rgba(0, 0, 0, .25);
+    // box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+}
+
+.lists {
+    // border: 1px solid black;
+}
+
+.list {
+    // float: left;
+    min-width: 250px;
+    border: 1px solid #ddd;
+    padding: 5px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    .title {
+        font-weight: bold;
+        font-size: 100%;
+        padding: 5px;
+        word-wrap: break-word;
+    }
+    .menu {
+        float: right;
+        z-index: 1000;
+        display: none;
+    }
+    &:hover .menu {
+        display: block;
+    }
+    border-radius: 5px;
+    background-color: #ebecf0;
+}
+
+button.new-list,
+button.new-item {
+    background: transparent;
+    border: none !important;
+    color: black;
+}
+
+button.new-item {
+    color: black;
+}
+
+div.new-list {
+    background-color: hsla(0, 0, 100%, .24);
+    border: 0;
+}
+
+div.new-list:hover {
+    background-color: hsla(0, 0, 100%, .34);
+}
+
+div.new-item {
+    border-radius: 3px;
+    color: #5e6c84;
+    display: block;
+    flex: 1 0 auto;
+    margin: 2px 0 8px 8px;
+    padding: 4px 8px;
+    position: relative;
+    text-decoration: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+div.new-item:hover {
+    background-color: hsla(0, 0, 00%, .14);
+}
+
+.items {}
+
+.item {
+    padding: 5px;
+    background-color: #fff;
+    border-radius: 3px;
+    box-shadow: 0px 1px #427aa144;
+    &:hover {
+        box-shadow: 2px 2px 2px 2px #427aa144;
+    }
+    cursor: pointer;
+    display: block;
+    margin-bottom: 8px;
+    max-width: 300px;
+    min-height: 20px;
+    position: relative;
+    text-decoration: none;
+    word-wrap: break-word;
+}
+
+.cancel {
+    float: right;
+}
+
+.label {
+    padding: 2px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    border-radius: 5px;
+    margin: 2px;
+    font-size: 60%;
+    vertical-align: middle;
+}

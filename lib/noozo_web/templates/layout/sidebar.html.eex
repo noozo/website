@@ -1,0 +1,15 @@
+<div class="sidebar">
+  <div class="entry">
+    <%= render(NoozoWeb.LayoutView, "about.html", conn: @conn) %>
+  </div>
+  <div class="entry">
+    <%= render(NoozoWeb.LayoutView, "navigation.html", conn: @conn) %>
+  </div>
+  <div class="entry">
+    <%= render(NoozoWeb.LayoutView, "social.html", conn: @conn) %>
+  </div>
+  <div class="entry">
+    <!-- Footer -->
+    <%= render(NoozoWeb.LayoutView, "footer.html", conn: @conn) %>
+  </div>
+</div>

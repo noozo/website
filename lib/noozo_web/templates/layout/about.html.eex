@@ -1,0 +1,10 @@
+<div class="about">
+  <!-- img class="logo" src="/images/200x54.png" width="200" height="54" /-->
+  <img class="face" src="/images/face100.png" width="100" height="100" />
+  <div class="tagline">
+    <p>
+      <span class="title">Pedro Assunção</span><br/>
+      <span class="subtitle">Senior Software developer. Researcher of shiny new things.</span>
+    </p>
+  </div>
+</div>
