@@ -67,6 +67,15 @@ You might also want to:
 - Replace ocurrences of `pedroassuncao.com` with your own domain throughout the code
 - Take a look at all the configs to see if they match your needs
 - Change .github/main.yml and adjust the deployment as you need (first time you run it you will need to add dependencies on your target machine and other things like that)
+- Search for my github content hardcoded avatar in a few places and replace with yours :)
+
+## Notes
+
+To run port 80 and 443 in a remote machine you might need to provide permissions to your BEAM binary, for instance (for elixir 1.11, and inside the target folder):
+
+```
+sudo setcap CAP_NET_BIND_SERVICE=+eip _build/prod/rel/noozo/erts-11.1/bin/beam.smp
+```
 
 ## Finally
 
