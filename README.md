@@ -43,6 +43,8 @@ Most features have an equivalent admin space where things can be configured.
   - Images stored in DB (i know) with file caching on top
 - Finances visualizer
   - In the off-chance you are Portuguese and have an account at Caixa Geral de Depositos, there is an admin section where you can import CSV bank movements (exported from the bank's website) and then visualize them in a more convenient fashion. That particular live view should be easy to adapt to any type of CSV file, so you can use it with any bank
+- A GenServer that can import posts from medium
+  - In case you also write on medium.com, there is a (disabled in application.ex) GenServer that can periodically fetch posts from there and add them into the blog
 - Other things
   - Live pagination across the board (i.e. no full page updates)
   - LiveUploads for most file upload operations (like post images, for instance)
