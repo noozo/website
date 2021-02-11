@@ -246,7 +246,7 @@ defmodule NoozoWeb.Admin.Analytics.IndexView do
       {date, Enum.reduce(entries, 0, &(&1.counter + &2))}
     end)
     |> Map.new()
-    |> Poison.encode!()
+    |> Jason.encode!()
   end
 
   defp sort(data, :day) do

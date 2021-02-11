@@ -13,6 +13,6 @@ defmodule NoozoWeb.LayoutView do
 
     href = Routes.static_path(conn, "/css/#{file}.css")
 
-    Phoenix.HTML.raw(~S(<link rel="stylesheet" href="#{href}" />))
+    Phoenix.HTML.raw(~s(<link rel="stylesheet" href="#{href}" />))
   end
 end

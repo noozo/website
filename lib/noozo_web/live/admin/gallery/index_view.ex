@@ -9,7 +9,7 @@ defmodule NoozoWeb.Admin.Gallery.IndexView do
   alias NoozoWeb.Admin.Gallery.EditView
   alias NoozoWeb.Router.Helpers, as: Routes
 
-  def mount(params, _session, socket) do
+  def mount(_params, _session, socket) do
     {:ok, socket}
   end
 

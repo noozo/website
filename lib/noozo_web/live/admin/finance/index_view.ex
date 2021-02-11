@@ -295,7 +295,7 @@ defmodule NoozoWeb.Admin.Finance.IndexView do
       {date, value}
     end)
     |> Map.new()
-    |> Poison.encode!()
+    |> Jason.encode!()
   end
 
   defp sort(data, :day) do
