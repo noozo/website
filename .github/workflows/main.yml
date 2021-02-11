@@ -27,6 +27,7 @@ jobs:
           script: |
                 cd noozo_v2/pedroassuncao.com
                 echo "Sourcing tools..."
+                . $HOME/.asdf/asdf.sh
                 asdf install elixir 1.11.3
                 asdf install nodejs 14.11.0
                 asdf local elixir 1.11.3
