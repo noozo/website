@@ -53,6 +53,9 @@ Most features have an equivalent admin space where things can be configured.
   - No tests, living on the edge :)
   - Github actions script to deploy the website to a remote machine (for instance Linode)
   - LiveDashboard to visualize website metrics and performance
+  - TailwindCSS for cosmetics
+  - AlpineJS for some sprinkles of JS
+  - LiveView hooks for things like drag and drop and charts
 
 ## Your mileage may vary
 
