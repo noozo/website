@@ -36,6 +36,7 @@ jobs:
                 echo "Pulling code..."
                 git pull origin master
                 echo "Updating mix deps..."
+                mix local.rebar --force
                 mix local.hex --force
                 mix deps.get --only prod
                 echo "Compiling..."
