@@ -1,0 +1,81 @@
+name: Deploy
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  test_and_deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Slack Notification (Start)
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.slack_bot_token }}
+        uses: pullreminders/slack-action@master
+        with:
+          args: '{\"channel\":\"@nocivus\",\"text\":\"Starting website deployment...\"}'
+
+      - name: Deploy To Linode
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          port: 22
+          script_stop: true
+          script: |
+                . /home/deploy/.bashrc
+                cd noozo_v2/pedroassuncao.com
+                echo "Sourcing tools..."
+                . /home/deploy/.asdf/asdf.sh
+                asdf install elixir 1.11.3
+                asdf install nodejs 14.11.0
+                asdf local elixir 1.11.3
+                asdf local nodejs 14.11.0
+                echo "Pulling code..."
+                git pull origin master
+                echo "Updating mix deps..."
+                mix local.hex --force
+                mix deps.get --only prod
+                echo "Compiling..."
+                MIX_ENV=prod mix compile
+                echo "Setting up assets..."
+                cd assets
+                npm install
+                npx browserslist@latest --update-db
+                npm rebuild node-sass
+                npm run deploy
+                cd ..
+                echo "Loading env vars"
+                export $(egrep -v '^#' .env | xargs)
+                env
+                MIX_ENV=prod mix phx.digest
+                echo "Releasing..."
+                MIX_ENV=prod mix release --overwrite
+                MIX_ENV=prod mix ecto.migrate
+                echo "Stopping server..."
+                _build/prod/rel/noozo/bin/noozo stop
+                sleep 5
+                echo "Starting server..."
+                _build/prod/rel/noozo/bin/noozo daemon
+                sleep 20
+                echo "Regen'ing images..."
+                _build/prod/rel/noozo/bin/noozo rpc "Noozo.ReleaseTasks.regen_images()"
+                echo "All done."
+
+      - name: Slack Notification (Success)
+        if: success()
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+        uses: pullreminders/slack-action@master
+        with:
+          args: '{\"channel\":\"@nocivus\",\"text\":\"Website successfuly deployed :rocket:\"}'
+
+      - name: Slack Notification (Fail)
+        if: failure()
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+        uses: pullreminders/slack-action@master
+        with:
+          args: '{\"channel\":\"@nocivus\",\"text\":\"Website failed to deploy :dizzy_face:\"}'
