@@ -12,15 +12,16 @@ defmodule NoozoWeb.Admin.Todo.Components.Item do
   def render(assigns) do
     ~L"""
     <div id="<%= @id %>"
-         class="p-1 pl-2 pr-2 bg-white hover:bg-blue-100 border cursor-pointer text-xs rounded-md"
+         class="p-1 pl-2 pr-2 hover:bg-opacity-50 border cursor-pointer text-xs rounded-md"
          phx-hook="Draggable"
          draggable="true"
          phx-value-draggable_id="<%= @item.id %>"
          phx-value-draggable_type="item"
-         phx-click="item_clicked">
+         phx-click="item_clicked"
+         style="background-color: <%= if @item.label, do: @item.label.color_hex, else: "white" %>;">
       <%= @item.title %>
-      <%= if @item.label do %>
-        <div class="tag-xs text-xs inline" style="background-color: <%= @item.label.color_hex %>"></div>
+      <%= if @item.content do %>
+        <div class="tag-xs bg-white">...</div>
       <% end %>
     </div>
     """
