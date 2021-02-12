@@ -36,7 +36,9 @@ defmodule NoozoWeb.Admin.Cvs.Children.SectionsView do
                          type='text' name='title' phx-debounce="500" value='<%= section.title %>' />
                 </form>
                 <a class="btn cursor-pointer flex-col"
-                   phx-click="remove-section" phx-value-section_uuid="<%= section.uuid %>">X</a>
+                   phx-click="remove-section"
+                   phx-value-section_uuid="<%= section.uuid %>"
+                   data-confirm="Are you sure you want to delete this section?">X</a>
                 <a class="btn cursor-pointer flex-col h-10"
                    phx-click="move-section-up"
                    phx-value-section_uuid="<%= section.uuid %>">Up</a>

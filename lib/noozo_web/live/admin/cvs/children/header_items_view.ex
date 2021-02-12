@@ -29,7 +29,8 @@ defmodule NoozoWeb.Admin.Cvs.Children.HeaderItemsView do
             </div>
             <a class="btn cursor-pointer flex-col h-10"
                phx-click="remove-item"
-               phx-value-item_uuid="<%= item.uuid %>">X</a>
+               phx-value-item_uuid="<%= item.uuid %>"
+               data-confirm="Are you sure you want to delete this item?">X</a>
             <a class="btn cursor-pointer flex-col h-10"
                phx-click="move-item-up"
                phx-value-item_uuid="<%= item.uuid %>">Up</a>
