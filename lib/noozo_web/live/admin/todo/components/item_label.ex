@@ -26,12 +26,6 @@ defmodule NoozoWeb.Admin.Todo.Components.ItemLabel do
     """
   end
 
-  # <% border = if label.id == @item.label_id, do: "5px solid rgba(0,0,0,.15);", else: "none" %>
-  #       <div class="d-inline label cursor-pointer" style="background-color: <%= label.color_hex %>; border: <%= border %>"
-  #            phx-click="select_label" phx-value-label_id="<%= label.id %>" phx-target="<%= @myself %>">
-  #         <%= label.title %>
-  #       </div>
-
   def mount(%{"item" => item} = _params, _session, socket) do
     {:ok, assign(socket, item: item)}
   end
