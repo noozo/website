@@ -11,6 +11,7 @@ defmodule Noozo.Cvs.CvHeaderItem do
 
   schema "cv_header_items" do
     field :content, :string
+    field :order, :integer
 
     belongs_to :cv, Cv, foreign_key: :cv_uuid, references: :uuid, type: Ecto.UUID
 
@@ -20,7 +21,7 @@ defmodule Noozo.Cvs.CvHeaderItem do
   @doc false
   def changeset(entry, attrs) do
     entry
-    |> cast(attrs, [:content, :uuid, :cv_uuid])
+    |> cast(attrs, [:content, :uuid, :cv_uuid, :order])
     |> validate_required([:content, :cv_uuid])
   end
 end

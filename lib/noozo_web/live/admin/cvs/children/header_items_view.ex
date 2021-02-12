@@ -2,6 +2,7 @@ defmodule NoozoWeb.Admin.Cvs.Children.HeaderItemsView do
   use Phoenix.LiveView
 
   alias Noozo.Cvs
+  alias Noozo.Cvs.CvHeaderItem
 
   alias NoozoWeb.Admin.Cvs.Children.Components.{ExpandCollapse, HeaderItem}
 
@@ -29,6 +30,12 @@ defmodule NoozoWeb.Admin.Cvs.Children.HeaderItemsView do
             <a class="btn cursor-pointer flex-col h-10"
                phx-click="remove-item"
                phx-value-item_uuid="<%= item.uuid %>">X</a>
+            <a class="btn cursor-pointer flex-col h-10"
+               phx-click="move-item-up"
+               phx-value-item_uuid="<%= item.uuid %>">Up</a>
+            <a class="btn cursor-pointer flex-col h-10"
+               phx-click="move-item-down"
+               phx-value-item_uuid="<%= item.uuid %>">Down</a>
           </div>
         <% end %>
       </div>
@@ -50,6 +57,18 @@ defmodule NoozoWeb.Admin.Cvs.Children.HeaderItemsView do
   def handle_event("remove-item", %{"item_uuid" => item_uuid} = _event, socket) do
     {:ok, _item} = Cvs.delete_header_item(item_uuid)
     items = Enum.reject(socket.assigns.items, &(&1.uuid == item_uuid))
+    {:noreply, assign(socket, :items, items)}
+  end
+
+  def handle_event("move-item-up", %{"item_uuid" => item_uuid} = _event, socket) do
+    :ok = Cvs.move_item_up!(CvHeaderItem, item_uuid, &Cvs.update_header_item/2)
+    items = Cvs.get_header_items!(socket.assigns.cv_uuid)
+    {:noreply, assign(socket, :items, items)}
+  end
+
+  def handle_event("move-item-down", %{"item_uuid" => item_uuid} = _event, socket) do
+    :ok = Cvs.move_item_down!(CvHeaderItem, item_uuid, &Cvs.update_header_item/2)
+    items = Cvs.get_header_items!(socket.assigns.cv_uuid)
     {:noreply, assign(socket, :items, items)}
   end
 

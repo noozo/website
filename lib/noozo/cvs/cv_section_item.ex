@@ -20,6 +20,7 @@ defmodule Noozo.Cvs.CvSectionItem do
     field :subtitle, :string
     field :content, :string
     field :footer, :string
+    field :order, :integer
 
     belongs_to :section, CvSection,
       foreign_key: :cv_section_uuid,
@@ -42,7 +43,8 @@ defmodule Noozo.Cvs.CvSectionItem do
       :title,
       :subtitle,
       :content,
-      :footer
+      :footer,
+      :order
     ])
     |> validate_required([:content, :cv_section_uuid])
   end

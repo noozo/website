@@ -2,6 +2,7 @@ defmodule NoozoWeb.Admin.Cvs.Children.SectionsView do
   use Phoenix.LiveView
 
   alias Noozo.Cvs
+  alias Noozo.Cvs.CvSection
 
   alias NoozoWeb.Admin.Cvs.Children.Components.ExpandCollapse
   alias NoozoWeb.Admin.Cvs.Children.Components.SectionItems
@@ -36,6 +37,12 @@ defmodule NoozoWeb.Admin.Cvs.Children.SectionsView do
                 </form>
                 <a class="btn cursor-pointer flex-col"
                    phx-click="remove-section" phx-value-section_uuid="<%= section.uuid %>">X</a>
+                <a class="btn cursor-pointer flex-col h-10"
+                   phx-click="move-section-up"
+                   phx-value-section_uuid="<%= section.uuid %>">Up</a>
+                <a class="btn cursor-pointer flex-col h-10"
+                   phx-click="move-section-down"
+                   phx-value-section_uuid="<%= section.uuid %>">Down</a>
               </div>
 
               <div class="mt-2 ml-4" :class="{'hidden': sectionCollapsed, 'visible': !sectionCollapsed}">
@@ -71,6 +78,18 @@ defmodule NoozoWeb.Admin.Cvs.Children.SectionsView do
   def handle_event("remove-section", %{"section_uuid" => section_uuid} = _event, socket) do
     {:ok, _section} = Cvs.delete_section(section_uuid)
     sections = Enum.reject(socket.assigns.sections, &(&1.uuid == section_uuid))
+    {:noreply, assign(socket, :sections, sections)}
+  end
+
+  def handle_event("move-section-up", %{"section_uuid" => section_uuid} = _event, socket) do
+    :ok = Cvs.move_item_up!(CvSection, section_uuid, &Cvs.update_section/2)
+    sections = Cvs.get_sections!(socket.assigns.cv_uuid)
+    {:noreply, assign(socket, :sections, sections)}
+  end
+
+  def handle_event("move-section-down", %{"section_uuid" => section_uuid} = _event, socket) do
+    :ok = Cvs.move_item_down!(CvSection, section_uuid, &Cvs.update_section/2)
+    sections = Cvs.get_sections!(socket.assigns.cv_uuid)
     {:noreply, assign(socket, :sections, sections)}
   end
 

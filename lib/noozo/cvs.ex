@@ -54,7 +54,7 @@ defmodule Noozo.Cvs do
     section_items_query =
       from(
         si in CvSectionItem,
-        order_by: [asc: si.inserted_at]
+        order_by: [asc: si.order, asc: si.inserted_at]
       )
 
     cv
@@ -63,13 +63,13 @@ defmodule Noozo.Cvs do
       header_items:
         from(
           hi in CvHeaderItem,
-          order_by: [asc: hi.inserted_at]
+          order_by: [asc: hi.order]
         ),
       sections:
         from(
           s in CvSection,
           preload: [items: ^section_items_query],
-          order_by: [asc: s.inserted_at]
+          order_by: [asc: s.order, asc: s.inserted_at]
         )
     ])
   end
@@ -79,7 +79,7 @@ defmodule Noozo.Cvs do
       from(
         i in CvHeaderItem,
         where: i.cv_uuid == ^cv_uuid,
-        order_by: [asc: i.inserted_at]
+        order_by: [asc: i.order, asc: i.inserted_at]
       )
     )
   end
@@ -93,10 +93,10 @@ defmodule Noozo.Cvs do
           items:
             ^from(
               i in CvSectionItem,
-              order_by: [asc: i.inserted_at]
+              order_by: [asc: i.order, asc: i.inserted_at]
             )
         ],
-        order_by: [asc: s.inserted_at]
+        order_by: [asc: s.order, asc: s.inserted_at]
       )
     )
   end
@@ -141,7 +141,7 @@ defmodule Noozo.Cvs do
       items:
         from(
           si in CvSectionItem,
-          order_by: [asc: si.inserted_at]
+          order_by: [asc: si.order, asc: si.inserted_at]
         )
     )
   end
@@ -156,9 +156,14 @@ defmodule Noozo.Cvs do
     end
   end
 
-  def update_section(section_uuid, attrs) do
+  def update_section(section_uuid, attrs) when is_binary(section_uuid) do
     section_uuid
     |> get_section!()
+    |> update_section(attrs)
+  end
+
+  def update_section(section, attrs) do
+    section
     |> CvSection.changeset(attrs)
     |> Repo.update()
     |> broadcast(:section_updated)
@@ -206,6 +211,73 @@ defmodule Noozo.Cvs do
     |> get_section_item!()
     |> Repo.delete()
     |> broadcast(:section_item_deleted)
+  end
+
+  ## Reusable order functions
+
+  @doc """
+  Moves an item (can be a section item, section, or section header item)
+  up in the order, by swapping with the previous one. Returns :ok if operation
+  is successfull.
+  """
+  def move_item_up!(type, uuid, update_func) do
+    :ok = ensure_all_ordered(type)
+    # Get item we want to move up
+    item = Repo.get!(type, uuid)
+    # Find previous item we want to swap with
+    previous_item = Repo.one(
+      from t in type,
+      where: t.order == ^item.order - 1
+    )
+    # Swap order on both, if there is a previous (i.e. not first)
+    if previous_item do
+      {:ok, _} = update_func.(item, %{order: previous_item.order})
+      {:ok, _} = update_func.(previous_item, %{order: item.order})
+    end
+    :ok
+  end
+
+  @doc """
+  Moves an item (can be a section item, section, or section header item)
+  down in the order, by swapping with the next one. Returns :ok if operation
+  is successfull.
+  """
+  def move_item_down!(type, uuid, update_func) do
+    :ok = ensure_all_ordered(type)
+    # Get item we want to move down
+    item = Repo.get!(type, uuid)
+    # Find next item we want to swap with
+    next_item = Repo.one(
+      from t in type,
+      where: t.order == ^item.order + 1
+    )
+    # Swap order on both, if there is a next (i.e. not last)
+    if next_item do
+      {:ok, _} = update_func.(item, %{order: next_item.order})
+      {:ok, _} = update_func.(next_item, %{order: item.order})
+    end
+    :ok
+  end
+
+  @doc """
+  Ensures all items have order, when nil
+  """
+  defp ensure_all_ordered(type) do
+    items = Repo.all(
+      from t in type,
+      order_by: [asc: t.order, asc: t.inserted_at]
+    )
+
+    # TODO: Can be optimized with an update_all
+    items
+    |> Enum.with_index()
+    |> Enum.each(fn {item, index} ->
+      unless item.order do
+        item
+        |> type.changeset(%{order: index})
+        |> Repo.update()
+      end
+    end)
   end
 
   ################### BROADCASTING ####################
