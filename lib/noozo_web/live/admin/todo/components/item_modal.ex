@@ -42,12 +42,10 @@ defmodule NoozoWeb.Admin.Todo.Components.ItemModal do
               <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                 <%= live_component @socket, NoozoWeb.Admin.Todo.Components.ItemModal.Title, id: :item_title, item: @item %>
 
-                <div class="mt-2 flex-row gap-6">
+                <div class="mt-2 flex flex-col gap-6">
                   <%= live_component @socket, NoozoWeb.Admin.Todo.Components.ItemLabel, id: :label, item: @item %>
 
-                  <div class="p-4">
-                    <%= @item.content %>
-                  </div>
+                  <%= live_component @socket, NoozoWeb.Admin.Todo.Components.ItemModal.Content, id: :item_content, item: @item %>
 
                   <div class="text-xs">
                     <a href="#" data-confirm="Are you sure?"

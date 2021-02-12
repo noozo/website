@@ -42,7 +42,7 @@ defmodule NoozoWeb.Admin.Todo.Board.ShowView do
        board: board,
        lists: board.lists,
        columns: column_size(board),
-       selected_item: nil
+       selected_item: Todo.get_item!("cc36cc74-9c5b-423a-9c37-d059d8dc4791")
      )}
   end
 
