@@ -12,36 +12,15 @@ defmodule NoozoWeb.Admin.Todo.Components.List do
   @impl true
   def render(assigns) do
     ~L"""
-    <div id="<%= @id %>" class="bg-white text-sm min-w-48 border rounded-lg p-4 list"
+    <div id="<%= @id %>" class="bg-gray-100 text-sm min-w-48 rounded-lg p-4 border border-gray-300 shadow list"
          phx-hook="Draggable" draggable="true"
          phx-value-draggable_id="<%= @list.id %>"
          phx-value-draggable_type="list"
          phx-value-list_id="<%= @list.id %>"
          style="min-width: 250px;">
-      <div phx-hook="DropContainer" id="<%= @id %>_drop_container">
-        <div class="float-right">
-          <%= live_component @socket, NoozoWeb.Admin.Todo.Components.ListMenu, id: "list_menu_#{@list.id}", list: @list %>
-        </div>
-        <div class="font-bold p-2 break-words">
-          <%= if @editing do %>
-            <form phx-target="<%= @myself %>" phx-submit="update_title">
-              <input class="input is-small" type="text" name="title" phx-hook="Focus" data-component="<%= @id %>" value="<%= @list.title %>" id="<%= @id %>"/>
-            </form>
-          <% else %>
-            <div class="flex">
-              <span class="tag-xs text-xs inline" phx-click="toggle_list" phx-value-list_id="<%= @list.id %>" phx-value-board_id="<%= @list.board_id %>">
-                <%= if @list.open do %>-<% else %>+<% end %>
-              </span>
-              <span class="tag-xs text-xs inline flex-grow" phx-click="start_editing" phx-target="<%= @myself %>">
-                <%= @list.title %>
-              </span>
-              <span class="tag-xs text-xs inline" phx-click="start_editing" phx-target="<%= @myself %>">
-              <%= length(@list.items) %>
-              </span>
-            </div>
-          <% end %>
-        </div>
-        <div class="items">
+      <div phx-hook="DropContainer" id="<%= @id %>_drop_container" class="h-full flex flex-col gap-2">
+        <%= live_component @socket, NoozoWeb.Admin.Todo.Components.ListHeader, id: "list_header_#{@list.id}", list: @list %>
+        <div class="flex flex-col gap-1">
           <%= if @list.open do %>
             <%= for item <- @list.items |> Enum.sort_by(&(&1.inserted_at)) do %>
               <%= live_component @socket, NoozoWeb.Admin.Todo.Components.Item, id: item.id %>
@@ -80,22 +59,6 @@ defmodule NoozoWeb.Admin.Todo.Components.List do
 
   @impl true
   def update(%{id: id, list: list} = _assigns, socket) do
-    {:ok, assign(socket, id: id, list: list, editing: false)}
-  end
-
-  @impl true
-  def handle_event("start_editing", _event, socket) do
-    {:noreply, assign(socket, list: socket.assigns.list, editing: true)}
-  end
-
-  @impl true
-  def handle_event("cancel", _event, socket) do
-    {:noreply, assign(socket, list: socket.assigns.list, editing: false)}
-  end
-
-  @impl true
-  def handle_event("update_title", %{"title" => new_title} = _event, socket) do
-    {:ok, list} = Todo.update_list(socket.assigns.list, %{title: new_title})
-    {:noreply, assign(socket, list: list, editing: false)}
+    {:ok, assign(socket, id: id, list: list)}
   end
 end

@@ -8,18 +8,29 @@ defmodule NoozoWeb.Admin.Todo.Components.ItemLabel do
 
   def render(assigns) do
     ~L"""
-    <div id="<%= @id %>" class="flex">
-      <h6><small>Label</small></h6>
-      <%= for label <- Todo.list_labels() do %>
-        <% border = if label.id == @item.label_id, do: "5px solid rgba(0,0,0,.15);", else: "none" %>
-        <div class="d-inline label cursor-pointer" style="background-color: <%= label.color_hex %>; border: <%= border %>"
-             phx-click="select_label" phx-value-label_id="<%= label.id %>" phx-target="<%= @myself %>">
-          <%= label.title %>
-        </div>
-      <% end %>
+    <div id="<%= @id %>" class="flex flex-col">
+      <div class="text-xs">Label</div>
+      <div class="flex flex-row gap-2">
+        <%= for label <- Todo.list_labels() do %>
+          <% border = if label.id == @item.label_id, do: "ring-4 ring-gray-400", else: "" %>
+          <div class="text-xs text-center align-middle h-8 p-2 cursor-pointer rounded-lg <%= border %>"
+               style="background-color: <%= label.color_hex %>"
+               phx-click="select_label"
+               phx-value-label_id="<%= label.id %>"
+               phx-target="<%= @myself %>">
+            <%= label.title %>
+          </div>
+        <% end %>
+      </div>
     </div>
     """
   end
+
+  # <% border = if label.id == @item.label_id, do: "5px solid rgba(0,0,0,.15);", else: "none" %>
+  #       <div class="d-inline label cursor-pointer" style="background-color: <%= label.color_hex %>; border: <%= border %>"
+  #            phx-click="select_label" phx-value-label_id="<%= label.id %>" phx-target="<%= @myself %>">
+  #         <%= label.title %>
+  #       </div>
 
   def mount(%{"item" => item} = _params, _session, socket) do
     {:ok, assign(socket, item: item)}

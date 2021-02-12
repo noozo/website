@@ -225,15 +225,18 @@ defmodule Noozo.Cvs do
     # Get item we want to move up
     item = Repo.get!(type, uuid)
     # Find previous item we want to swap with
-    previous_item = Repo.one(
-      from t in type,
-      where: t.order == ^item.order - 1
-    )
+    previous_item =
+      Repo.one(
+        from t in type,
+          where: t.order == ^item.order - 1
+      )
+
     # Swap order on both, if there is a previous (i.e. not first)
     if previous_item do
       {:ok, _} = update_func.(item, %{order: previous_item.order})
       {:ok, _} = update_func.(previous_item, %{order: item.order})
     end
+
     :ok
   end
 
@@ -247,15 +250,18 @@ defmodule Noozo.Cvs do
     # Get item we want to move down
     item = Repo.get!(type, uuid)
     # Find next item we want to swap with
-    next_item = Repo.one(
-      from t in type,
-      where: t.order == ^item.order + 1
-    )
+    next_item =
+      Repo.one(
+        from t in type,
+          where: t.order == ^item.order + 1
+      )
+
     # Swap order on both, if there is a next (i.e. not last)
     if next_item do
       {:ok, _} = update_func.(item, %{order: next_item.order})
       {:ok, _} = update_func.(next_item, %{order: item.order})
     end
+
     :ok
   end
 
@@ -263,10 +269,11 @@ defmodule Noozo.Cvs do
   Ensures all items have order, when nil
   """
   defp ensure_all_ordered(type) do
-    items = Repo.all(
-      from t in type,
-      order_by: [asc: t.order, asc: t.inserted_at]
-    )
+    items =
+      Repo.all(
+        from t in type,
+          order_by: [asc: t.order, asc: t.inserted_at]
+      )
 
     # TODO: Can be optimized with an update_all
     items

@@ -35,7 +35,7 @@
       </header>
 
       <main>
-        <div class="max-w-7xl flex items-center mx-6 py-6 sm:px-6 lg:px-8">
+        <div class="flex items-center mx-6 py-6 sm:px-6 lg:px-8">
           <%= render(NoozoWeb.LayoutView, "flashes.html", conn: @conn) %>
           <%= @inner_content %>
         </div>

@@ -12,7 +12,7 @@ defmodule NoozoWeb.Admin.Todo.Components.Item do
   def render(assigns) do
     ~L"""
     <div id="<%= @id %>"
-         class="p-1 bg-white rounded-lg border shadow cursor-pointer mb-2 max-w-92 min-h-12 relative"
+         class="p-1 pl-2 pr-2 bg-white hover:bg-blue-100 border cursor-pointer text-xs rounded-md"
          phx-hook="Draggable"
          draggable="true"
          phx-value-draggable_id="<%= @item.id %>"
@@ -25,22 +25,6 @@ defmodule NoozoWeb.Admin.Todo.Components.Item do
     </div>
     """
   end
-
-  # padding: 5px;
-  #   background-color: #fff;
-  #   border-radius: 3px;
-  #   box-shadow: 0px 1px #427aa144;
-  #   &:hover {
-  #       box-shadow: 2px 2px 2px 2px #427aa144;
-  #   }
-  #   cursor: pointer;
-  #   display: block;
-  #   margin-bottom: 8px;
-  #   max-width: 300px;
-  #   min-height: 20px;
-  #   position: relative;
-  #   text-decoration: none;
-  #   word-wrap: break-word;
 
   # Converts id in assigns into item, by smartly identifying all
   # components in the same page and running a single query to get all items

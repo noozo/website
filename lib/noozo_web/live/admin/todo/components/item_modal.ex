@@ -38,22 +38,23 @@ defmodule NoozoWeb.Admin.Todo.Components.ItemModal do
               x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             role="dialog" aria-modal="true" aria-labelledby="modal-headline">
           <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-            <div class="sm:flex sm:items-start">
+            <div class="sm:flex sm:items-start gap-8">
               <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-headline">
-                  <%= live_component @socket, NoozoWeb.Admin.Todo.Components.ItemModal.Title, id: :item_title, item: @item %>
-                </h3>
-                <div class="mt-2">
+                <%= live_component @socket, NoozoWeb.Admin.Todo.Components.ItemModal.Title, id: :item_title, item: @item %>
+
+                <div class="mt-2 flex-row gap-6">
                   <%= live_component @socket, NoozoWeb.Admin.Todo.Components.ItemLabel, id: :label, item: @item %>
-                  <div class="item-content">
+
+                  <div class="p-4">
                     <%= @item.content %>
                   </div>
-                  <hr/>
-                  <small>
-                    <a href="#" class="alert-link text-danger" data-confirm="Are you sure?"
+
+                  <div class="text-xs">
+                    <a href="#" data-confirm="Are you sure?"
+                        class="text-red-800"
                         phx-click="delete_item"
                         phx-target="<%= @myself %>">Delete this item</a>.
-                  </small>
+                  </div>
                 </div>
               </div>
             </div>

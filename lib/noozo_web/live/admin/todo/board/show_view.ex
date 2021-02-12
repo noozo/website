@@ -10,16 +10,16 @@ defmodule NoozoWeb.Admin.Todo.Board.ShowView do
   @impl true
   def render(assigns) do
     ~L"""
-    <div class="text-xl font-bold mb-6">Board: <%= @board.title %></div>
-    <div class="bg-gray-200 max-w-7xl overflow-x-scroll p-5 rounded-lg">
-      <div class="lists flex flex-nowrap gap-6">
-        <div id="lists" class="flex flex-nowrap gap-6">
-          <%= for list <- @lists do %>
-            <%= live_component @socket, Components.List, id: list.id %>
-          <% end %>
-        </div>
-        <div class="list_actions">
-          <%= live_component @socket, Components.ListCreator, id: :list_creator, board: @board %>
+    <div>
+      <div class="text-xl font-bold mb-6">Board: <%= @board.title %></div>
+      <div class="bg-gray-200 overflow-x-auto p-5 rounded-lg border border-gray-300">
+        <div class="lists grid grid-cols-<%= @columns %> gap-6">
+          <div id="lists" class="flex flex-nowrap gap-6">
+            <%= for list <- @lists do %>
+              <%= live_component @socket, Components.List, id: list.id %>
+            <% end %>
+            <%= live_component @socket, Components.ListCreator, id: :list_creator, board: @board %>
+          </div>
         </div>
       </div>
     </div>
@@ -43,7 +43,7 @@ defmodule NoozoWeb.Admin.Todo.Board.ShowView do
        lists: board.lists,
        columns: column_size(board),
        # Todo.get_item!("cc36cc74-9c5b-423a-9c37-d059d8dc4791")
-       selected_item: nil
+       selected_item: Todo.get_item!("cc36cc74-9c5b-423a-9c37-d059d8dc4791")
      )}
   end
 
