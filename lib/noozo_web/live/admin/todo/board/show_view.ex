@@ -12,14 +12,12 @@ defmodule NoozoWeb.Admin.Todo.Board.ShowView do
     ~L"""
     <div>
       <div class="text-xl font-bold mb-6">Board: <%= @board.title %></div>
-      <div class="bg-gray-200 overflow-x-auto p-5 rounded-lg border border-gray-300">
-        <div class="lists grid grid-cols-<%= @columns %> gap-6">
-          <div id="lists" class="flex flex-nowrap gap-6">
-            <%= for list <- @lists do %>
-              <%= live_component @socket, Components.List, id: list.id %>
-            <% end %>
-            <%= live_component @socket, Components.ListCreator, id: :list_creator, board: @board %>
-          </div>
+      <div class="bg-gray-200 p-5 rounded-lg border border-gray-300 overflow-scroll" style="max-width: 90vw">
+        <div class="lists flex flex-col sm:flex-row gap-6">
+          <%= for list <- @lists do %>
+            <%= live_component @socket, Components.List, id: list.id %>
+          <% end %>
+          <%= live_component @socket, Components.ListCreator, id: :list_creator, board: @board %>
         </div>
       </div>
     </div>

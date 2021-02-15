@@ -12,12 +12,12 @@ defmodule NoozoWeb.Admin.Todo.Components.List do
   @impl true
   def render(assigns) do
     ~L"""
-    <div id="<%= @id %>" class="bg-gray-100 text-sm min-w-48 rounded-lg p-4 border border-gray-300 shadow list"
+    <div id="<%= @id %>" class="bg-gray-100 text-sm rounded-lg p-4 border border-gray-300 shadow list"
          phx-hook="Draggable" draggable="true"
          phx-value-draggable_id="<%= @list.id %>"
          phx-value-draggable_type="list"
          phx-value-list_id="<%= @list.id %>"
-         style="min-width: 250px;">
+         style="min-width: 250px; max-width: 250px;">
       <div phx-hook="DropContainer" id="<%= @id %>_drop_container" class="h-full flex flex-col gap-2">
         <%= live_component @socket, NoozoWeb.Admin.Todo.Components.ListHeader, id: "list_header_#{@list.id}", list: @list %>
         <div class="flex flex-col gap-1">
@@ -40,6 +40,10 @@ defmodule NoozoWeb.Admin.Todo.Components.List do
   def preload(list_of_assigns) do
     list_of_ids = Enum.map(list_of_assigns, & &1.id)
 
+    item_preload = from(
+      i in Todo.Item,
+      order_by: [asc: i.inserted_at]
+    )
     query =
       from(
         list in Todo.List,
@@ -47,7 +51,9 @@ defmodule NoozoWeb.Admin.Todo.Components.List do
         order_by: [desc: :order],
         select: {list.id, list},
         left_join: item in assoc(list, :items),
-        preload: [items: item]
+        preload: [
+          items: ^item_preload
+        ]
       )
 
     lists = Map.new(Repo.all(query))

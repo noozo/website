@@ -139,11 +139,10 @@
           href="/gallery">Handmade</a>
       <a class="btn-nav-mobile <%= NoozoWeb.TemplateUtils.active(@conn, ["/pages/other-places"]) %>"
           href="/pages/other-places">One more thing</a>
+      <%= link "Admin", to: Routes.live_path(@conn, NoozoWeb.Admin.Post.IndexView), class: "btn-nav-mobile"%>
 
       <%= if @conn.assigns[:current_user] do %>
         <%= link "Logout", to: Routes.auth_path(@conn, :logout), class: "btn-nav-mobile" %>
-      <% else %>
-        <%= link "Admin", to: Routes.live_path(@conn, NoozoWeb.Admin.Post.IndexView), class: "btn-nav-mobile"%>
       <% end %>
     </div>
   </div>
