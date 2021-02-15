@@ -8,9 +8,12 @@ defmodule NoozoWeb.AuthController do
 
   alias Ueberauth.Strategy.Helpers
 
-  def request(conn, _params) do
-    render(conn, "request.html", callback_url: Helpers.callback_url(conn))
+  def request(conn, %{"redirect_url" => redirect_url} = params) do
+    conn
+    |> put_req_header("referer", redirect_url)
+    |> render("request.html", callback_url: Helpers.callback_url(conn))
   end
+  def request(conn, params), do: request(conn, Map.put(params, "redirect_url", "/admin"))
 
   def delete(conn, _params) do
     conn
@@ -25,17 +28,18 @@ defmodule NoozoWeb.AuthController do
   #   |> redirect(to: "/")
   # end
 
-  def identity_callback(%{assigns: %{ueberauth_auth: auth}} = conn, _params) do
+  def identity_callback(%{assigns: %{ueberauth_auth: auth}} = conn, %{"redirect_url" => redirect_url} = _params) do
     case login(auth) do
       {:ok, user} ->
         conn
         |> put_flash(:info, "Successfully authenticated.")
         |> put_session("current_user", user)
         |> configure_session(renew: true)
-        |> redirect(to: "/")
+        |> redirect(to: redirect_url)
 
       {:error, reason} ->
         conn
+        |> put_req_header("referer", redirect_url)
         |> put_flash(:error, reason)
         |> assign(:email, auth.info.email)
         |> render("request.html", callback_url: Helpers.callback_url(conn))

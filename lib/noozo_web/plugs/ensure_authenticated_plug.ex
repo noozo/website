@@ -15,8 +15,8 @@ defmodule NoozoWeb.EnsureAuthenticatedPlug do
       conn
     else
       conn
-      |> put_flash(:error, "Restricted area.")
-      |> redirect(to: Routes.auth_path(conn, :request, :identity))
+      |> put_flash(:error, "Restricted area. Please login.")
+      |> redirect(to: Routes.auth_path(conn, :request, :identity, redirect_url: conn.request_path))
       |> halt
     end
   end

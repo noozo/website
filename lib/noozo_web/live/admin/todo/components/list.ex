@@ -40,10 +40,12 @@ defmodule NoozoWeb.Admin.Todo.Components.List do
   def preload(list_of_assigns) do
     list_of_ids = Enum.map(list_of_assigns, & &1.id)
 
-    item_preload = from(
-      i in Todo.Item,
-      order_by: [asc: i.inserted_at]
-    )
+    item_preload =
+      from(
+        i in Todo.Item,
+        order_by: [asc: i.inserted_at]
+      )
+
     query =
       from(
         list in Todo.List,
