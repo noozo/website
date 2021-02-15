@@ -93,7 +93,7 @@ defmodule NoozoWeb.Router do
     get "/logout", AuthController, :logout
     get "/:provider", AuthController, :request
     # get "/:provider/callback", AuthController, :callback
-    post "/identity/callback", AuthController, :identity_callback, redirect_path: :redirect_path
+    post "/identity/callback", AuthController, :identity_callback
   end
 
   scope "/admin", NoozoWeb.Admin do

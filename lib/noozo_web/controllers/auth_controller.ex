@@ -13,6 +13,7 @@ defmodule NoozoWeb.AuthController do
     |> put_req_header("referer", redirect_url)
     |> render("request.html", callback_url: Helpers.callback_url(conn))
   end
+
   def request(conn, params), do: request(conn, Map.put(params, "redirect_url", "/admin"))
 
   def delete(conn, _params) do
@@ -28,7 +29,10 @@ defmodule NoozoWeb.AuthController do
   #   |> redirect(to: "/")
   # end
 
-  def identity_callback(%{assigns: %{ueberauth_auth: auth}} = conn, %{"redirect_url" => redirect_url} = _params) do
+  def identity_callback(
+        %{assigns: %{ueberauth_auth: auth}} = conn,
+        %{"redirect_url" => redirect_url} = _params
+      ) do
     case login(auth) do
       {:ok, user} ->
         conn
