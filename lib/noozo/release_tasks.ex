@@ -32,5 +32,9 @@ defmodule Noozo.ReleaseTasks do
     for gallery_image <- Gallery.list() do
       Images.create(Image.image_data_for_disk(gallery_image))
     end
+
+    for cv_image <- Cvs.list_cvs() do
+      Images.create(Image.image_data_for_disk(cv_image))
+    end
   end
 end

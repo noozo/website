@@ -148,7 +148,11 @@ defmodule NoozoWeb.Admin.Cvs.EditView do
     {:noreply, assign(socket, cv: cv)}
   end
 
-  def handle_event("save", %{"title" => title, "subtitle" => subtitle, "abstract" => abstract} = _event, socket) do
+  def handle_event(
+        "save",
+        %{"title" => title, "subtitle" => subtitle, "abstract" => abstract} = _event,
+        socket
+      ) do
     {:ok, cv} =
       Cvs.update_cv(socket.assigns.cv, %{
         title: String.trim(title),

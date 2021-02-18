@@ -20,6 +20,10 @@ defmodule Noozo.Cvs do
     Repo.paginate(query, params)
   end
 
+  def list_cvs do
+    Repo.all(Cv)
+  end
+
   def create_cv(attributes) do
     %Cv{}
     |> Cv.changeset(attributes)
