@@ -81,8 +81,12 @@ defmodule NoozoWeb.Admin.Todo.Label.IndexView do
 
   def handle_event("create-label", _event, socket) do
     case Todo.create_label(%{title: "new label", color_hex: "#ffffff"}) do
-      {:ok, _label} -> {:noreply, assign(socket, labels: Todo.list_labels(socket.assigns.params))}
-      _ -> {:noreply, put_flash(socket, :error, "Default label already exists. Rename to create another.")}
+      {:ok, _label} ->
+        {:noreply, assign(socket, labels: Todo.list_labels(socket.assigns.params))}
+
+      _ ->
+        {:noreply,
+         put_flash(socket, :error, "Default label already exists. Rename to create another.")}
     end
   end
 end

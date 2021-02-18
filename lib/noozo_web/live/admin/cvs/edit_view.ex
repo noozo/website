@@ -30,6 +30,12 @@ defmodule NoozoWeb.Admin.Cvs.EditView do
         <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
           <form class="mb-6 mr-6" phx-change="save" phx-debounce="500">
             <div class="grid grid-cols-6 gap-6">
+              <div class="col-span-6">
+                <label for="title" class="block text-sm font-medium text-gray-700">
+                  Belongs to <%= @cv.user.email %>
+                </label>
+              </div>
+
               <div class="col-span-6 sm:col-span-3">
                 <label for="title" class="block text-sm font-medium text-gray-700">
                   Title
@@ -42,9 +48,71 @@ defmodule NoozoWeb.Admin.Cvs.EditView do
 
               <div class="col-span-6 sm:col-span-3">
                 <label for="title" class="block text-sm font-medium text-gray-700">
-                  Belongs to <%= @cv.user.email %>
+                  Subtitle
                 </label>
+                <div class="mt-1">
+                  <input class='shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border-gray-300 rounded-md'
+                        type='text' name='subtitle' value='<%= @cv.subtitle %>' phx-debounce="500" />
+                </div>
               </div>
+
+              <div class="col-span-6">
+                <label for="abstract" class="block text-sm font-medium text-gray-700">Abstract</label>
+                <textarea class='shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border-gray-300 rounded-md'
+                        type='text' name='abstract' phx-debounce="500" rows="10"><%= @cv.abstract %></textarea>
+              </div>
+            </div>
+          </form>
+
+          <form phx-submit="upload" phx-change="validate"
+                class="col-span-6 sm:col-span-3"
+                :class="{'hidden': collapsed, 'visible': !collapsed}">
+            <div class="grid grid-cols-6 gap-4 mt-4">
+              <label for="image" class="block text-sm font-medium text-gray-700">Image</label>
+
+              <%= if @cv.image do %>
+                <div class="block mr-6" phx-click="remove-image" data-confirm="Remove image?">
+                  <%=
+                    data = Base.encode64(@cv.image)
+                    Phoenix.HTML.raw(
+                      "<img src=\"data:"<>@cv.image_type<>";base64,"<>data<>"\" width=\"50px\">"
+                    )
+                  %>
+                </div>
+              <% end %>
+
+              <div class="col-span-6">
+                <%= for {_ref, msg} <- @uploads.image.errors do %>
+                  <div class="flex-none p-2">
+                    <p class="shadow p-5 bg-red-300 rounded-md" role="alert">
+                      <%= Phoenix.Naming.humanize(msg) %>
+                    </p>
+                  </div>
+                <% end %>
+
+                <div class="flex">
+                  <%= live_file_input @uploads.image %>
+                  <input class="btn flex-col cursor-pointer" type="submit" value="Upload"></input>
+                </div>
+              </div>
+
+              <%= for entry <- @uploads.image.entries do %>
+                <div class="col-span-6">
+                  <div class="flex-col">
+                    <%= live_img_preview entry, width: 50, height: 50 %>
+                  </div>
+                  <div class="flex-col">
+                    <progress max="100" value="<%= entry.progress %>"/>
+                  </div>
+                  <div class="flex-col">
+                    <div class="btn cursor-pointer inline"
+                          phx-click="cancel-entry"
+                          phx-value-ref="<%= entry.ref %>">
+                      cancel
+                    </div>
+                  </div>
+                </div>
+              <% end %>
             </div>
           </form>
 
@@ -66,7 +134,13 @@ defmodule NoozoWeb.Admin.Cvs.EditView do
     {:ok,
      socket
      |> assign(:info, nil)
-     |> assign(:error, nil)}
+     |> assign(:error, nil)
+     |> assign(:uploaded_files, [])
+     |> allow_upload(:image,
+       accept: ~w(.png .jpg .jpeg),
+       max_entries: 1,
+       max_file_size: 5_000_000
+     )}
   end
 
   def handle_params(params, _uri, socket) do
@@ -74,12 +148,50 @@ defmodule NoozoWeb.Admin.Cvs.EditView do
     {:noreply, assign(socket, cv: cv)}
   end
 
-  def handle_event("save", %{"title" => title} = _event, socket) do
+  def handle_event("save", %{"title" => title, "subtitle" => subtitle, "abstract" => abstract} = _event, socket) do
     {:ok, cv} =
       Cvs.update_cv(socket.assigns.cv, %{
-        title: String.trim(title)
+        title: String.trim(title),
+        subtitle: String.trim(subtitle),
+        abstract: String.trim(abstract)
       })
 
     {:noreply, assign(socket, cv: cv)}
+  end
+
+  def handle_event("upload", _event, socket) do
+    {:ok, cv} =
+      Cvs.update_cv(
+        socket.assigns.cv,
+        %{},
+        &consume_image(socket, &1)
+      )
+
+    {:noreply, assign(socket, cv: cv)}
+  end
+
+  def handle_event("validate", _params, socket) do
+    {:noreply, socket}
+  end
+
+  def handle_event("cancel-entry", %{"ref" => ref}, socket) do
+    {:noreply, cancel_upload(socket, :image, ref)}
+  end
+
+  def handle_event("remove-image", _event, %{assigns: assigns} = socket) do
+    {:ok, cv} = Cvs.update_cv(assigns.cv, %{image: nil, image_type: nil})
+    {:noreply, assign(socket, cv: cv)}
+  end
+
+  # sobelow_skip ["Traversal.FileModule"]
+  def consume_image(socket, attrs) do
+    [{binary_data, type}] =
+      consume_uploaded_entries(socket, :image, fn meta, entry ->
+        {File.read!(meta.path), entry.client_type}
+      end)
+
+    attrs
+    |> Map.put(:image, binary_data)
+    |> Map.put(:image_type, type)
   end
 end

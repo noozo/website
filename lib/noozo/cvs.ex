@@ -101,9 +101,9 @@ defmodule Noozo.Cvs do
     )
   end
 
-  def update_cv(%Cv{} = cv, attrs) do
+  def update_cv(%Cv{} = cv, attrs, before_save_func \\ & &1) do
     cv
-    |> Cv.changeset(attrs)
+    |> Cv.changeset(before_save(attrs, before_save_func))
     |> Repo.update()
     |> broadcast(:updated)
   end
