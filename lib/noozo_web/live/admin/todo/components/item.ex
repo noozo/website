@@ -18,7 +18,7 @@ defmodule NoozoWeb.Admin.Todo.Components.Item do
          phx-value-draggable_id="<%= @item.id %>"
          phx-value-draggable_type="item"
          phx-click="item_clicked"
-         style="background-color: <%= if @item.label, do: @item.label.color_hex, else: "white" %>;">
+         style="background-color: <%= if @item.label, do: @item.label.color_hex, else: "white" %>; color: <%= if @item.label, do: @item.label.text_color_hex, else: "black" %>">
       <%= @item.title %>
       <%= if @item.content do %>
         <div class="tag-xs bg-white">...</div>

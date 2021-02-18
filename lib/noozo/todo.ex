@@ -185,6 +185,11 @@ defmodule Noozo.Todo do
     Label |> Repo.all()
   end
 
+  def list_labels(params) do
+    query = from(l in Label, order_by: [desc: :id])
+    Repo.paginate(query, params)
+  end
+
   def get_label!(id) do
     Label
     |> Repo.get_by!(id: id)
@@ -200,6 +205,13 @@ defmodule Noozo.Todo do
       existing ->
         existing
     end
+  end
+
+  def update_label(label_id, attrs) do
+    Label
+    |> Repo.get!(label_id)
+    |> Label.changeset(attrs)
+    |> Repo.update()
   end
 
   ################### BROADCASTING ####################

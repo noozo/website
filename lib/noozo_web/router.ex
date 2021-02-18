@@ -139,6 +139,7 @@ defmodule NoozoWeb.Router do
     live "/boards/new", Board.CreateView
     live "/boards/:id/edit", Board.EditView, id: :id
     live "/boards/:id", Board.ShowView, id: :id
+    live "/labels", Label.IndexView
     live "/", Board.IndexView
   end
 

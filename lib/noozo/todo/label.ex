@@ -7,12 +7,13 @@ defmodule Noozo.Todo.Label do
 
   schema "labels" do
     field :title, :string
+    field :text_color_hex, :string
     field :color_hex, :string
     timestamps()
   end
 
   @required_fields [:color_hex]
-  @optional_fields [:title]
+  @optional_fields [:title, :text_color_hex]
 
   @doc """
   Creates a changeset based on the `model` and `params`.
