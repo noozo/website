@@ -26,12 +26,16 @@ defmodule NoozoWeb.Admin.Cvs.Children.PreviewView do
       </div>
 
       <div class="mt-12 border-b-2 border-gray-100 pb-10 flex flex-row gap-6 items-center">
-        <div class="rounded-xl">
-          <img class="w-48" alt="<%= @cv.title %>" src="<%= Cv.image_url(@cv) %>" />
-        </div>
-        <div class="flex-grow">
-          <%= @cv.abstract |> String.replace("\n", "<br/>")  |> Phoenix.HTML.raw() %>
-        </div>
+        <%= if @cv.image do %>
+          <div class="rounded-xl">
+            <img class="w-48" alt="<%= @cv.title %>" src="<%= Cv.image_url(@cv) %>" />
+          </div>
+        <% end %>
+        <%= if @cv.abstract do %>
+          <div class="flex-grow">
+            <%= @cv.abstract |> String.replace("\n", "<br/>")  |> Phoenix.HTML.raw() %>
+          </div>
+        <% end %>
       </div>
 
       <%= for section <- @cv.sections do %>

@@ -6,6 +6,7 @@ defmodule Noozo.ReleaseTasks do
 
   alias Noozo.Core
   alias Noozo.Cvs
+  alias Noozo.Cvs.Cv
   alias Noozo.Cvs.CvSectionItem
   alias Noozo.Gallery
   alias Noozo.Gallery.Image
@@ -33,8 +34,8 @@ defmodule Noozo.ReleaseTasks do
       Images.create(Image.image_data_for_disk(gallery_image))
     end
 
-    for cv_image <- Cvs.list_cvs() do
-      Images.create(Image.image_data_for_disk(cv_image))
+    for cv <- Cvs.list_cvs() do
+      Images.create(Cv.image_data_for_disk(cv))
     end
   end
 end

@@ -34,15 +34,15 @@ defmodule Noozo.Cvs.Cv do
   end
 
   @doc false
-  def image_data_for_disk(item) do
-    {"#{@image_prefix}_#{item.uuid}", item.image}
+  def image_data_for_disk(cv) do
+    {"#{@image_prefix}_#{cv.uuid}", cv.image}
   end
 
   @doc false
-  def image_url(item) do
-    case Images.get("#{@image_prefix}_#{item.uuid}") do
+  def image_url(cv) do
+    case Images.get("#{@image_prefix}_#{cv.uuid}") do
       nil ->
-        {:ok, image} = Images.create(image_data_for_disk(item))
+        {:ok, image} = Images.create(image_data_for_disk(cv))
         image.path
 
       image ->
