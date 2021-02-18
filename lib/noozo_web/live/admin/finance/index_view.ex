@@ -1,5 +1,5 @@
 defmodule NoozoWeb.Admin.Finance.IndexView do
-  use Phoenix.LiveView
+  use Phoenix.LiveView, layout: {NoozoWeb.LayoutView, "live.html"}
 
   import Noozo.Pagination
 

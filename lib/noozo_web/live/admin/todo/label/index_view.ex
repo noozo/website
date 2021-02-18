@@ -2,7 +2,7 @@ defmodule NoozoWeb.Admin.Todo.Label.IndexView do
   @moduledoc """
   Label management
   """
-  use Phoenix.LiveView
+  use Phoenix.LiveView, layout: {NoozoWeb.LayoutView, "live.html"}
 
   import Noozo.Pagination
 
@@ -12,8 +12,9 @@ defmodule NoozoWeb.Admin.Todo.Label.IndexView do
 
   def render(assigns) do
     ~L"""
-    <%= #live_patch "Create Label", to: Routes.live_path(@socket, CreateView)
-    %>
+    <div class="mb-6">
+      <span class="btn cursor-pointer" phx-click="create-label">Create label</span>
+    </div>
     <div class="labels">
       <table class="table">
         <thead>
@@ -64,7 +65,11 @@ defmodule NoozoWeb.Admin.Todo.Label.IndexView do
     {:noreply, assign(socket, labels: Todo.list_labels(socket.assigns.params))}
   end
 
-  def handle_event("update-text-color-" <> id, %{"text_color_hex" => text_color_hex} = _event, socket) do
+  def handle_event(
+        "update-text-color-" <> id,
+        %{"text_color_hex" => text_color_hex} = _event,
+        socket
+      ) do
     {:ok, _label} = Todo.update_label(id, %{text_color_hex: text_color_hex})
     {:noreply, assign(socket, labels: Todo.list_labels(socket.assigns.params))}
   end
@@ -72,5 +77,12 @@ defmodule NoozoWeb.Admin.Todo.Label.IndexView do
   def handle_event("update-color-" <> id, %{"color_hex" => color_hex} = _event, socket) do
     {:ok, _label} = Todo.update_label(id, %{color_hex: color_hex})
     {:noreply, assign(socket, labels: Todo.list_labels(socket.assigns.params))}
+  end
+
+  def handle_event("create-label", _event, socket) do
+    case Todo.create_label(%{title: "new label", color_hex: "#ffffff"}) do
+      {:ok, _label} -> {:noreply, assign(socket, labels: Todo.list_labels(socket.assigns.params))}
+      _ -> {:noreply, put_flash(socket, :error, "Default label already exists. Rename to create another.")}
+    end
   end
 end

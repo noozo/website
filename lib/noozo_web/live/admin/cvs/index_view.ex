@@ -2,7 +2,7 @@ defmodule NoozoWeb.Admin.Cvs.IndexView do
   @moduledoc """
   Admin CVs index live view
   """
-  use Phoenix.LiveView
+  use Phoenix.LiveView, layout: {NoozoWeb.LayoutView, "live.html"}
 
   import Noozo.Pagination
 

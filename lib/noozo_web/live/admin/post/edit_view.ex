@@ -3,7 +3,7 @@ defmodule NoozoWeb.Admin.Post.EditView do
   Admin posts edit live view
   """
   use Phoenix.HTML
-  use Phoenix.LiveView
+  use Phoenix.LiveView, layout: {NoozoWeb.LayoutView, "live.html"}
 
   alias Noozo.Core
   alias NoozoWeb.Admin.Post.IndexView

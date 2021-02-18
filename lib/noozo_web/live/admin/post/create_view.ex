@@ -2,7 +2,7 @@ defmodule NoozoWeb.Admin.Post.CreateView do
   @moduledoc """
   Admin posts create live view
   """
-  use Phoenix.LiveView
+  use Phoenix.LiveView, layout: {NoozoWeb.LayoutView, "live.html"}
   alias Noozo.Core
   alias NoozoWeb.Admin.Post.EditView
   alias NoozoWeb.Router.Helpers, as: Routes

@@ -1,5 +1,5 @@
 defmodule NoozoWeb.Cvs.ShowView do
-  use Phoenix.LiveView
+  use Phoenix.LiveView, layout: {NoozoWeb.LayoutView, "live.html"}
 
   alias Noozo.Cvs
 

@@ -2,7 +2,7 @@ defmodule NoozoWeb.Admin.Gallery.EditView do
   @moduledoc """
   Admin Gallery edit live view
   """
-  use Phoenix.LiveView
+  use Phoenix.LiveView, layout: {NoozoWeb.LayoutView, "live.html"}
 
   alias Noozo.Gallery
 

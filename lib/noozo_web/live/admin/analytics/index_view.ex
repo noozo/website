@@ -2,7 +2,7 @@ defmodule NoozoWeb.Admin.Analytics.IndexView do
   @moduledoc """
   List all the boards
   """
-  use Phoenix.LiveView
+  use Phoenix.LiveView, layout: {NoozoWeb.LayoutView, "live.html"}
 
   import Noozo.Pagination
 

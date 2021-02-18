@@ -2,7 +2,7 @@ defmodule NoozoWeb.Admin.DailyLog.IndexView do
   @moduledoc """
   Admin daily log index live view
   """
-  use Phoenix.LiveView
+  use Phoenix.LiveView, layout: {NoozoWeb.LayoutView, "live.html"}
 
   import Noozo.Pagination
 

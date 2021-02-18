@@ -2,7 +2,7 @@ defmodule NoozoWeb.Admin.DailyLog.EditView do
   @moduledoc """
   Admin daily log edit live view
   """
-  use Phoenix.LiveView
+  use Phoenix.LiveView, layout: {NoozoWeb.LayoutView, "live.html"}
   alias Noozo.DailyLog
   alias NoozoWeb.Admin.DailyLog.IndexView
   alias NoozoWeb.Router.Helpers, as: Routes

@@ -2,7 +2,7 @@ defmodule NoozoWeb.Admin.Todo.Board.CreateView do
   @moduledoc """
   Create boards
   """
-  use Phoenix.LiveView
+  use Phoenix.LiveView, layout: {NoozoWeb.LayoutView, "live.html"}
   alias Noozo.Todo
   alias NoozoWeb.Admin.Todo.Board.EditView
   alias NoozoWeb.Router.Helpers, as: Routes

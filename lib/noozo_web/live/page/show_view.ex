@@ -1,5 +1,5 @@
 defmodule NoozoWeb.Page.ShowView do
-  use Phoenix.LiveView
+  use Phoenix.LiveView, layout: {NoozoWeb.LayoutView, "live.html"}
 
   alias Noozo.Core
   alias NoozoWeb.Router.Helpers, as: Routes

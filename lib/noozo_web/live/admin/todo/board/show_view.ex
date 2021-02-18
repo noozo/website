@@ -2,7 +2,7 @@ defmodule NoozoWeb.Admin.Todo.Board.ShowView do
   @moduledoc """
   Show a single board
   """
-  use Phoenix.LiveView
+  use Phoenix.LiveView, layout: {NoozoWeb.LayoutView, "live.html"}
 
   alias Noozo.Todo
   alias NoozoWeb.Admin.Todo.Components

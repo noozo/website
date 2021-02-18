@@ -2,7 +2,7 @@ defmodule NoozoWeb.Admin.Cvs.CreateView do
   @moduledoc """
   Admin CVs create live view
   """
-  use Phoenix.LiveView
+  use Phoenix.LiveView, layout: {NoozoWeb.LayoutView, "live.html"}
   alias Noozo.Cvs
   alias NoozoWeb.Admin.Cvs.EditView
   alias NoozoWeb.Router.Helpers, as: Routes

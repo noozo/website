@@ -1,5 +1,5 @@
 defmodule NoozoWeb.Experiments.Games.Memory.MainView do
-  use Phoenix.LiveView
+  use Phoenix.LiveView, layout: {NoozoWeb.LayoutView, "live.html"}
   alias NoozoWeb.Router.Helpers, as: Routes
 
   def render(assigns) do

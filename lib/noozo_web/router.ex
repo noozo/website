@@ -80,11 +80,7 @@ defmodule NoozoWeb.Router do
   pipeline :restricted_browser do
     plug :browser
     plug NoozoWeb.EnsureAuthenticatedPlug
-    plug :put_root_layout, {NoozoWeb.LayoutView, :admin}
-  end
-
-  pipeline :landing do
-    plug :put_root_layout, {NoozoWeb.LayoutView, :landing}
+    plug :put_root_layout, {NoozoWeb.LayoutView, :admin_root}
   end
 
   scope "/auth", NoozoWeb do
