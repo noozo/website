@@ -46,12 +46,12 @@ defmodule Noozo.Cvs do
 
   def get_user_cv!(user_id) do
     case Repo.all(
-        from cv in Cv,
-          where: cv.user_id == ^user_id
-      ) do
-        [cv | _rest] -> preload_cv(cv)
-        _ -> nil
-      end
+           from cv in Cv,
+             where: cv.user_id == ^user_id
+         ) do
+      [cv | _rest] -> preload_cv(cv)
+      _ -> nil
+    end
   end
 
   defp preload_cv(cv) do

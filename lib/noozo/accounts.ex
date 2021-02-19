@@ -36,6 +36,7 @@ defmodule Noozo.Accounts do
 
   """
   def get_user!(id), do: Repo.get!(User, id)
+
   @doc """
   Gets user by id, returns nil if doesnt exist
   """

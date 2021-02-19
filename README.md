@@ -61,6 +61,7 @@ Most features have an equivalent admin space where things can be configured.
 
 Apart from the obvious:
 
+- Copy `.env_example` to `.env` and adjust as needed
 - Install dependencies with `mix deps.get`
 - Create and migrate your database with `mix ecto.setup`
 - Run seeds to create default admin@admin/admin user with `mix run priv/repo/seeds.exs`
