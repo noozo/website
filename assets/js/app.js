@@ -87,12 +87,12 @@ Hooks.Draggable = {
         }, false)
 
         this.el.addEventListener("dragend", event => {
-            event.target.style.opacity = ""
+            event.target.style.opacity = 1
         }, false)
 
         this.el.addEventListener("drop", event => {
             event.preventDefault()
-            event.target.style.background = ""
+            // event.target.style.background = ""
         }, false)
     }
 }
@@ -104,16 +104,19 @@ Hooks.DropContainer = {
         }, false)
 
         this.el.addEventListener("dragenter", event => {
-            event.target.style.background = "lightgrey"
+            let list = event.target.closest(".list")
+            list.classList.add("drag-target-active")
         }, false)
 
         this.el.addEventListener("dragleave", event => {
-            event.target.style.background = ""
+            let list = event.target.closest(".list")
+            list.classList.remove("drag-target-active")
         }, false)
 
         this.el.addEventListener("drop", event => {
             event.preventDefault()
-            event.target.style.background = ""
+            let list = event.target.closest(".list")
+            list.classList.remove("drag-target-active")
             const draggable = event.dataTransfer.getData("text/plain").split(",")
             const type = draggable[0]
             const id = draggable[1]

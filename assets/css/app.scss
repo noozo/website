@@ -75,3 +75,8 @@ table {
         }
     }
 }
+
+.drag-target-active {
+    opacity: 0.5;
+    border: 5px solid red;
+}
