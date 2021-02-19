@@ -63,6 +63,8 @@ Apart from the obvious:
 
 - Install dependencies with `mix deps.get`
 - Create and migrate your database with `mix ecto.setup`
+- Run seeds to create default admin@admin/admin user with `mix run priv/repo/seeds.exs`
+  - Be sure to change the password and email later on. You can do that by replacing encrypted_password with the result of `Bcrypt.hash_pwd_salt("<YOUR_NEW_PASSWORD>")`.
 - Install Node.js dependencies with `cd assets && npm install`
 - Start Phoenix endpoint with `mix phx.server`
 - Now you can visit [`localhost:4001`](https://localhost:4001) from your browser.

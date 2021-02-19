@@ -25,41 +25,45 @@ defmodule NoozoWeb.Gallery.IndexView do
   def render(assigns) do
     ~L"""
     <h1 class="text-2xl font-bold">Some of my doings in the workshop</h1>
-    <div class="w-full flex flex-row flex-wrap gap-6 mx-auto p-8">
-      <%= for image <- @images do %>
-        <div class="w-60 h-auto bg-white rounded shadow-md" x-data="{open: false}">
-          <div class="cursor-pointer text-grey-darkest no-underline" x-on:click.prevent="open = true">
-              <h1 class="text-xl p-6"><%= image.title %>.</h1>
-              <%= if image.image do %>
-                <div class="align-bottom">
-                  <img alt="<%= image.title %>" class="w-60" src="<%= Image.image_url(image) %>" />
-                </div>
-              <% end %>
-          </div>
+    <%= if Enum.any?(@images) do %>
+      <div class="w-full flex flex-row flex-wrap gap-6 mx-auto p-8">
+        <%= for image <- @images do %>
+          <div class="w-60 h-auto bg-white rounded shadow-md" x-data="{open: false}">
+            <div class="cursor-pointer text-grey-darkest no-underline" x-on:click.prevent="open = true">
+                <h1 class="text-xl p-6"><%= image.title %>.</h1>
+                <%= if image.image do %>
+                  <div class="align-bottom">
+                    <img alt="<%= image.title %>" class="w-60" src="<%= Image.image_url(image) %>" />
+                  </div>
+                <% end %>
+            </div>
 
-          <div x-show.transition.opacity="open" x-on:click.away="open = false"
-               class="p-4 hidden flex justify-center items-center inset-0 bg-black bg-opacity-75 z-50"
-               :class="{'fixed': open, 'hidden': !open}">
-            <div x-show.transition="open"
-              class="container max-w-3xl max-h-full bg-white rounded-xl shadow-lg overflow-auto">
-              <div class="px-8 py-4 border-b border-gray-200">
-                <h2><%= image.title %>.</h2>
-              </div>
-              <div class="px-8 py-4">
-                <img alt="<%= image.title %>" class="w-full" src="<%= Image.image_url(image) %>" />
-              </div>
-              <div class="px-8 py-4 border-t border-gray-200 text-center">
-                <button x-on:click.prevent="open = false"
-                        class="py-2 px-4 rounded-full text-center inline-block border border-gray-200 text-black bg-white hover:bg-black hover:text-white focus:outline-none">
-                  Close
-                </button>
+            <div x-show.transition.opacity="open" x-on:click.away="open = false"
+                class="p-4 hidden flex justify-center items-center inset-0 bg-black bg-opacity-75 z-50"
+                :class="{'fixed': open, 'hidden': !open}">
+              <div x-show.transition="open"
+                class="container max-w-3xl max-h-full bg-white rounded-xl shadow-lg overflow-auto">
+                <div class="px-8 py-4 border-b border-gray-200">
+                  <h2><%= image.title %>.</h2>
+                </div>
+                <div class="px-8 py-4">
+                  <img alt="<%= image.title %>" class="w-full" src="<%= Image.image_url(image) %>" />
+                </div>
+                <div class="px-8 py-4 border-t border-gray-200 text-center">
+                  <button x-on:click.prevent="open = false"
+                          class="py-2 px-4 rounded-full text-center inline-block border border-gray-200 text-black bg-white hover:bg-black hover:text-white focus:outline-none">
+                    Close
+                  </button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      <% end %>
-    </div>
-    <%= live_paginate(assigns, @images, __MODULE__, @socket) %>
+        <% end %>
+      </div>
+      <%= live_paginate(assigns, @images, __MODULE__, @socket) %>
+    <% else %>
+      <p class="mt-6 text-center">There are no images in the gallery. <a class="underline" href="/admin/gallery">Add some</a>?</p>
+    <% end %>
     """
   end
 end

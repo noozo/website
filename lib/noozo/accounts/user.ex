@@ -14,7 +14,7 @@ defmodule Noozo.Accounts.User do
     field :reset_password_sent_at, :utc_datetime
     field :remember_created_at, :utc_datetime
 
-    timestamps(type: :utc_datetime, inserted_at: :created_at)
+    timestamps(type: :utc_datetime)
   end
 
   @doc false

@@ -18,7 +18,7 @@ defmodule Noozo.Core.Tagging do
     has_one :tag, {"tags", Tag}, foreign_key: :id, references: :tag_id
     has_one :post, {"posts", Post}, foreign_key: :id, references: :taggable_id
 
-    timestamps(type: :utc_datetime, inserted_at: :created_at, updated_at: false)
+    timestamps(type: :utc_datetime, updated_at: false)
   end
 
   @doc false

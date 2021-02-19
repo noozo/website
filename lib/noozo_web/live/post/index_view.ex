@@ -13,8 +13,12 @@ defmodule NoozoWeb.Post.IndexView do
       <% end %>
 
       <div class="flex flex-grow flex-col flex-nowrap gap-8 md:min-w-full">
-        <%= for post <- @posts.entries do %>
-          <%= live_component(@socket, NoozoWeb.Post.Components.Post, post: post, ga_id: @ga_id) %>
+        <%= if Enum.any?(@posts.entries) do %>
+          <%= for post <- @posts.entries do %>
+            <%= live_component(@socket, NoozoWeb.Post.Components.Post, post: post, ga_id: @ga_id) %>
+          <% end %>
+        <% else %>
+          <p class="text-center">There is nothing here. Why don't you <a class="underline" href="/admin/posts">write something</a>?</p>
         <% end %>
       </div>
 

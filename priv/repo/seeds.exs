@@ -19,8 +19,19 @@
 #     })
 # end)
 
-Noozo.Todo.create_label(%{title: "video", color_hex: "#42CAFD"})
-Noozo.Todo.create_label(%{title: "website", color_hex: "#CCFCCB"})
-Noozo.Todo.create_label(%{title: "metalwork", color_hex: "#313638"})
-Noozo.Todo.create_label(%{title: "woodworking", color_hex: "#F5853F"})
-Noozo.Todo.create_label(%{title: "important", color_hex: "#F22B29"})
+alias Noozo.Accounts
+alias Noozo.Todo
+
+Todo.create_label(%{title: "video", color_hex: "#42CAFD"})
+Todo.create_label(%{title: "website", color_hex: "#CCFCCB"})
+Todo.create_label(%{title: "metalwork", color_hex: "#313638"})
+Todo.create_label(%{title: "woodworking", color_hex: "#F5853F"})
+Todo.create_label(%{title: "important", color_hex: "#F22B29"})
+
+unless Accounts.get_user(1) do
+  # Default pass is admin, be sure to change it
+  Noozo.Accounts.create_user(%{
+    email: "admin@admin",
+    encrypted_password: "$2b$12$XszdnjL98t5ecZ7meJdT2OqUrqF6QKKFgQi6n25wwQ4PehORZxqby"
+  })
+end

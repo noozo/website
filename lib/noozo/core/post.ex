@@ -25,7 +25,7 @@ defmodule Noozo.Core.Post do
 
     # belongs_to :user, Noozo.Accounts.User
 
-    timestamps(type: :utc_datetime, inserted_at: :created_at)
+    timestamps(type: :utc_datetime)
   end
 
   @doc false
