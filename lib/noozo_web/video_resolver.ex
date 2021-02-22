@@ -25,6 +25,7 @@ defmodule NoozoWeb.VideoResolver do
     """
   end
 
+  def resolve_video_links(nil), do: nil
   def resolve_video_links(content) do
     case Regex.scan(~r/\[(youtube|vimeo)=(.*)\]/, content) do
       # Nothing to do, no links found

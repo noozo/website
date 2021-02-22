@@ -92,7 +92,7 @@ Hooks.Draggable = {
 
         this.el.addEventListener("drop", event => {
             event.preventDefault()
-            // event.target.style.background = ""
+            event.target.style.opacity = 1
         }, false)
     }
 }
