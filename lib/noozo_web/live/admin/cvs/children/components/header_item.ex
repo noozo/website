@@ -12,8 +12,7 @@ defmodule NoozoWeb.Admin.Cvs.Children.Components.HeaderItem do
     ~L"""
       <div id="<%= @id %>">
         <form phx-change="save" phx-debounce="500" phx-target="<%= @myself %>">
-          <input class='mr-4 flex-col shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border-gray-300 rounded-md'
-                  type='text' name='content' phx-debounce="500" value='<%= @item.content %>' />
+          <input class='mr-4 flex-col' type='text' name='content' phx-debounce="500" value='<%= @item.content %>' />
         </form>
       </div>
     """

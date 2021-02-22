@@ -28,22 +28,20 @@ defmodule NoozoWeb.Admin.Gallery.EditView do
           <form class="mb-6 mr-6" phx-change="save" phx-debounce="500">
             <div class="grid grid-cols-6 gap-6">
               <div class="col-span-6 sm:col-span-3">
-                <label for="title" class="block text-sm font-medium text-gray-700">
+                <label for="title">
                   Title
                 </label>
                 <div class="mt-1">
-                  <input class='shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border-gray-300 rounded-md'
-                        type='text' name='title' value='<%= @image.title %>' phx-debounce="500" />
+                  <input type='text' name='title' value='<%= @image.title %>' phx-debounce="500" />
                 </div>
               </div>
 
               <div class="col-span-6 sm:col-span-3">
-                <label for="order" class="block text-sm font-medium text-gray-700">
+                <label for="order">
                   Order
                 </label>
                 <div class="mt-1">
-                  <input class='shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border-gray-300 rounded-md'
-                        type='text' name='order' value='<%= @image.order %>' phx-debounce="500" />
+                  <input type='text' name='order' value='<%= @image.order %>' phx-debounce="500" />
                 </div>
               </div>
             </div>
@@ -52,7 +50,7 @@ defmodule NoozoWeb.Admin.Gallery.EditView do
           <form phx-submit="upload" phx-change="validate"
               :class="{'hidden': collapsed, 'visible': !collapsed}">
             <div class="grid grid-cols-6 gap-4 mt-4">
-              <label for="image" class="block text-sm font-medium text-gray-700">Image</label>
+              <label for="image">Image</label>
 
               <%= if @image.image do %>
                 <div class="block mr-6" phx-click="remove-image" data-confirm="Remove image?">

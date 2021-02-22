@@ -26,14 +26,11 @@ defmodule Admin.Components.TagEditor do
         <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
           <div class="grid grid-cols-6 gap-6">
             <div class="col-span-6 sm:col-span-3">
-              <label for="tags" class="block text-sm font-medium text-gray-700">
+              <label for="tags">
                 Tags
               </label>
               <div class="mt-1">
-                <input class='shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border-gray-300 rounded-md'
-                        type='text'
-                        name='new_tag'
-                        size="5" />
+                <input type='text' name='new_tag' size="5" />
               </div>
             </div>
 

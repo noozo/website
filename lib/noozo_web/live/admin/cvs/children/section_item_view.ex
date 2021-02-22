@@ -21,41 +21,39 @@ defmodule NoozoWeb.Admin.Cvs.Children.SectionItemView do
             :class="{'hidden': collapsed, 'visible': !collapsed}">
         <div class="grid grid-cols-6 gap-4">
           <div class="col-span-3">
-            <label for="date_from" class="block text-sm font-medium text-gray-700">From</label>
-            <input class='datepicker shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border-gray-300 rounded-md'
+            <label for="date_from">From</label>
+            <input class='datepicker'
                    type='date' name='date_from' phx-debounce="500" value='<%= @item.date_from %>' />
           </div>
 
           <div class="col-span-3">
-            <label for="date_to" class="block text-sm font-medium text-gray-700">To</label>
-            <input class='datepicker shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border-gray-300 rounded-md'
+            <label for="date_to">To</label>
+            <input class='datepicker'
                    type='date' name='date_to' phx-debounce="500" value='<%= @item.date_to %>' />
           </div>
 
           <div class="col-span-6">
             <label for="title" class="mr-4 text-sm font-medium text-gray-700">Title</label>
             <div class="flex">
-              <input class='flex-col mr-4 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border-gray-300 rounded-md'
+              <input class='flex-col mr-4'
                       type='text' name='title' phx-debounce="500" value='<%= @item.title %>' />
             </div>
           </div>
 
           <div class="col-span-6">
-            <label for="subtitle" class="block text-sm font-medium text-gray-700">Subtitle</label>
-            <input class='flex-col mr-4 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border-gray-300 rounded-md'
+            <label for="subtitle">Subtitle</label>
+            <input class='flex-col mr-4'
                    type='text' name='subtitle' phx-debounce="500" value='<%= @item.subtitle %>' />
           </div>
 
           <div class="col-span-6">
-            <label for="content" class="block text-sm font-medium text-gray-700">Content</label>
-            <textarea class='shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border-gray-300 rounded-md'
-                    type='text' name='content' phx-debounce="500" rows="10"><%= @item.content %></textarea>
+            <label for="content">Content</label>
+            <textarea type='text' name='content' phx-debounce="500" rows="10"><%= @item.content %></textarea>
           </div>
 
           <div class="col-span-6">
-            <label for="footer" class="block text-sm font-medium text-gray-700">Footer</label>
-            <textarea class='shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border-gray-300 rounded-md'
-                    type='text' name='footer' phx-debounce="500" rows="5"><%= @item.footer %></textarea>
+            <label for="footer">Footer</label>
+            <textarea type='text' name='footer' phx-debounce="500" rows="5"><%= @item.footer %></textarea>
           </div>
         </div>
       </form>
@@ -63,7 +61,7 @@ defmodule NoozoWeb.Admin.Cvs.Children.SectionItemView do
       <form phx-submit="upload" phx-change="validate"
           :class="{'hidden': collapsed, 'visible': !collapsed}">
         <div class="grid grid-cols-6 gap-4 mt-4">
-          <label for="image" class="block text-sm font-medium text-gray-700">Image</label>
+          <label for="image">Image</label>
 
           <%= if @item.image do %>
             <div class="block mr-6" phx-click="remove-image" data-confirm="Remove image?">

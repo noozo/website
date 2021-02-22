@@ -32,8 +32,7 @@ defmodule NoozoWeb.Admin.Cvs.Children.SectionsView do
                 </div>
                 <form phx-change="update-section" phx-debounce="500">
                   <input type="hidden" name="section_uuid" value="<%= section.uuid %>" />
-                  <input class='mr-4 flex-col shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border-gray-300 rounded-md'
-                         type='text' name='title' phx-debounce="500" value='<%= section.title %>' />
+                  <input class='mr-4 flex-col' type='text' name='title' phx-debounce="500" value='<%= section.title %>' />
                 </form>
                 <a class="btn cursor-pointer flex-col"
                    phx-click="remove-section"

@@ -80,3 +80,14 @@ table {
     opacity: 0.5;
     border: 5px solid red;
 }
+
+label {
+    @apply block text-sm font-medium text-gray-700;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="date"] {
+    @apply shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border-gray-300 rounded-md;
+}

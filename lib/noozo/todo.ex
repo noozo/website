@@ -142,6 +142,20 @@ defmodule Noozo.Todo do
     )
   end
 
+  def inverse_search_items(q) do
+    q = ~s(%#{String.downcase(q)}%)
+    query = from(
+      item in Item,
+      where: fragment("lower(title) not like ?", ^q) and
+        fragment("content is null or lower(content) not like ?", ^q),
+      select: [:id]
+    )
+
+    query
+    |> Repo.all()
+    |> Enum.map(& &1.id)
+  end
+
   def create_item(attributes) do
     %Item{}
     |> Item.changeset(attributes)

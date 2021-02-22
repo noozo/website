@@ -28,7 +28,7 @@ defmodule NoozoWeb.Admin.Analytics.IndexView do
         <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
           <div class="grid grid-cols-6 gap-6">
             <div class="col-span-6 sm:col-span-3">
-              <label for="content" class="block text-sm font-medium text-gray-700">
+              <label for="content">
                 Start date
               </label>
               <div class="mt-1">
@@ -37,7 +37,7 @@ defmodule NoozoWeb.Admin.Analytics.IndexView do
             </div>
 
             <div class="col-span-6 sm:col-span-3">
-              <label for="content" class="block text-sm font-medium text-gray-700">
+              <label for="content">
                 End date
               </label>
               <div class="mt-1">
@@ -46,7 +46,7 @@ defmodule NoozoWeb.Admin.Analytics.IndexView do
             </div>
 
             <div class="col-span-6 sm:col-span-3">
-              <label for="content" class="block text-sm font-medium text-gray-700">
+              <label for="content">
                 Chart by
               </label>
               <div class="mt-1">

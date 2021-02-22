@@ -41,27 +41,27 @@ defmodule NoozoWeb.Admin.Post.EditView do
           <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
             <div class="grid grid-cols-6 gap-6">
               <div class="col-span-6 sm:col-span-3">
-                <label for="title" class="block text-sm font-medium text-gray-700">
+                <label for="title">
                   Title
                 </label>
                 <div class="mt-1">
-                  <input class='shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border-gray-300 rounded-md' type='text' name='title' value='<%= @post.title %>' phx-debounce="5000" />
+                  <input type='text' name='title' value='<%= @post.title %>' phx-debounce="5000" />
                 </div>
               </div>
             </div>
 
             <div>
-              <label for="content" class="block text-sm font-medium text-gray-700">
+              <label for="content">
                 Content
               </label>
               <div class="mt-1">
-                <textarea class='shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border-gray-300 rounded-md' type='text' name='content' rows="15" phx-debounce="5000"><%= @post.content %></textarea>
+                <textarea type='text' name='content' rows="15" phx-debounce="5000"><%= @post.content %></textarea>
               </div>
             </div>
 
             <div class="grid grid-cols-6 gap-6">
               <div class="col-span-6 sm:col-span-3">
-                <label for="status" class="block text-sm font-medium text-gray-700">
+                <label for="status">
                   Status
                 </label>
                 <div class="mt-1">

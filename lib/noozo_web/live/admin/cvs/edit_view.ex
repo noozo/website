@@ -31,35 +31,32 @@ defmodule NoozoWeb.Admin.Cvs.EditView do
           <form class="mb-6 mr-6" phx-change="save" phx-debounce="500">
             <div class="grid grid-cols-6 gap-6">
               <div class="col-span-6">
-                <label for="title" class="block text-sm font-medium text-gray-700">
+                <label for="title">
                   Belongs to <%= @cv.user.email %>
                 </label>
               </div>
 
               <div class="col-span-6 sm:col-span-3">
-                <label for="title" class="block text-sm font-medium text-gray-700">
+                <label for="title">
                   Title
                 </label>
                 <div class="mt-1">
-                  <input class='shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border-gray-300 rounded-md'
-                        type='text' name='title' value='<%= @cv.title %>' phx-debounce="500" />
+                  <input type='text' name='title' value='<%= @cv.title %>' phx-debounce="500" />
                 </div>
               </div>
 
               <div class="col-span-6 sm:col-span-3">
-                <label for="title" class="block text-sm font-medium text-gray-700">
+                <label for="title">
                   Subtitle
                 </label>
                 <div class="mt-1">
-                  <input class='shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border-gray-300 rounded-md'
-                        type='text' name='subtitle' value='<%= @cv.subtitle %>' phx-debounce="500" />
+                  <input type='text' name='subtitle' value='<%= @cv.subtitle %>' phx-debounce="500" />
                 </div>
               </div>
 
               <div class="col-span-6">
-                <label for="abstract" class="block text-sm font-medium text-gray-700">Abstract</label>
-                <textarea class='shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border-gray-300 rounded-md'
-                        type='text' name='abstract' phx-debounce="500" rows="10"><%= @cv.abstract %></textarea>
+                <label for="abstract">Abstract</label>
+                <textarea ype='text' name='abstract' phx-debounce="500" rows="10"><%= @cv.abstract %></textarea>
               </div>
             </div>
           </form>
@@ -68,7 +65,7 @@ defmodule NoozoWeb.Admin.Cvs.EditView do
                 class="col-span-6 sm:col-span-3"
                 :class="{'hidden': collapsed, 'visible': !collapsed}">
             <div class="grid grid-cols-6 gap-4 mt-4">
-              <label for="image" class="block text-sm font-medium text-gray-700">Image</label>
+              <label for="image">Image</label>
 
               <%= if @cv.image do %>
                 <div class="block mr-6" phx-click="remove-image" data-confirm="Remove image?">

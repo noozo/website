@@ -26,11 +26,13 @@ defmodule NoozoWeb.Admin.DailyLog.EditView do
           <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
             <div class="flex flex-row flex-wrap gap-6">
               <div class="">
-                <label for="content" class="block text-sm font-medium text-gray-700">
+                <label for="content">
                   Content
                 </label>
                 <div class="mt-1">
-                  <textarea id="content" name="content" rows="15" cols="50" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border-gray-300 rounded-md" phx-debounce="1000"><%= @entry.content %></textarea>
+                  <textarea id="content" name="content" rows="15" cols="50" phx-debounce="1000">
+                    <%= @entry.content %>
+                  </textarea>
                 </div>
               </div>
 

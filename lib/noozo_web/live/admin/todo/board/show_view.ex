@@ -12,6 +12,7 @@ defmodule NoozoWeb.Admin.Todo.Board.ShowView do
     ~L"""
     <div>
       <div class="text-xl font-bold mb-6">Board: <%= @board.title %></div>
+      <%= live_component @socket, Components.Search, id: :search %>
       <div class="bg-gray-200 p-5 rounded-lg border border-gray-300 overflow-scroll" style="max-width: 90vw">
         <div class="lists flex flex-col sm:flex-row gap-6">
           <%= for list <- @lists do %>
@@ -32,7 +33,11 @@ defmodule NoozoWeb.Admin.Todo.Board.ShowView do
 
   @impl true
   def mount(%{"id" => id} = _params, _session, socket) do
-    if connected?(socket), do: Todo.subscribe()
+    if connected?(socket) do
+      Todo.subscribe()
+      Phoenix.PubSub.subscribe(Noozo.PubSub, "todo_item_search")
+    end
+
     board = Todo.get_board!(id)
 
     {:ok,
@@ -171,6 +176,24 @@ defmodule NoozoWeb.Admin.Todo.Board.ShowView do
     send(self(), :load_board)
     {:noreply, socket}
   end
+
+  @impl true
+  def handle_info({:item_search_hit, item_ids}, socket) do
+    for id <- item_ids do
+      send_update(Components.Item, id: id, item_search_hit: true)
+    end
+    {:noreply, assign(socket, searched_item_ids: item_ids)}
+  end
+
+  @impl true
+  def handle_info(:item_search_clear, %{assigns: %{searched_item_ids: searched_item_ids}} = socket) do
+    for id <- searched_item_ids do
+      send_update(Components.Item, id: id, item_search_hit: false)
+    end
+    {:noreply, assign(socket, searched_item_ids: [])}
+  end
+  def handle_info(:item_search_clear, %{assigns: %{searched_item_ids: searched_item_ids}} = socket),
+    do: {:noreply, socket}
 
   defp column_size(board) do
     length(board.lists) + 1
