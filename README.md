@@ -33,6 +33,7 @@ Most features have an equivalent admin space where things can be configured.
   - Add/change/move/delete list items
   - Drag and drop
   - List item labels
+  - Realtime item search
 - Server side analytics
   - Keeps track of page visits asynchronously (thanks to Jose Valim for sharing his implementation: https://dashbit.co/blog/homemade-analytics-with-ecto-and-elixir)
   - Backoffice visualization with interval charts using chartist.js
