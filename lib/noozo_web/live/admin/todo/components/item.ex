@@ -12,7 +12,7 @@ defmodule NoozoWeb.Admin.Todo.Components.Item do
   @impl true
   def update(%{id: id, item: item, search_result_ids: search_result_ids} = assigns, socket) do
     # Update opacity depending if id is in search_result_ids (the ones that didnt match)
-    opacity = if Enum.member?(search_result_ids, id), do: 20, else: 100
+    opacity = if search_result_ids == [] or Enum.member?(search_result_ids, id), do: 100, else: 20
     {:ok, assign(socket, id: id, item: item, opacity: opacity)}
   end
 

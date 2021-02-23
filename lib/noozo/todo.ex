@@ -142,15 +142,15 @@ defmodule Noozo.Todo do
     )
   end
 
-  def inverse_search_items(q) do
+  def search_items(q) do
     q = ~s(%#{String.downcase(q)}%)
 
     query =
       from(
         item in Item,
         where:
-          fragment("lower(title) not like ?", ^q) and
-            fragment("content is null or lower(content) not like ?", ^q),
+          fragment("lower(title) like ?", ^q) or
+            fragment("lower(content) like ?", ^q),
         select: [:id]
       )
 
