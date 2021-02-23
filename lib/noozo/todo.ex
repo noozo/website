@@ -144,12 +144,15 @@ defmodule Noozo.Todo do
 
   def inverse_search_items(q) do
     q = ~s(%#{String.downcase(q)}%)
-    query = from(
-      item in Item,
-      where: fragment("lower(title) not like ?", ^q) and
-        fragment("content is null or lower(content) not like ?", ^q),
-      select: [:id]
-    )
+
+    query =
+      from(
+        item in Item,
+        where:
+          fragment("lower(title) not like ?", ^q) and
+            fragment("content is null or lower(content) not like ?", ^q),
+        select: [:id]
+      )
 
     query
     |> Repo.all()

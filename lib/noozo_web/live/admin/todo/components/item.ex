@@ -10,13 +10,15 @@ defmodule NoozoWeb.Admin.Todo.Components.Item do
   import Ecto.Query, warn: false
 
   @impl true
-  def update(%{id: id, item: item, item_search_hit: true} = assigns, socket) do
-    {:ok, assign(socket, id: id, item: item, item_search_hit: true)}
+  def update(%{id: id, item: item, search_result_ids: search_result_ids} = assigns, socket) do
+    # Update opacity depending if id is in search_result_ids (the ones that didnt match)
+    opacity = if Enum.member?(search_result_ids, id), do: 20, else: 100
+    {:ok, assign(socket, id: id, item: item, opacity: opacity)}
   end
 
   @impl true
   def update(%{id: id, item: item} = assigns, socket) do
-    {:ok, assign(socket, id: id, item: item, item_search_hit: false)}
+    {:ok, assign(socket, id: id, item: item, opacity: 100)}
   end
 
   # Converts id in assigns into item, by smartly identifying all
@@ -24,7 +26,9 @@ defmodule NoozoWeb.Admin.Todo.Components.Item do
   # instead of N+1'ing
   @impl true
   def preload(list_of_assigns) do
-    list_of_ids = Enum.map(list_of_assigns, & &1.id)
+    list_of_ids = list_of_assigns
+    |> Enum.reject(& not is_nil(&1[:item]))
+    |> Enum.map(& &1.id)
 
     query =
       from(
@@ -49,7 +53,7 @@ defmodule NoozoWeb.Admin.Todo.Components.Item do
   def render(assigns) do
     ~L"""
     <div id="<%= @id %>"
-         class="p-1 pl-2 pr-2 hover:bg-opacity-50 border cursor-pointer text-xs rounded-md <%= search_hit_classes(@item_search_hit) %>"
+         class="p-1 pl-2 pr-2 hover:bg-opacity-50 border cursor-pointer text-xs rounded-md opacity-<%= @opacity %>"
          phx-hook="Draggable"
          draggable="true"
          phx-value-draggable_id="<%= @item.id %>"
@@ -63,7 +67,4 @@ defmodule NoozoWeb.Admin.Todo.Components.Item do
     </div>
     """
   end
-
-  defp search_hit_classes(true), do: "opacity-10"
-  defp search_hit_classes(false), do: ""
 end

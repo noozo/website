@@ -23,7 +23,7 @@ defmodule NoozoWeb.Admin.Todo.Components.List do
         <div class="flex flex-col gap-1">
           <%= if @list.open do %>
             <%= for item <- @list.items |> Enum.sort_by(&(&1.inserted_at)) do %>
-              <%= live_component @socket, NoozoWeb.Admin.Todo.Components.Item, id: item.id %>
+              <%= live_component @socket, NoozoWeb.Admin.Todo.Components.Item, id: item.id, search_result_ids: @search_result_ids %>
             <% end %>
             <%= live_component @socket, NoozoWeb.Admin.Todo.Components.ItemCreator, id: "item_creator_#{@list.id}", list: @list %>
           <% end %>
@@ -66,7 +66,7 @@ defmodule NoozoWeb.Admin.Todo.Components.List do
   end
 
   @impl true
-  def update(%{id: id, list: list} = _assigns, socket) do
-    {:ok, assign(socket, id: id, list: list)}
+  def update(%{id: id, list: list, search_result_ids: search_result_ids} = _assigns, socket) do
+    {:ok, assign(socket, id: id, list: list, search_result_ids: search_result_ids)}
   end
 end

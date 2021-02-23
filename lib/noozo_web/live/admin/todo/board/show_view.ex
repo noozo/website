@@ -16,7 +16,7 @@ defmodule NoozoWeb.Admin.Todo.Board.ShowView do
       <div class="bg-gray-200 p-5 rounded-lg border border-gray-300 overflow-scroll" style="max-width: 90vw">
         <div class="lists flex flex-col sm:flex-row gap-6">
           <%= for list <- @lists do %>
-            <%= live_component @socket, Components.List, id: list.id %>
+            <%= live_component @socket, Components.List, id: list.id, search_result_ids: @search_result_ids %>
           <% end %>
           <%= live_component @socket, Components.ListCreator, id: :list_creator, board: @board %>
         </div>
@@ -45,7 +45,8 @@ defmodule NoozoWeb.Admin.Todo.Board.ShowView do
        board: board,
        lists: board.lists,
        columns: column_size(board),
-       selected_item: nil
+       selected_item: nil,
+       search_result_ids: []
      )}
   end
 
@@ -179,21 +180,13 @@ defmodule NoozoWeb.Admin.Todo.Board.ShowView do
 
   @impl true
   def handle_info({:item_search_hit, item_ids}, socket) do
-    for id <- item_ids do
-      send_update(Components.Item, id: id, item_search_hit: true)
-    end
-    {:noreply, assign(socket, searched_item_ids: item_ids)}
+    {:noreply, assign(socket, search_result_ids: item_ids)}
   end
 
   @impl true
-  def handle_info(:item_search_clear, %{assigns: %{searched_item_ids: searched_item_ids}} = socket) do
-    for id <- searched_item_ids do
-      send_update(Components.Item, id: id, item_search_hit: false)
-    end
-    {:noreply, assign(socket, searched_item_ids: [])}
+  def handle_info(:item_search_clear, socket) do
+    {:noreply, assign(socket, search_result_ids: [])}
   end
-  def handle_info(:item_search_clear, %{assigns: %{searched_item_ids: searched_item_ids}} = socket),
-    do: {:noreply, socket}
 
   defp column_size(board) do
     length(board.lists) + 1

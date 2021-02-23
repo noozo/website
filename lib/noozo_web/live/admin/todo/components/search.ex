@@ -31,11 +31,12 @@ defmodule NoozoWeb.Admin.Todo.Components.Search do
   @impl true
   def handle_event("search", %{"q" => q} = _event, socket) do
     if String.length(q) > 2 do
-      item_ids = Todo.inverse_search_items(q) |> IO.inspect()
+      item_ids = Todo.inverse_search_items(q)
       Phoenix.PubSub.broadcast!(Noozo.PubSub, "todo_item_search", {:item_search_hit, item_ids})
     else
       Phoenix.PubSub.broadcast!(Noozo.PubSub, "todo_item_search", :item_search_clear)
     end
+
     {:noreply, socket}
   end
 end
