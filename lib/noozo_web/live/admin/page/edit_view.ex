@@ -20,12 +20,12 @@ defmodule NoozoWeb.Admin.Page.EditView do
       <% end %>
     </div>
 
-    <div class="mt-2 md:mt-0 md:col-span-2">
-      <form class="mb-6" phx-change="save" phx-debounce="500">
-        <div class="shadow sm:rounded-md sm:overflow-hidden">
-          <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
-            <div class="grid grid-cols-6 gap-6">
-              <div class="col-span-6 sm:col-span-3">
+    <div class="mt-5 md:mt-0 flex flex-row gap-6">
+      <div class="mt-5 md:mt-0 flex flex-col">
+        <form class="mb-6 flex-grow" phx-change="save" phx-debounce="500">
+          <div class="shadow sm:rounded-md sm:overflow-hidden">
+            <div class="px-4 py-5 bg-white space-y-6 sm:p-6 flex flex-col gap-6">
+              <div>
                 <label for="title">
                   Title
                 </label>
@@ -33,24 +33,25 @@ defmodule NoozoWeb.Admin.Page.EditView do
                   <input type='text' name='title' value='<%= @page.title %>' phx-debounce="5000" />
                 </div>
               </div>
-            </div>
 
-          <div>
-            <label for="content">
-              Content
-            </label>
-            <div class="mt-1">
-              <textarea type='text' name='content' rows="20" phx-debounce="5000"><%= @page.content %></textarea>
+              <div>
+                <label for="content">
+                  Content
+                </label>
+                <div class="mt-1">
+                  <textarea class="w-full" type='text' name='content' rows="20" cols="70" phx-debounce="5000"><%= @page.content %></textarea>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </form>
-    </div>
+        </form>
+      </div>
 
-    <div class="max-w-full border-2 border-dashed border-gray-200 p-4 prose lg:prose-xl">
-      <h2 class="title"><%= @page.title %></h2>
-      <div class="block">
-        <%= @page.content |> Phoenix.HTML.raw() %>
+      <div class="w-1/2 border-2 border-dashed border-gray-200 p-4 prose lg:prose-xl">
+        <h2 class="title"><%= @page.title %></h2>
+        <div class="block">
+          <%= @page.content |> Phoenix.HTML.raw() %>
+        </div>
       </div>
     </div>
     """

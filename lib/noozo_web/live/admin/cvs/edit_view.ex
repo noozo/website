@@ -56,7 +56,7 @@ defmodule NoozoWeb.Admin.Cvs.EditView do
 
               <div class="col-span-6">
                 <label for="abstract">Abstract</label>
-                <textarea ype='text' name='abstract' phx-debounce="500" rows="10"><%= @cv.abstract %></textarea>
+                <textarea class="w-full" type='text' name='abstract' phx-debounce="500" rows="10"><%= @cv.abstract %></textarea>
               </div>
             </div>
           </form>

@@ -35,12 +35,12 @@ defmodule NoozoWeb.Admin.Post.EditView do
       <% end %>
     </div>
 
-    <div class="mt-5 md:mt-0 md:col-span-2">
-      <form class="mb-4" phx-submit="save" phx-change="update-title-and-content" phx-debounce="500">
-        <div class="shadow sm:rounded-md sm:overflow-hidden">
-          <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
-            <div class="grid grid-cols-6 gap-6">
-              <div class="col-span-6 sm:col-span-3">
+    <div class="mt-5 md:mt-0 flex flex-row gap-6">
+      <div class="mt-5 md:mt-0 flex flex-col">
+        <form class="mb-4" phx-submit="save" phx-change="update-title-and-content" phx-debounce="500">
+          <div class="shadow sm:rounded-md sm:overflow-hidden">
+            <div class="px-4 py-5 bg-white space-y-6 sm:p-6 flex flex-col gap-6">
+              <div>
                 <label for="title">
                   Title
                 </label>
@@ -48,19 +48,17 @@ defmodule NoozoWeb.Admin.Post.EditView do
                   <input type='text' name='title' value='<%= @post.title %>' phx-debounce="5000" />
                 </div>
               </div>
-            </div>
 
-            <div>
-              <label for="content">
-                Content
-              </label>
-              <div class="mt-1">
-                <textarea type='text' name='content' rows="15" phx-debounce="5000"><%= @post.content %></textarea>
+              <div>
+                <label for="content">
+                  Content
+                </label>
+                <div class="mt-1">
+                  <textarea class="w-full" type='text' name='content' rows="15" phx-debounce="5000"><%= @post.content %></textarea>
+                </div>
               </div>
-            </div>
 
-            <div class="grid grid-cols-6 gap-6">
-              <div class="col-span-6 sm:col-span-3">
+              <div>
                 <label for="status">
                   Status
                 </label>
@@ -71,59 +69,59 @@ defmodule NoozoWeb.Admin.Post.EditView do
                   </select>
                 </div>
               </div>
-            </div>
 
-            <div>
-              <%= for {_ref, msg} <- @uploads.cover_photo.errors do %>
-                <p class="alert alert-danger" role="alert">
-                  <%= Phoenix.Naming.humanize(msg) %>
-                </p>
-              <% end %>
+              <div>
+                <%= for {_ref, msg} <- @uploads.cover_photo.errors do %>
+                  <p class="alert alert-danger" role="alert">
+                    <%= Phoenix.Naming.humanize(msg) %>
+                  </p>
+                <% end %>
 
-              <%= live_file_input @uploads.cover_photo %>
+                <%= live_file_input @uploads.cover_photo %>
 
-              <%= for entry <- @uploads.cover_photo.entries do %>
-                <div class="columns">
-                  <div class="column img-preview">
-                    <%= live_img_preview entry, height: 80 %>
+                <%= for entry <- @uploads.cover_photo.entries do %>
+                  <div class="columns">
+                    <div class="column img-preview">
+                      <%= live_img_preview entry, height: 80 %>
+                    </div>
+                    <div class="column">
+                      <progress max="100" value="<%= entry.progress %>"/>
+                    </div>
+                    <div class="column">
+                      <a href="#" phx-click="cancel-entry" phx-value-ref="<%= entry.ref %>">
+                        cancel
+                      </a>
+                    </div>
                   </div>
-                  <div class="column">
-                    <progress max="100" value="<%= entry.progress %>"/>
-                  </div>
-                  <div class="column">
-                    <a href="#" phx-click="cancel-entry" phx-value-ref="<%= entry.ref %>">
-                      cancel
-                    </a>
-                  </div>
-                </div>
-              <% end %>
+                <% end %>
 
-              <input class="btn" type="submit" value="Upload"/>
+                <input class="btn" type="submit" value="Upload"/>
+              </div>
             </div>
           </div>
-        </div>
-      </form>
-      <%= live_component @socket, Admin.Components.TitleSuggester, id: :title_suggester, post: @post %>
-      <%= live_component @socket, Admin.Components.TagEditor, id: :tag_editor, post: @post %>
-    </div>
-
-    <div class="max-w-full border-2 border-dashed border-gray-200 p-4 prose lg:prose-xl">
-      <h2><%= @post.title %></h2>
-      <div class="date">
-        <%= TemplateUtils.format_date(@post.published_at) %>
+        </form>
+        <%= live_component @socket, Admin.Components.TitleSuggester, id: :title_suggester, post: @post %>
+        <%= live_component @socket, Admin.Components.TagEditor, id: :tag_editor, post: @post %>
       </div>
-      <%= if @post.image do %>
-        <div class="block is-pulled-left mr-6" phx-click="remove-cover-photo" data-confirm="Remove image?">
-          <%=
-            data = Base.encode64(@post.image)
-            Phoenix.HTML.raw(
-              "<img src=\"data:"<>@post.image_type<>";base64,"<>data<>"\" width=\"200px\">"
-            )
-          %>
+
+      <div class="max-w-full border-2 border-dashed border-gray-200 p-4 prose lg:prose-xl">
+        <h2><%= @post.title %></h2>
+        <div class="date">
+          <%= TemplateUtils.format_date(@post.published_at) %>
         </div>
-      <% end %>
-      <div class="block">
-        <%= TemplateUtils.post_content(@post) %>
+        <%= if @post.image do %>
+          <div class="block is-pulled-left mr-6" phx-click="remove-cover-photo" data-confirm="Remove image?">
+            <%=
+              data = Base.encode64(@post.image)
+              Phoenix.HTML.raw(
+                "<img src=\"data:"<>@post.image_type<>";base64,"<>data<>"\" width=\"200px\">"
+              )
+            %>
+          </div>
+        <% end %>
+        <div class="block">
+          <%= TemplateUtils.post_content(@post) %>
+        </div>
       </div>
     </div>
     """

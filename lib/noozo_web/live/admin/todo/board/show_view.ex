@@ -131,8 +131,8 @@ defmodule NoozoWeb.Admin.Todo.Board.ShowView do
 
   @impl true
   def handle_info({:item_updated, item}, socket) do
-    # Send update to the appropriate list
-    send_update(Components.Item, id: item.id, item: item)
+    # Send update to the appropriate item
+    send_update(Components.Item, id: item.id)
     {:noreply, socket}
   end
 
@@ -146,7 +146,7 @@ defmodule NoozoWeb.Admin.Todo.Board.ShowView do
   @impl true
   def handle_info({:item_label_changed, item}, socket) do
     # Send update to the appropriate item
-    send_update(Components.Item, id: item.id, item: item)
+    send_update(Components.Item, id: item.id)
     {:noreply, socket}
   end
 
