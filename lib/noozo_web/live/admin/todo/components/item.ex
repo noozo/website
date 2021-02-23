@@ -26,9 +26,10 @@ defmodule NoozoWeb.Admin.Todo.Components.Item do
   # instead of N+1'ing
   @impl true
   def preload(list_of_assigns) do
-    list_of_ids = list_of_assigns
-    |> Enum.reject(& not is_nil(&1[:item]))
-    |> Enum.map(& &1.id)
+    list_of_ids =
+      list_of_assigns
+      |> Enum.reject(&(not is_nil(&1[:item])))
+      |> Enum.map(& &1.id)
 
     query =
       from(

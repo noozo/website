@@ -69,4 +69,9 @@ defmodule NoozoWeb.Admin.Todo.Components.List do
   def update(%{id: id, list: list, search_result_ids: search_result_ids} = _assigns, socket) do
     {:ok, assign(socket, id: id, list: list, search_result_ids: search_result_ids)}
   end
+
+  @impl true
+  def update(%{id: id, list: list} = _assigns, socket) do
+    {:ok, assign(socket, id: id, list: list, search_result_ids: [])}
+  end
 end
