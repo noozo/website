@@ -16,13 +16,12 @@ defmodule NoozoWeb.Admin.Todo.Components.Search do
     ~L"""
     <div id="<%= @id %>" class="mb-6">
       <form phx-change="search" phx-target="<%= @myself %>">
-        <div class="grid grid-cols-6 gap-6">
-          <div class="col-span-6 sm:col-span-3">
-            <label for="title">Search</label>
-            <div class="mt-1">
-              <input type="text" name="q" phx-debounce="500" />
-            </div>
+        <div class="flex flex-row items-center gap-2">
+          <label for="title">Search</label>
+          <div class="mt-1">
+            <input type="text" size="30" name="q" phx-debounce="500" />
           </div>
+        </div>
       </form>
     </div>
     """
