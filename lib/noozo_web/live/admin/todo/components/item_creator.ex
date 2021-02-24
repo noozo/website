@@ -30,7 +30,7 @@ defmodule NoozoWeb.Admin.Todo.Components.ItemCreator do
         </form>
       <% else %>
         <form phx-submit="input_title" phx-target="<%= @myself %>">
-          <button class="rounded text-black bg-black bg-opacity-0 hover:bg-opacity-20 p-4 w-full">
+          <button class="rounded text-black bg-gray-100 hover:bg-gray-200 p-4 w-full">
             + Add another item
           </button>
         </form>

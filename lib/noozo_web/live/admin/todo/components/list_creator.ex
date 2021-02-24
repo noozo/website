@@ -9,7 +9,7 @@ defmodule NoozoWeb.Admin.Todo.Components.ListCreator do
   @impl true
   def render(assigns) do
     ~L"""
-    <div id="<%= @id %>" class="bg-black bg-opacity-25 hover:bg-opacity-30 text-sm rounded-lg p-4" style="min-width: 250px;">
+    <div id="<%= @id %>" class="h-<%= if @creating, do: "28", else: "16" %> bg-gray-200 hover:bg-gray-300 text-sm rounded-lg p-4" style="min-width: 250px;">
       <%= if @creating do %>
         <form phx-submit="create_list" phx-target="<%= @myself %>">
           <input type="hidden" name="board_id" value="<%= @board.id %>" />
@@ -33,7 +33,7 @@ defmodule NoozoWeb.Admin.Todo.Components.ListCreator do
           <button class="new-list"><i class="material-icons">add</i> Add another list</button>
         </form>
       <% end %>
-      </div>
+    </div>
     """
   end
 
