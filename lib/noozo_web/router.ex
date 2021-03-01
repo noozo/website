@@ -90,6 +90,9 @@ defmodule NoozoWeb.Router do
     get "/:provider", AuthController, :request
     # get "/:provider/callback", AuthController, :callback
     post "/identity/callback", AuthController, :identity_callback
+
+    get("/two_factor_auth", TwoFactorAuthController, :new)
+    post("/two_factor_auth", TwoFactorAuthController, :create)
   end
 
   scope "/admin", NoozoWeb.Admin do
@@ -109,6 +112,10 @@ defmodule NoozoWeb.Router do
     live "/log/:date", DailyLog.EditView, date: :date
 
     live "/finance", Finance.IndexView
+
+    live "/users", Accounts.IndexView
+    live "/users/:id/edit", Accounts.EditView, id: :id
+    live "/users/:id/setup_2fa", Accounts.TwoFactorSetupView, id: :id
 
     scope "/analytics", Analytics do
       live "/", IndexView

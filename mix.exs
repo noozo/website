@@ -70,6 +70,8 @@ defmodule Noozo.MixProject do
       {:httpoison, "~> 1.6"},
       {:earmark, "~> 1.4"},
       {:money, "~> 1.4"},
+      {:nimble_totp, "~> 0.1.0"},
+      {:eqrcode, "~> 0.1.7"},
 
       # Testing and things
       {:floki, "~> 0.29", only: :test},

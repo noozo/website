@@ -7,6 +7,11 @@ defmodule NoozoWeb.AuthController do
   plug Ueberauth
 
   alias Ueberauth.Strategy.Helpers
+  alias NoozoWeb.Router.Helpers, as: Routes
+
+  def convert(binary) do
+    Integer.digits(binary)
+  end
 
   def request(conn, %{"redirect_url" => redirect_url} = params) do
     conn
@@ -31,9 +36,9 @@ defmodule NoozoWeb.AuthController do
 
   def identity_callback(
         %{assigns: %{ueberauth_auth: auth}} = conn,
-        %{"redirect_url" => redirect_url} = _params
+        %{"redirect_url" => redirect_url, "code" => two_factor_code} = params
       ) do
-    case login(auth) do
+    case login(auth, two_factor_code) do
       {:ok, user} ->
         conn
         |> put_flash(:info, "Successfully authenticated.")
@@ -58,13 +63,22 @@ defmodule NoozoWeb.AuthController do
     |> redirect(to: "/")
   end
 
-  defp login(auth) do
+  defp login(auth, two_factor_code) do
     {:ok, user} = Core.get_user!(auth.info.email)
 
     if Bcrypt.verify_pass(auth.credentials.other.password, user.encrypted_password) do
-      {:ok, user}
+      check_2fa_auth(user, two_factor_code)
     else
       {:error, "Could not authenticate user"}
+    end
+  end
+
+  defp check_2fa_auth(%{has_2fa: false} = user, _code), do: {:ok, user}
+  defp check_2fa_auth(%{secret_2fa: secret_2fa} = user, code) do
+    if NimbleTOTP.valid?(secret_2fa, code) do
+      {:ok, user}
+    else
+      {:error, "Invalid 2FA code"}
     end
   end
 end

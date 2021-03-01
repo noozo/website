@@ -26,27 +26,27 @@ defmodule NoozoWeb.Admin.Gallery.IndexView do
       <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
           <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-            <table class="min-w-full divide-y divide-gray-200">
-              <thead class="bg-gray-50">
+            <table>
+              <thead>
                 <tr>
-                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th scope="col">
                     Title
                   </th>
-                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th scope="col">
                     Preview
                   </th>
-                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th scope="col">
                     Order
                   </th>
                 </tr>
               </thead>
-              <tbody class="bg-white divide-y divide-gray-200">
+              <tbody>
                 <%= for image <- @images.entries do %>
                   <tr>
-                    <td class="px-6 py-4 whitespace-nowrap">
+                    <td>
                       <%= live_patch(image.title, to: Routes.live_path(@socket, EditView, image.uuid)) %>
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
+                    <td>
                       <%=
                         data = Base.encode64(image.image)
                         Phoenix.HTML.raw(
@@ -54,7 +54,7 @@ defmodule NoozoWeb.Admin.Gallery.IndexView do
                         )
                       %>
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
+                    <td>
                       <%= image.order %>
                     </td>
                   </tr>

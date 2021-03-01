@@ -1,0 +1,7 @@
+<%= form_for @conn, NoozoWeb.Router.Helpers.two_factor_auth_path(@conn, :create), fn f -> %>
+  <label>
+    Code: <%= text_input f, :one_time_pass, class: "qa-one_time_pass" %>
+  </label>
+
+  <%= submit "Submit", class: "qa-submit" %>
+<% end %>

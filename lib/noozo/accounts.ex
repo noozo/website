@@ -17,8 +17,8 @@ defmodule Noozo.Accounts do
       [%User{}, ...]
 
   """
-  def list_users do
-    Repo.all(User)
+  def list_users(params) do
+    Repo.paginate(User, params)
   end
 
   @doc """

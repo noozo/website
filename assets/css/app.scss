@@ -10,7 +10,7 @@ iframe {
     display: none;
 }
 .btn {
-    @apply px-4 py-2 items-center justify-center rounded-full bg-gray-200 text-black hover:no-underline hover:bg-gray-700 hover:text-white;
+    @apply px-4 py-2 items-center justify-center rounded-full bg-gray-200 text-black hover:no-underline hover:bg-gray-700 hover:text-white cursor-pointer;
 }
 .btn-nav {
     @apply text-black hover:bg-gray-600 hover:text-white px-3 py-2 rounded-md text-sm font-medium;
