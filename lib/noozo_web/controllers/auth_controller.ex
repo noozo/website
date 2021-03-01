@@ -3,15 +3,14 @@ defmodule NoozoWeb.AuthController do
   Auth controller responsible for handling Ueberauth responses
   """
   use NoozoWeb, :controller
-  alias Noozo.Core
+
   plug Ueberauth
 
   alias Ueberauth.Strategy.Helpers
-  alias NoozoWeb.Router.Helpers, as: Routes
 
-  def convert(binary) do
-    Integer.digits(binary)
-  end
+  alias Noozo.Core
+
+  alias NoozoWeb.Router.Helpers, as: Routes
 
   def request(conn, %{"redirect_url" => redirect_url} = params) do
     conn
@@ -74,6 +73,7 @@ defmodule NoozoWeb.AuthController do
   end
 
   defp check_2fa_auth(%{has_2fa: false} = user, _code), do: {:ok, user}
+
   defp check_2fa_auth(%{secret_2fa: secret_2fa} = user, code) do
     if NimbleTOTP.valid?(secret_2fa, code) do
       {:ok, user}

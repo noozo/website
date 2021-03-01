@@ -8,7 +8,7 @@ defmodule NoozoWeb.Admin.Accounts.IndexView do
 
   alias Noozo.Accounts
 
-  alias NoozoWeb.Admin.Accounts.{EditView,TwoFactorSetupView}
+  alias NoozoWeb.Admin.Accounts.{EditView, TwoFactorSetupView}
   alias NoozoWeb.Router.Helpers, as: Routes
 
   @impl true

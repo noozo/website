@@ -48,11 +48,14 @@ defmodule NoozoWeb.Admin.Accounts.TwoFactorSetupView do
   @impl true
   def handle_event("save_secret", %{"code" => code} = _event, socket) do
     secret = socket.assigns.secret
+
     if NimbleTOTP.valid?(secret, code) do
-      {:ok, user} = Accounts.update_user(socket.assigns.user, %{
-        has_2fa: true,
-        secret_2fa: secret
-      })
+      {:ok, user} =
+        Accounts.update_user(socket.assigns.user, %{
+          has_2fa: true,
+          secret_2fa: secret
+        })
+
       {:noreply, socket |> put_flash(:info, "2FA setup correctly") |> assign(:user, user)}
     else
       {:noreply, socket |> put_flash(:error, "Invalid code")}
