@@ -2,9 +2,9 @@
 
 ## A blog and much, much more.
 
-This is my personal website repository. I decided to make it open source because someone else might benefit from the work i have done over the years even though, at times, some functionality might not have the perfect implementation, so take it as it is if you want :)
+This is my website code repository, that powers [pedroassuncao.com](https://pedroassuncao.com). 
 
-Most features have an equivalent admin space where things can be configured.
+I decided to make it open source because someone else might benefit from the work i have done over the years. Most features have an equivalent admin space where things can be configured.
 
 If you find this useful and want to support it, consider [buying me a pizza](https://www.buymeacoffee.com/noozo) :)
 
