@@ -30,9 +30,7 @@ defmodule NoozoWeb.Admin.DailyLog.EditView do
                   Content
                 </label>
                 <div class="mt-1">
-                  <textarea id="content" name="content" rows="15" cols="50" phx-debounce="1000">
-                    <%= @entry.content %>
-                  </textarea>
+                  <textarea id="content" name="content" rows="15" cols="50" phx-debounce="1000"><%= @entry.content %></textarea>
                 </div>
               </div>
 

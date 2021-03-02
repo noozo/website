@@ -14,7 +14,7 @@ defmodule NoozoWeb.Admin.Accounts.TwoFactorSetupView do
   end
 
   @impl true
-  def handle_params(%{"id" => id} = params, _url, socket) do
+  def handle_params(%{"id" => id} = _params, _url, socket) do
     secret = NimbleTOTP.secret()
     uri = NimbleTOTP.otpauth_uri("pedroassuncao.com:#{@env}", secret, issuer: "pedroassuncao.com")
     svg = uri |> EQRCode.encode() |> EQRCode.svg()
