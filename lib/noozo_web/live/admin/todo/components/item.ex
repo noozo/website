@@ -51,16 +51,20 @@ defmodule NoozoWeb.Admin.Todo.Components.Item do
   end
 
   @impl true
-  def render(assigns) do
+  def render(%{item: item, opacity: opacity} = assigns) do
+    label_bg = if item.label, do: item.label.color_hex, else: "white"
+    label_color = if item.label, do: item.label.text_color_hex, else: "black"
+    opacity = opacity / 100
+    hardcoded_styles = "background-color: #{label_bg}; color: #{label_color}; opacity: #{opacity};"
     ~L"""
     <div id="<%= @id %>"
-         class="p-1 pl-2 pr-2 hover:bg-opacity-50 border cursor-pointer text-xs rounded-md opacity-<%= @opacity %>"
+         class="p-1 pl-2 pr-2 hover:bg-opacity-50 border cursor-pointer text-xs rounded-md"
          phx-hook="Draggable"
          draggable="true"
          phx-value-draggable_id="<%= @item.id %>"
          phx-value-draggable_type="item"
          phx-click="item_clicked"
-         style="background-color: <%= if @item.label, do: @item.label.color_hex, else: "white" %>; color: <%= if @item.label, do: @item.label.text_color_hex, else: "black" %>">
+         style="<%= hardcoded_styles %>">
       <%= @item.title %>
       <%= if @item.content do %>
         <div class="tag-xs bg-white">...</div>
