@@ -6,13 +6,19 @@ This is my personal website repository. I decided to make it open source because
 
 Most features have an equivalent admin space where things can be configured.
 
+If you find this useful and want to support it, consider [buying me a pizza](https://www.buymeacoffee.com/noozo) :)
+
+## A picture is worth a thousand words
+
+![image](https://user-images.githubusercontent.com/3353/109639764-7b82db80-7b47-11eb-95e6-c3ce088c3179.png)
+
 ## What does it do?
 
 - Self contained website
   - No reverse proxy in front, like nginx
   - HTTPS directly from Phoenix using Saša Jurić's outstanding site_encrypt library for certificate auto-updates: https://github.com/sasa1977/site_encrypt
 - A blog infrastructure
-  - Support for multi users (though admin is not there)
+  - Support for multi users (including 2FA support with QR code)
   - Tagged posts
   - Post creation with preview, title suggestions, and a poster image per post (using LiveUploads)
   - Slug urls
