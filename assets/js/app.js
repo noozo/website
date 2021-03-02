@@ -150,3 +150,5 @@ let liveSocket = new LiveSocket("/live", Socket, {
 })
 liveSocket.connect()
 // liveSocket.enableDebug()
+
+window.liveSocket = liveSocket
