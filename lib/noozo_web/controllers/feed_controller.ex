@@ -52,11 +52,11 @@ defmodule NoozoWeb.FeedController do
     |> Atomex.generate_document()
   end
 
-  defp get_entry(%{id: id, title: title, content: content, created_at: created_at} = _post) do
-    "https://pedroassuncao.com/posts/#{id}"
-    |> Entry.new(created_at, title)
+  defp get_entry(%{slug: slug, title: title, content: content, inserted_at: inserted_at} = _post) do
+    "https://pedroassuncao.com/posts/#{slug}"
+    |> Entry.new(inserted_at, title)
     |> Entry.content(content, type: "html")
-    |> Entry.link("https://pedroassuncao.com/posts/#{id}")
+    |> Entry.link("https://pedroassuncao.com/posts/#{slug}")
     |> Entry.build()
   end
 end
