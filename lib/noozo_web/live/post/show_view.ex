@@ -23,10 +23,6 @@ defmodule NoozoWeb.Post.ShowView do
             </svg>
             <%= TemplateUtils.format_date(@post.published_at) %>
           </div>
-
-          <div class="mt-2 flex items-center text-sm text-black">
-            <%= live_component(@socket, NoozoWeb.Post.Components.Likes, id: @post.id, post: @post, ga_id: @ga_id) %>
-          </div>
         </div>
       </div>
 
