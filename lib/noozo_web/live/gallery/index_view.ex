@@ -14,7 +14,7 @@ defmodule NoozoWeb.Gallery.IndexView do
     Gallery.subscribe()
     params = Map.put(params, "page_size", 8)
     images = Gallery.list(params)
-    {:noreply, assign(socket, images: images, params: params)}
+    {:noreply, assign(socket, images: images, params: params, page_title: "Gallery")}
   end
 
   def handle_info({_event, _item}, socket) do

@@ -102,7 +102,8 @@ defmodule NoozoWeb.Post.ShowView do
   end
 
   def handle_params(params, uri, socket) do
-    {:noreply, assign(socket, post: fetch_post(params["slug"]), url: uri)}
+    post = fetch_post(params["slug"])
+    {:noreply, assign(socket, post: post, url: uri, page_title: post.title)}
   end
 
   # By id or slug

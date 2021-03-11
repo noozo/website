@@ -39,6 +39,6 @@ defmodule NoozoWeb.Page.ShowView do
 
   def handle_params(params, _uri, socket) do
     page = Core.get_page_by_slug(params["slug"])
-    {:noreply, assign(socket, page: page)}
+    {:noreply, assign(socket, page: page, page_title: page.title)}
   end
 end

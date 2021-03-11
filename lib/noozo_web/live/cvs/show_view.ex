@@ -17,6 +17,6 @@ defmodule NoozoWeb.Cvs.ShowView do
 
   def handle_params(%{"user_id" => user_id} = _params, _uri, socket) do
     cv = Cvs.get_user_cv!(user_id)
-    {:noreply, assign(socket, :cv, cv)}
+    {:noreply, assign(socket, cv: cv, page_title: "Resume: #{cv.title}")}
   end
 end
