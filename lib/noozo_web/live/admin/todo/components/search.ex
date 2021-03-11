@@ -30,11 +30,21 @@ defmodule NoozoWeb.Admin.Todo.Components.Search do
   @impl true
   def handle_event("search", %{"q" => q} = _event, socket) do
     current_user = socket.assigns.current_user
+
     if String.length(q) > 2 do
       item_ids = Todo.search_items(q)
-      Phoenix.PubSub.broadcast!(Noozo.PubSub, "todo_item_search_#{current_user.id}", {:item_search_hit, item_ids})
+
+      Phoenix.PubSub.broadcast!(
+        Noozo.PubSub,
+        "todo_item_search_#{current_user.id}",
+        {:item_search_hit, item_ids}
+      )
     else
-      Phoenix.PubSub.broadcast!(Noozo.PubSub, "todo_item_search_#{current_user.id}", :item_search_clear)
+      Phoenix.PubSub.broadcast!(
+        Noozo.PubSub,
+        "todo_item_search_#{current_user.id}",
+        :item_search_clear
+      )
     end
 
     {:noreply, socket}
