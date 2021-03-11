@@ -29,7 +29,12 @@ defmodule NoozoWeb.Post.IndexView do
 
   def mount(_params, session, socket) do
     {:ok,
-     assign(socket, current_user: session["current_user"], ga_id: session["ga_id"], tag: nil, page_title: "Writings")}
+     assign(socket,
+       current_user: session["current_user"],
+       ga_id: session["ga_id"],
+       tag: nil,
+       page_title: "Writings"
+     )}
   end
 
   def handle_params(params, _uri, socket) do
