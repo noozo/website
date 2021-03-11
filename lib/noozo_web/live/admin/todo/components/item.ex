@@ -55,7 +55,10 @@ defmodule NoozoWeb.Admin.Todo.Components.Item do
     label_bg = if item.label, do: item.label.color_hex, else: "white"
     label_color = if item.label, do: item.label.text_color_hex, else: "black"
     opacity = opacity / 100
-    hardcoded_styles = "background-color: #{label_bg}; color: #{label_color}; opacity: #{opacity};"
+
+    hardcoded_styles =
+      "background-color: #{label_bg}; color: #{label_color}; opacity: #{opacity};"
+
     ~L"""
     <div id="<%= @id %>"
          class="p-1 pl-2 pr-2 hover:bg-opacity-50 border cursor-pointer text-xs rounded-md"
