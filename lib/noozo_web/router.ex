@@ -71,7 +71,9 @@ defmodule NoozoWeb.Router do
     #       |> String.replace("\r", " ")
     #       |> String.replace("\n", " ")
     #   }
-    plug :put_secure_browser_headers
+    plug :put_secure_browser_headers, %{
+      "Permissions-Policy" => "interest-cohort=()"
+    }
     plug NoozoWeb.CurrentUserPlug
     plug NoozoWeb.GoogleAnalyticsPlug
     plug :put_root_layout, {NoozoWeb.LayoutView, :root}
