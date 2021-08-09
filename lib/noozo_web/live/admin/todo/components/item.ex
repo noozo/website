@@ -10,14 +10,14 @@ defmodule NoozoWeb.Admin.Todo.Components.Item do
   import Ecto.Query, warn: false
 
   @impl true
-  def update(%{id: id, item: item, search_result_ids: search_result_ids} = assigns, socket) do
+  def update(%{id: id, item: item, search_result_ids: search_result_ids} = _assigns, socket) do
     # Update opacity depending if id is in search_result_ids (the ones that didnt match)
     opacity = if search_result_ids == [] or Enum.member?(search_result_ids, id), do: 100, else: 20
     {:ok, assign(socket, id: id, item: item, opacity: opacity)}
   end
 
   @impl true
-  def update(%{id: id, item: item} = assigns, socket) do
+  def update(%{id: id, item: item} = _assigns, socket) do
     {:ok, assign(socket, id: id, item: item, opacity: 100)}
   end
 

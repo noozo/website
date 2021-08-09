@@ -2,7 +2,7 @@
     "repository": {},
     "license": "MIT",
     "scripts": {
-        "deploy": "NODE_ENV=production webpack --mode production",
+        "deploy": "NODE_ENV=production tailwindcss --postcss --minify -i css/app.css -o ../priv/static/assets/app.css",
         "watch": "webpack --mode development --watch --progress --color"
     },
     "dependencies": {
@@ -36,12 +36,12 @@
         "node-sass": "^4.14.1",
         "optimize-css-assets-webpack-plugin": "^5.0.3",
         "popper.js": "^1.16.1",
-        "postcss": "^8.2.4",
-        "postcss-import": "^14.0.0",
+        "postcss": "^8.3.5",
+        "postcss-import": "^14.0.2",
         "postcss-loader": "^4.1.0",
         "sass-loader": "^8.0.2",
         "serialize-javascript": "^3.1.0",
-        "tailwindcss": "^2.0.2",
+        "tailwindcss": "^2.2.4",
         "terser": "^4.8.0",
         "webpack": "^4.43.0",
         "webpack-cli": "^3.3.12"

@@ -41,7 +41,7 @@ defmodule Noozo.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:phoenix, "~> 1.5"},
+      {:phoenix, github: "phoenixframework/phoenix", branch: "v1.5", override: true},
       {:phoenix_pubsub, "~> 2.0"},
       {:plug_cowboy, "~> 2.1"},
       {:phoenix_ecto, "~> 4.0"},
@@ -81,7 +81,9 @@ defmodule Noozo.MixProject do
       {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
       {:mox, "~> 1.0", only: :test},
       {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false},
-      {:sobelow, "~> 0.11", only: [:dev, :test], runtime: false}
+      {:sobelow, "~> 0.11", only: [:dev, :test], runtime: false},
+      {:esbuild, "~> 0.1", runtime: Mix.env() == :dev},
+      {:dart_sass, "~> 0.1", runtime: Mix.env() == :dev}
     ]
   end
 
@@ -105,9 +107,15 @@ defmodule Noozo.MixProject do
   defp aliases do
     [
       "ecto.seed": ["run priv/repo/seeds.exs"],
-      "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
+      "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs", "cmd --cd assets npm install"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
-      test: ["ecto.create --quiet", "ecto.migrate", "test"]
+      test: ["ecto.create --quiet", "ecto.migrate", "test"],
+      "assets.deploy": [
+        "sass default --no-source-map --style=compressed",
+        "cmd --cd assets npm run deploy",
+        "esbuild default --minify",
+        "phx.digest"
+      ]
     ]
   end
 end

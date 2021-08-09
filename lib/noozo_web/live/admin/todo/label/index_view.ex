@@ -7,8 +7,6 @@ defmodule NoozoWeb.Admin.Todo.Label.IndexView do
   import Noozo.Pagination
 
   alias Noozo.Todo
-  alias NoozoWeb.Router.Helpers, as: Routes
-  alias NoozoWeb.TemplateUtils
 
   def render(assigns) do
     ~L"""

@@ -94,9 +94,6 @@ defmodule NoozoWeb.Router do
     get "/:provider", AuthController, :request
     # get "/:provider/callback", AuthController, :callback
     post "/identity/callback", AuthController, :identity_callback
-
-    get("/two_factor_auth", TwoFactorAuthController, :new)
-    post("/two_factor_auth", TwoFactorAuthController, :create)
   end
 
   scope "/admin", NoozoWeb.Admin do

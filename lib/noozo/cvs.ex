@@ -269,9 +269,7 @@ defmodule Noozo.Cvs do
     :ok
   end
 
-  @doc """
-  Ensures all items have order, when nil
-  """
+  # Ensures all items have order, when nil
   defp ensure_all_ordered(type) do
     items =
       Repo.all(
