@@ -12,8 +12,14 @@ defmodule NoozoWeb.Admin.Post.IndexView do
   alias NoozoWeb.Router.Helpers, as: Routes
   alias NoozoWeb.TemplateUtils
 
+  @impl true
+  def mount(params, _session, socket) do
+    {:ok, assign(socket, loading: false, posts: Core.list_posts(params, false))}
+  end
+
+  @impl true
   def render(assigns) do
-    ~L"""
+    ~H"""
     <%= if @loading do %>
       <div>Loading information...</div>
     <% else %>
@@ -70,22 +76,5 @@ defmodule NoozoWeb.Admin.Post.IndexView do
       <%= live_paginate(assigns, @posts, __MODULE__, @socket) %>
     <% end %>
     """
-  end
-
-  def mount(_params, _session, socket) do
-    {:ok, assign(socket, loading: true)}
-  end
-
-  def handle_info({:load_posts, params}, socket) do
-    {:noreply,
-     assign(socket,
-       loading: false,
-       posts: Core.list_posts(params, false)
-     )}
-  end
-
-  def handle_params(params, _uri, socket) do
-    send(self(), {:load_posts, params})
-    {:noreply, assign(socket, loading: true)}
   end
 end

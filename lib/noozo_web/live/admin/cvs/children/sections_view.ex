@@ -13,7 +13,7 @@ defmodule NoozoWeb.Admin.Cvs.Children.SectionsView do
     ~L"""
     <div class="mt-6" x-data="{collapsed: false}">
       <div class="text-lg mb-4 cursor-pointer" @click="collapsed = !collapsed">
-        <%= live_component @socket, ExpandCollapse, var: "collapsed" %>
+        <%= live_component ExpandCollapse, var: "collapsed" %>
         Sections
       </div>
 
@@ -28,7 +28,7 @@ defmodule NoozoWeb.Admin.Cvs.Children.SectionsView do
             <div class="mb-6" x-data="{sectionCollapsed: true}">
               <div class="flex">
                 <div @click="sectionCollapsed = !sectionCollapsed">
-                  <%= live_component @socket, ExpandCollapse, var: "sectionCollapsed" %>
+                  <%= live_component ExpandCollapse, var: "sectionCollapsed" %>
                 </div>
                 <form phx-change="update-section" phx-debounce="500">
                   <input type="hidden" name="section_uuid" value="<%= section.uuid %>" />
@@ -47,7 +47,7 @@ defmodule NoozoWeb.Admin.Cvs.Children.SectionsView do
               </div>
 
               <div class="mt-2 ml-4" :class="{'hidden': sectionCollapsed, 'visible': !sectionCollapsed}">
-                <%= live_component @socket, SectionItems, id: "cv_section_items_#{section.uuid}", section_uuid: section.uuid %>
+                <%= live_component SectionItems, id: "cv_section_items_#{section.uuid}", section_uuid: section.uuid %>
               </div>
             </div>
           </div>

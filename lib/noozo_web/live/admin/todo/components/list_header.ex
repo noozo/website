@@ -38,7 +38,7 @@ defmodule NoozoWeb.Admin.Todo.Components.ListHeader do
           </div>
         </div>
         <div>
-          <%= live_component @socket, NoozoWeb.Admin.Todo.Components.ListMenu, id: "list_menu_#{@list.id}", list: @list %>
+          <%= live_component NoozoWeb.Admin.Todo.Components.ListMenu, id: "list_menu_#{@list.id}", list: @list %>
         </div>
       <% end %>
     </div>

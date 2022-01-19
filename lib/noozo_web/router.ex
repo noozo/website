@@ -103,20 +103,20 @@ defmodule NoozoWeb.Router do
 
     live "/posts", Post.IndexView
     live "/posts/new", Post.CreateView
-    live "/posts/:id/edit", Post.EditView, id: :id
+    live "/posts/:id/edit", Post.EditView
 
     live "/pages", Page.IndexView
     live "/pages/new", Page.CreateView
-    live "/pages/:id/edit", Page.EditView, id: :id
+    live "/pages/:id/edit", Page.EditView
 
     live "/log", DailyLog.IndexView
-    live "/log/:date", DailyLog.EditView, date: :date
+    live "/log/:date", DailyLog.EditView
 
     live "/finance", Finance.IndexView
 
     live "/users", Accounts.IndexView
-    live "/users/:id/edit", Accounts.EditView, id: :id
-    live "/users/:id/setup_2fa", Accounts.TwoFactorSetupView, id: :id
+    live "/users/:id/edit", Accounts.EditView
+    live "/users/:id/setup_2fa", Accounts.TwoFactorSetupView
 
     scope "/analytics", Analytics do
       live "/", IndexView
@@ -125,13 +125,13 @@ defmodule NoozoWeb.Router do
     scope "/cvs", Cvs do
       live "/", IndexView
       live "/new", CreateView
-      live "/:uuid/edit", EditView, uuid: :uuid
+      live "/:uuid/edit", EditView
     end
 
     scope "/gallery", Gallery do
       live "/", IndexView
       live "/new", CreateView
-      live "/:uuid/edit", EditView, uuid: :uuid
+      live "/:uuid/edit", EditView
     end
 
     live "/", Post.IndexView
@@ -141,8 +141,8 @@ defmodule NoozoWeb.Router do
     pipe_through :restricted_browser
 
     live "/boards/new", Board.CreateView
-    live "/boards/:id/edit", Board.EditView, id: :id
-    live "/boards/:id", Board.ShowView, id: :id
+    live "/boards/:id/edit", Board.EditView
+    live "/boards/:id", Board.ShowView
     live "/labels", Label.IndexView
     live "/", Board.IndexView
   end
@@ -174,14 +174,14 @@ defmodule NoozoWeb.Router do
 
     live "/gallery", Gallery.IndexView
 
-    live "/posts/:slug", Post.ShowView, slug: :slug
-    live "/tag/:tag", Post.IndexView, tag: :tag
+    live "/posts/:slug", Post.ShowView
+    live "/tag/:tag", Post.IndexView
     live "/posts", Post.IndexView
 
-    live "/resume/:user_id", Cvs.ShowView, user_id: :user_id
+    live "/resume/:user_id", Cvs.ShowView
 
     get "/pages/:slug/pdf", PDFGenerationController, :page
-    live "/pages/:slug", Page.ShowView, slug: :slug
+    live "/pages/:slug", Page.ShowView
 
     get "/feed", FeedController, :index
     live "/", Post.IndexView

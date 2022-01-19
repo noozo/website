@@ -4,8 +4,8 @@ defmodule Noozo.MixProject do
   def project do
     [
       app: :noozo,
-      version: "3.5.0",
-      elixir: "~> 1.12",
+      version: "4.0.0",
+      elixir: "~> 1.13",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
@@ -41,20 +41,21 @@ defmodule Noozo.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:phoenix, github: "phoenixframework/phoenix", branch: "v1.5", override: true},
+      {:phoenix, "~> 1.6.5"},
       {:phoenix_pubsub, "~> 2.0"},
+      {:phoenix_ecto, "~> 4.2"},
       {:plug_cowboy, "~> 2.1"},
-      {:phoenix_ecto, "~> 4.0"},
-      {:ecto_sql, "~> 3.3"},
-      {:postgrex, "~> 0.15"},
-      {:phoenix_html, "~> 2.11"},
-      {:telemetry_metrics, "~>0.0"},
-      {:telemetry_poller, "~> 0.0"},
-      {:phoenix_live_view, "~> 0.15"},
-      {:phoenix_live_dashboard, "~> 0.2"},
+      {:phoenix_html, "~> 3.2"},
+      {:phoenix_live_dashboard, "~> 0.5"},
+      {:phoenix_live_view, "~> 0.17.6"},
+      {:surface, "~> 0.7.0"},
+      {:ecto_psql_extras, "~> 0.2"},
+      {:telemetry, "~> 0.4.3"},
+      {:telemetry_metrics, "~> 0.6"},
+      {:telemetry_poller, "~> 0.5.1"},
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
-      {:timex, "~> 3.5"},
+      {:timex, "~> 3.7"},
       {:curtail, "~> 1.0"},
       {:ueberauth, "~> 0.6"},
       {:ueberauth_identity, "~> 0.2"},
@@ -67,23 +68,24 @@ defmodule Noozo.MixProject do
       {:decimal, "~> 2.0"},
       {:comeonin, "~> 5.3"},
       {:elixir_feed_parser, "~> 0.0"},
-      {:httpoison, "~> 1.6"},
+      {:poison, "~> 5.0.0"},
       {:earmark, "~> 1.4"},
-      {:money, "~> 1.4"},
+      {:money, "~> 1.9"},
       {:nimble_totp, "~> 0.1.0"},
       {:eqrcode, "~> 0.1.7"},
 
       # Testing and things
-      {:floki, "~> 0.29", only: :test},
+      {:floki, "~> 0.32", only: :test},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
-      {:mix_test_watch, "~> 1.0", only: [:dev, :test], runtime: false},
-      {:ex_unit_notifier, "~> 1.0", only: [:dev, :test], runtime: false},
-      {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
+      {:mix_test_watch, "~> 1.1", only: [:dev, :test], runtime: false},
+      {:ex_unit_notifier, "~> 1.2", only: [:dev, :test], runtime: false},
+      {:credo, "~> 1.6.1", only: [:dev, :test], runtime: false},
       {:mox, "~> 1.0", only: :test},
-      {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false},
+      {:dialyxir, "~> 1.1", only: [:dev, :test], runtime: false},
       {:sobelow, "~> 0.11", only: [:dev, :test], runtime: false},
-      {:esbuild, "~> 0.1", runtime: Mix.env() == :dev},
-      {:dart_sass, "~> 0.1", runtime: Mix.env() == :dev}
+      {:esbuild, "~> 0.4", runtime: Mix.env() == :dev},
+      {:dart_sass, "~> 0.3", runtime: Mix.env() == :dev},
+      {:tailwind, "~> 0.1", runtime: Mix.env() == :dev}
     ]
   end
 

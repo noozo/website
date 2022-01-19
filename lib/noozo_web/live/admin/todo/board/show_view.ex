@@ -12,20 +12,20 @@ defmodule NoozoWeb.Admin.Todo.Board.ShowView do
     ~L"""
     <div>
       <div class="text-xl font-bold mb-6">Board: <%= @board.title %></div>
-      <%= live_component @socket, Components.Search, id: :search, current_user: @current_user %>
+      <%= live_component Components.Search, id: :search, current_user: @current_user %>
       <div class="bg-gray-200 p-5 rounded-lg border border-gray-300 overflow-scroll" style="max-width: 90vw">
         <div class="lists flex flex-col sm:flex-row gap-6">
           <%= for list <- @lists do %>
-            <%= live_component @socket, Components.List, id: list.id, search_result_ids: @search_result_ids %>
+            <%= live_component Components.List, id: list.id, search_result_ids: @search_result_ids %>
           <% end %>
-          <%= live_component @socket, Components.ListCreator, id: :list_creator, board: @board %>
+          <%= live_component Components.ListCreator, id: :list_creator, board: @board %>
         </div>
       </div>
     </div>
 
     <%= if @selected_item do %>
       <div x-data="{modalOpen: true}" x-title="Modal Background">
-        <%= live_component @socket, Components.ItemModal, id: :item_modal, item: @selected_item %>
+        <%= live_component Components.ItemModal, id: :item_modal, item: @selected_item %>
       </div>
     <% end %>
     """

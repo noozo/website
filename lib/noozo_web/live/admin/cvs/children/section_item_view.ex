@@ -11,7 +11,7 @@ defmodule NoozoWeb.Admin.Cvs.Children.SectionItemView do
            :class="{'mb-2': collapsed, 'mb-6': !collapsed}"
            x-data="{collapsed: true}">
         <div class="text-lg cursor-pointer" @click="collapsed = !collapsed">
-        <%= live_component @socket, ExpandCollapse, var: "collapsed" %>
+        <%= live_component ExpandCollapse, var: "collapsed" %>
         <span :class="{'visible': collapsed, 'hidden': !collapsed}" class="text-sm">
           <%= String.slice(@item.title || @item.content, 0..39) %>
         </span>

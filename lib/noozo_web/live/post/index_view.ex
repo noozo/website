@@ -15,7 +15,7 @@ defmodule NoozoWeb.Post.IndexView do
       <div class="flex flex-grow flex-col flex-nowrap gap-8 md:min-w-full">
         <%= if Enum.any?(@posts.entries) do %>
           <%= for post <- @posts.entries do %>
-            <%= live_component(@socket, NoozoWeb.Post.Components.Post, post: post, ga_id: @ga_id) %>
+            <%= live_component NoozoWeb.Post.Components.Post, post: post, ga_id: @ga_id %>
           <% end %>
         <% else %>
           <p class="text-center">There is nothing here. Why don't you <a class="underline" href="/admin/posts">write something</a>?</p>

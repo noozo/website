@@ -100,8 +100,8 @@ defmodule NoozoWeb.Admin.Post.EditView do
             </div>
           </div>
         </form>
-        <%= live_component @socket, Admin.Components.TitleSuggester, id: :title_suggester, post: @post %>
-        <%= live_component @socket, Admin.Components.TagEditor, id: :tag_editor, post: @post %>
+        <%= live_component Admin.Components.TitleSuggester, id: :title_suggester, post: @post %>
+        <%= live_component Admin.Components.TagEditor, id: :tag_editor, post: @post %>
       </div>
 
       <div class="max-w-full border-2 border-dashed border-gray-200 p-4 prose lg:prose-xl">
