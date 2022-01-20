@@ -10,7 +10,8 @@ defmodule NoozoWeb.Endpoint do
     signing_salt: "CfRkHouB"
   ]
 
-  socket "/live", Phoenix.LiveView.Socket, websocket: [connect_info: [session: @session_options]]
+  socket "/live", Phoenix.LiveView.Socket,
+    websocket: [connect_info: [session: @session_options]]
 
   socket "/socket", NoozoWeb.UserSocket,
     websocket: true,
@@ -24,7 +25,7 @@ defmodule NoozoWeb.Endpoint do
     at: "/",
     from: :noozo,
     gzip: false,
-    only: ~w(css fonts images js favicon.ico robots.txt)
+    only: ~w(assets fonts images favicon.ico robots.txt)
 
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.

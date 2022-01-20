@@ -3,6 +3,7 @@ defmodule Admin.Components.TagEditor do
   Tag editor component
   """
   use Phoenix.LiveComponent
+  use Phoenix.HTML
 
   alias Noozo.Core
 
@@ -23,7 +24,7 @@ defmodule Admin.Components.TagEditor do
           <% end %>
         </div>
       </div>
-      <form phx-submit="add" phx-change="suggest" phx-target={@myself}>
+      <.form let={f} for={:tag} phx-submit="add" phx-change="suggest" phx-target={@myself}>
         <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
           <div class="grid grid-cols-6 gap-6">
             <div class="col-span-6 sm:col-span-3">
@@ -31,7 +32,7 @@ defmodule Admin.Components.TagEditor do
                 Tags
               </label>
               <div class="mt-1">
-                <input type='text' name='new_tag' size="5" />
+                <%= text_input f, :new_tag %>
               </div>
             </div>
 
@@ -42,11 +43,12 @@ defmodule Admin.Components.TagEditor do
             <div class="col-span-6 sm:col-span-3">
               <div class="mt-1">
                 <button class="btn" class="btn btn-success">Add tag</button>
+                <%= submit "Add tag" %>
               </div>
             </div>
           </div>
         </div>
-      </form>
+      </.form>
     </div>
     """
   end

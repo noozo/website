@@ -80,13 +80,12 @@ defmodule Noozo.MixProject do
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:mix_test_watch, "~> 1.1", only: [:dev, :test], runtime: false},
       {:ex_unit_notifier, "~> 1.2", only: [:dev, :test], runtime: false},
-      {:credo, "~> 1.6.1", only: [:dev, :test], runtime: false},
+      {:credo, "1.6.1", only: [:dev, :test], runtime: false},
       {:mox, "~> 1.0", only: :test},
       {:dialyxir, "~> 1.1", only: [:dev, :test], runtime: false},
       {:sobelow, "~> 0.11", only: [:dev, :test], runtime: false},
       {:esbuild, "~> 0.4", runtime: Mix.env() == :dev},
-      {:dart_sass, "~> 0.3", runtime: Mix.env() == :dev},
-      {:tailwind, "~> 0.1", runtime: Mix.env() == :dev}
+      {:dart_sass, "~> 0.3", runtime: Mix.env() == :dev}
     ]
   end
 

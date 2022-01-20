@@ -1,6 +1,8 @@
-@import "live_view";
-@import "../node_modules/nprogress/nprogress.css";
 @import '../node_modules/chartist/dist/scss/chartist.scss';
+
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 
 iframe {
     display: none;

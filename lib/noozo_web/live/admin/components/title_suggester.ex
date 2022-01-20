@@ -29,7 +29,7 @@ defmodule Admin.Components.TitleSuggester do
 
   defp topics(text) do
     case text do
-      nil ->
+      "" ->
         nil
 
       text ->
@@ -82,9 +82,13 @@ defmodule Admin.Components.TitleSuggester do
   defp remove_simple_words(list) do
     [{_key, ignore_words}] = :ets.lookup(:memory_cache, "ignore_words")
 
-    list
-    |> Enum.filter(fn w -> !Enum.any?(ignore_words, fn x -> x == w end) end)
-    |> Enum.filter(fn w -> String.length(w) > 2 end)
+    Enum.filter(
+      list,
+      fn w ->
+        String.length(w) > 2 &&
+          !Enum.any?(ignore_words, fn x -> x == w end)
+      end
+    )
   end
 
   defp count_occurrences(list) do
@@ -101,8 +105,6 @@ defmodule Admin.Components.TitleSuggester do
   end
 
   defp convert_to_text(list) do
-    list
-    |> Enum.map(fn {k, _v} -> k end)
-    |> Enum.join(", ")
+    Enum.map_join(list, ", ", fn {k, _v} -> k end)
   end
 end
