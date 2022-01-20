@@ -10,7 +10,7 @@ defmodule NoozoWeb.Admin.Cvs.Children.SectionsView do
   require Logger
 
   def render(assigns) do
-    ~L"""
+    ~H"""
     <div class="mt-6" x-data="{collapsed: false}">
       <div class="text-lg mb-4 cursor-pointer" @click="collapsed = !collapsed">
         <%= live_component ExpandCollapse, var: "collapsed" %>
@@ -24,26 +24,26 @@ defmodule NoozoWeb.Admin.Cvs.Children.SectionsView do
 
       <div class="mt-6" :class="{'hidden': collapsed, 'visible': !collapsed}">
         <%= for section <- @sections do %>
-          <div id="section_container_<%= section.uuid %>">
+          <div id={"section_container_#{section.uuid}"}>
             <div class="mb-6" x-data="{sectionCollapsed: true}">
               <div class="flex">
                 <div @click="sectionCollapsed = !sectionCollapsed">
                   <%= live_component ExpandCollapse, var: "sectionCollapsed" %>
                 </div>
                 <form phx-change="update-section" phx-debounce="500">
-                  <input type="hidden" name="section_uuid" value="<%= section.uuid %>" />
-                  <input class='mr-4 flex-col' type='text' name='title' phx-debounce="500" value='<%= section.title %>' />
+                  <input type="hidden" name="section_uuid" value={section.uuid} />
+                  <input class='mr-4 flex-col' type='text' name='title' phx-debounce="500" value={section.title} />
                 </form>
                 <a class="btn cursor-pointer flex-col"
                    phx-click="remove-section"
-                   phx-value-section_uuid="<%= section.uuid %>"
+                   phx-value-section_uuid={section.uuid}
                    data-confirm="Are you sure you want to delete this section?">X</a>
                 <a class="btn cursor-pointer flex-col h-10"
                    phx-click="move-section-up"
-                   phx-value-section_uuid="<%= section.uuid %>">Up</a>
+                   phx-value-section_uuid={section.uuid}>Up</a>
                 <a class="btn cursor-pointer flex-col h-10"
                    phx-click="move-section-down"
-                   phx-value-section_uuid="<%= section.uuid %>">Down</a>
+                   phx-value-section_uuid={section.uuid}>Down</a>
               </div>
 
               <div class="mt-2 ml-4" :class="{'hidden': sectionCollapsed, 'visible': !sectionCollapsed}">

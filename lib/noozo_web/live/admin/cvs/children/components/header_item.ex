@@ -9,10 +9,10 @@ defmodule NoozoWeb.Admin.Cvs.Children.Components.HeaderItem do
   require Logger
 
   def render(assigns) do
-    ~L"""
-      <div id="<%= @id %>">
-        <form phx-change="save" phx-debounce="500" phx-target="<%= @myself %>">
-          <input class='mr-4 flex-col' type='text' name='content' phx-debounce="500" value='<%= @item.content %>' />
+    ~H"""
+      <div id={@id}>
+        <form phx-change="save" phx-debounce="500" phx-target={@myself}>
+          <input class='mr-4 flex-col' type='text' name='content' phx-debounce="500" value={@item.content} />
         </form>
       </div>
     """

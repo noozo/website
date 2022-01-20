@@ -9,7 +9,7 @@ defmodule NoozoWeb.Admin.Cvs.Children.HeaderItemsView do
   require Logger
 
   def render(assigns) do
-    ~L"""
+    ~H"""
     <div class="mt-6" x-data="{collapsed: true}">
       <div class="text-lg mb-4 cursor-pointer" @click="collapsed = !collapsed">
         <%= live_component ExpandCollapse, var: "collapsed" %>
@@ -29,14 +29,14 @@ defmodule NoozoWeb.Admin.Cvs.Children.HeaderItemsView do
             </div>
             <a class="btn cursor-pointer flex-col h-10"
                phx-click="remove-item"
-               phx-value-item_uuid="<%= item.uuid %>"
+               phx-value-item_uuid={item.uuid}
                data-confirm="Are you sure you want to delete this item?">X</a>
             <a class="btn cursor-pointer flex-col h-10"
                phx-click="move-item-up"
-               phx-value-item_uuid="<%= item.uuid %>">Up</a>
+               phx-value-item_uuid={item.uuid}>Up</a>
             <a class="btn cursor-pointer flex-col h-10"
                phx-click="move-item-down"
-               phx-value-item_uuid="<%= item.uuid %>">Down</a>
+               phx-value-item_uuid={item.uuid}>Down</a>
           </div>
         <% end %>
       </div>

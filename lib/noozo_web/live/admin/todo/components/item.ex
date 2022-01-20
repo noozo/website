@@ -59,15 +59,15 @@ defmodule NoozoWeb.Admin.Todo.Components.Item do
     hardcoded_styles =
       "background-color: #{label_bg}; color: #{label_color}; opacity: #{opacity};"
 
-    ~L"""
-    <div id="<%= @id %>"
+    ~H"""
+    <div id={@id}
          class="p-1 pl-2 pr-2 hover:bg-opacity-50 border cursor-pointer text-xs rounded-md"
          phx-hook="Draggable"
          draggable="true"
-         phx-value-draggable_id="<%= @item.id %>"
+         phx-value-draggable_id={@item.id}
          phx-value-draggable_type="item"
          phx-click="item_clicked"
-         style="<%= hardcoded_styles %>">
+         style={hardcoded_styles}>
       <%= @item.title %>
       <%= if @item.content do %>
         <div class="tag-xs bg-white">...</div>

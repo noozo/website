@@ -19,7 +19,7 @@ defmodule NoozoWeb.Admin.Gallery.IndexView do
   end
 
   def render(assigns) do
-    ~L"""
+    ~H"""
     <%= live_patch("Upload Image", to: Routes.live_path(@socket, CreateView), class: "btn") %>
 
     <div class="flex flex-col mt-6">

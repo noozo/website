@@ -6,7 +6,7 @@ defmodule NoozoWeb.Post.IndexView do
   import Noozo.Pagination
 
   def render(assigns) do
-    ~L"""
+    ~H"""
     <div>
       <%= if @tag do %>
         <div class="md:text-2xl lg:text-2xl xl:text-4xl font-bold mb-6">Posts about <%= @tag.name %></div>

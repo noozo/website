@@ -6,7 +6,7 @@ defmodule NoozoWeb.Post.ShowView do
   alias NoozoWeb.TemplateUtils
 
   def render(assigns) do
-    ~L"""
+    ~H"""
     <div class="lg:flex lg:items-center lg:justify-between mb-8" id="<%= @post.id %>">
       <div class="flex-1 min-w-0">
         <%= render_tags(assigns) %>
@@ -80,7 +80,7 @@ defmodule NoozoWeb.Post.ShowView do
   end
 
   defp render_tags(assigns) do
-    ~L"""
+    ~H"""
     <%= if length(assigns.post.tags) > 0 do %>
       <%= for tag <- assigns.post.tags do %>
         <div class="tag">

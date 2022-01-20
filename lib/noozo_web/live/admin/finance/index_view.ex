@@ -96,7 +96,7 @@ defmodule NoozoWeb.Admin.Finance.IndexView do
 
   @impl true
   def render(assigns) do
-    ~L"""
+    ~H"""
     <div class="text-lg mb-6 font-medium">Finances</div>
 
     <form phx-change="update-dates">

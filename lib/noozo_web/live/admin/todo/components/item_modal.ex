@@ -8,8 +8,8 @@ defmodule NoozoWeb.Admin.Todo.Components.ItemModal do
 
   @impl true
   def render(assigns) do
-    ~L"""
-    <div id="<%= @id %>" class="z-10 inset-0 overflow-y-auto"
+    ~H"""
+    <div id={@id} class="z-10 inset-0 overflow-y-auto"
             :class="{'fixed': modalOpen, 'hidden': !modalOpen}">
       <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
         <div class="fixed inset-0 transition-opacity"
@@ -39,7 +39,7 @@ defmodule NoozoWeb.Admin.Todo.Components.ItemModal do
                     <a href="#" data-confirm="Are you sure?"
                         class="text-red-800"
                         phx-click="delete_item"
-                        phx-target="<%= @myself %>">Delete this item</a>.
+                        phx-target={@myself}>Delete this item</a>.
                   </div>
                 </div>
               </div>

@@ -8,7 +8,7 @@ defmodule NoozoWeb.Admin.Gallery.CreateView do
   alias NoozoWeb.Router.Helpers, as: Routes
 
   def render(assigns) do
-    ~L"""
+    ~H"""
     Creating gallery image...
     """
   end

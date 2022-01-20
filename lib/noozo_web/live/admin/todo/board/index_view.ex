@@ -14,7 +14,7 @@ defmodule NoozoWeb.Admin.Todo.Board.IndexView do
   alias NoozoWeb.TemplateUtils
 
   def render(assigns) do
-    ~L"""
+    ~H"""
     <%= if @loading do %>
       <div>Loading information...</div>
     <% else %>
@@ -29,7 +29,7 @@ defmodule NoozoWeb.Admin.Todo.Board.IndexView do
           <tbody>
             <%= for board <- @boards.entries do %>
               <tr>
-                <td><%= live_patch board.title, to: Routes.live_path(@socket, ShowView, board.id) %>
+                <td><%= live_patch board.title, to: Routes.live_path(@socket, ShowView, board.id) %></td>
                 <td><%= live_patch "Rename", to: Routes.live_path(@socket, EditView, board.id) %></td>
                 <td><%= TemplateUtils.format_date(board.inserted_at) %></td>
               </tr>

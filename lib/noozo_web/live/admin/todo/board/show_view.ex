@@ -9,7 +9,7 @@ defmodule NoozoWeb.Admin.Todo.Board.ShowView do
 
   @impl true
   def render(assigns) do
-    ~L"""
+    ~H"""
     <div>
       <div class="text-xl font-bold mb-6">Board: <%= @board.title %></div>
       <%= live_component Components.Search, id: :search, current_user: @current_user %>

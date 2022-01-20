@@ -3,7 +3,7 @@ defmodule NoozoWeb.Experiments.Games.Memory.MainView do
   alias NoozoWeb.Router.Helpers, as: Routes
 
   def render(assigns) do
-    ~L"""
+    ~H"""
     <div class="content">
       <div class="row">
       Game ended: <%= @game_ended %>

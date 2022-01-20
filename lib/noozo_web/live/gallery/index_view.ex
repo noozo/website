@@ -23,7 +23,7 @@ defmodule NoozoWeb.Gallery.IndexView do
   end
 
   def render(assigns) do
-    ~L"""
+    ~H"""
     <h1 class="text-2xl font-bold">Some of my doings in the workshop</h1>
     <%= if Enum.any?(@images) do %>
       <div class="w-full flex flex-row flex-wrap gap-6 mx-auto p-8">

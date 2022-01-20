@@ -7,17 +7,17 @@ defmodule NoozoWeb.Admin.Todo.Components.ItemLabel do
   alias Noozo.Todo
 
   def render(assigns) do
-    ~L"""
-    <div id="<%= @id %>" class="flex flex-col">
+    ~H"""
+    <div id={@id} class="flex flex-col">
       <div class="text-xs">Label</div>
       <div class="flex flex-wrap flex-row gap-2">
         <%= for label <- Todo.list_labels() do %>
           <% border = if label.id == @item.label_id, do: "ring-4 ring-gray-400", else: "" %>
-          <div class="text-xs text-center align-middle h-8 p-2 cursor-pointer rounded-lg <%= border %>"
-               style="background-color: <%= label.color_hex %>; color: <%= label.text_color_hex %>"
+          <div class={"text-xs text-center align-middle h-8 p-2 cursor-pointer rounded-lg #{border}"}
+               style={"background-color: #{label.color_hex}; color: #{label.text_color_hex}"}
                phx-click="select_label"
-               phx-value-label_id="<%= label.id %>"
-               phx-target="<%= @myself %>">
+               phx-value-label_id={label.id}
+               phx-target={@myself}>
             <%= label.title %>
           </div>
         <% end %>

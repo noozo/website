@@ -7,8 +7,8 @@ defmodule Admin.Components.TagEditor do
   alias Noozo.Core
 
   def render(assigns) do
-    ~L"""
-    <div class="block shadow sm:rounded-md sm:overflow-hidden mb-4" id="<%= @id %>">
+    ~H"""
+    <div class="block shadow sm:rounded-md sm:overflow-hidden mb-4" id={@id}>
       <div class="flex items-baseline mt-4">
         <div class="space-x-2 flex">
           <%= for tag <- @post.tags do %>
@@ -16,13 +16,13 @@ defmodule Admin.Components.TagEditor do
               <%= tag.name %>
               <a class="cursor-pointer ml-4 text-xs inline-flex items-center font-bold leading-sm uppercase px-3 py-1 rounded-full bg-white text-gray-700 border"
                  phx-click="remove"
-                 phx-value-tag_id="<%= tag.id %>"
-                 phx-target="<%= @myself %>">X</a>
+                 phx-value-tag_id={tag.id}
+                 phx-target={@myself}>X</a>
             </div>
           <% end %>
         </div>
       </div>
-      <form phx-submit="add" phx-change="suggest" phx-target="<%= @myself %>">
+      <form phx-submit="add" phx-change="suggest" phx-target={@myself}>
         <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
           <div class="grid grid-cols-6 gap-6">
             <div class="col-span-6 sm:col-span-3">

@@ -13,7 +13,7 @@ defmodule NoozoWeb.Admin.Cvs.EditView do
   alias NoozoWeb.Router.Helpers, as: Routes
 
   def render(assigns) do
-    ~L"""
+    ~H"""
     <%= live_patch "Back to list", to: Routes.live_path(@socket, IndexView), class: "btn" %>
 
     <div class="flex-none p-5">
@@ -41,7 +41,7 @@ defmodule NoozoWeb.Admin.Cvs.EditView do
                   Title
                 </label>
                 <div class="mt-1">
-                  <input type='text' name='title' value='<%= @cv.title %>' phx-debounce="500" />
+                  <input type='text' name='title' value={@cv.title} phx-debounce="500" />
                 </div>
               </div>
 
@@ -50,13 +50,15 @@ defmodule NoozoWeb.Admin.Cvs.EditView do
                   Subtitle
                 </label>
                 <div class="mt-1">
-                  <input type='text' name='subtitle' value='<%= @cv.subtitle %>' phx-debounce="500" />
+                  <input type='text' name='subtitle' value={@cv.subtitle} phx-debounce="500" />
                 </div>
               </div>
 
               <div class="col-span-6">
                 <label for="abstract">Abstract</label>
-                <textarea class="w-full" type='text' name='abstract' phx-debounce="500" rows="10"><%= @cv.abstract %></textarea>
+                <textarea class="w-full" type='text' name='abstract' phx-debounce="500" rows="10">
+                  <%= @cv.abstract %>
+                </textarea>
               </div>
             </div>
           </form>
@@ -89,7 +91,7 @@ defmodule NoozoWeb.Admin.Cvs.EditView do
 
                 <div class="flex">
                   <%= live_file_input @uploads.image %>
-                  <input class="btn flex-col cursor-pointer" type="submit" value="Upload"></input>
+                  <input class="btn flex-col cursor-pointer" type="submit" value="Upload" />
                 </div>
               </div>
 
@@ -99,12 +101,12 @@ defmodule NoozoWeb.Admin.Cvs.EditView do
                     <%= live_img_preview entry, width: 50, height: 50 %>
                   </div>
                   <div class="flex-col">
-                    <progress max="100" value="<%= entry.progress %>"/>
+                    <progress max="100" value={entry.progress} />
                   </div>
                   <div class="flex-col">
                     <div class="btn cursor-pointer inline"
                           phx-click="cancel-entry"
-                          phx-value-ref="<%= entry.ref %>">
+                          phx-value-ref={entry.ref}>
                       cancel
                     </div>
                   </div>

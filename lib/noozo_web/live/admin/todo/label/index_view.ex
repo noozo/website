@@ -9,7 +9,7 @@ defmodule NoozoWeb.Admin.Todo.Label.IndexView do
   alias Noozo.Todo
 
   def render(assigns) do
-    ~L"""
+    ~H"""
     <div class="mb-6">
       <span class="btn cursor-pointer" phx-click="create-label">Create label</span>
     </div>
@@ -25,22 +25,23 @@ defmodule NoozoWeb.Admin.Todo.Label.IndexView do
           <%= for label <- @labels.entries do %>
             <tr>
               <td>
-                <form phx-change="update-title-<%= label.id %>" phx-debounce="500">
-                  <input type="text" name="title" value="<%= label.title %>" phx-debounce="500" />
+                <form phx-change={"update-title-#{label.id}"} phx-debounce="500">
+                  <input type="text" name="title" value={label.title} phx-debounce="500" />
                 </form>
               </td>
               <td>
-                <form phx-change="update-text-color-<%= label.id %>" phx-debounce="500">
-                  <input type="text" name="text_color_hex" value="<%= label.text_color_hex %>" phx-debounce="500" />
+                <form phx-change={"update-text-color-#{label.id}"} phx-debounce="500">
+                  <input type="text" name="text_color_hex" value={label.text_color_hex} phx-debounce="500" />
                 </form>
               </td>
               <td>
-                <form phx-change="update-color-<%= label.id %>" phx-debounce="500">
-                  <input type="text" name="color_hex" value="<%= label.color_hex %>" phx-debounce="500" />
+                <form phx-change={"update-color-#{label.id}"} phx-debounce="500">
+                  <input type="text" name="color_hex" value={label.color_hex} phx-debounce="500" />
                 </form>
               </td>
               <td>
-                <div class="rounded-lg p-4" style="background-color: <%= label.color_hex %>; color: <%= label.text_color_hex %>">
+                <div class="rounded-lg p-4"
+                     style={"background-color: #{label.color_hex}; color: #{label.text_color_hex}"}>
                   <%= label.title %>
                 </div>
               </td>

@@ -8,7 +8,7 @@ defmodule NoozoWeb.Admin.Todo.Board.CreateView do
   alias NoozoWeb.Router.Helpers, as: Routes
 
   def render(assigns) do
-    ~L"""
+    ~H"""
     Creating board...
     """
   end

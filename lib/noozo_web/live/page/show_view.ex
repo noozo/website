@@ -6,7 +6,7 @@ defmodule NoozoWeb.Page.ShowView do
   alias NoozoWeb.TemplateUtils
 
   def render(assigns) do
-    ~L"""
+    ~H"""
     <%= if @page do  %>
       <div id="<%= @page.id %>">
         <%= if @current_user do %>

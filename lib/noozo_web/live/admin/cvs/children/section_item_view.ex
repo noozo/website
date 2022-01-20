@@ -6,7 +6,7 @@ defmodule NoozoWeb.Admin.Cvs.Children.SectionItemView do
   alias NoozoWeb.Admin.Cvs.Children.Components.ExpandCollapse
 
   def render(assigns) do
-    ~L"""
+    ~H"""
       <div class="shadow p-2"
            :class="{'mb-2': collapsed, 'mb-6': !collapsed}"
            x-data="{collapsed: true}">
@@ -23,27 +23,27 @@ defmodule NoozoWeb.Admin.Cvs.Children.SectionItemView do
           <div class="col-span-3">
             <label for="date_from">From</label>
             <input class='datepicker'
-                   type='date' name='date_from' phx-debounce="500" value='<%= @item.date_from %>' />
+                   type='date' name='date_from' phx-debounce="500" value={@item.date_from} />
           </div>
 
           <div class="col-span-3">
             <label for="date_to">To</label>
             <input class='datepicker'
-                   type='date' name='date_to' phx-debounce="500" value='<%= @item.date_to %>' />
+                   type='date' name='date_to' phx-debounce="500" value={@item.date_to} />
           </div>
 
           <div class="col-span-6">
             <label for="title" class="mr-4 text-sm font-medium text-gray-700">Title</label>
             <div class="flex">
               <input class='flex-col mr-4'
-                      type='text' name='title' phx-debounce="500" value='<%= @item.title %>' />
+                      type='text' name='title' phx-debounce="500" value={@item.title} />
             </div>
           </div>
 
           <div class="col-span-6">
             <label for="subtitle">Subtitle</label>
             <input class='flex-col mr-4'
-                   type='text' name='subtitle' phx-debounce="500" value='<%= @item.subtitle %>' />
+                   type='text' name='subtitle' phx-debounce="500" value={@item.subtitle} />
           </div>
 
           <div class="col-span-6">
@@ -85,7 +85,7 @@ defmodule NoozoWeb.Admin.Cvs.Children.SectionItemView do
 
             <div class="flex">
               <%= live_file_input @uploads.image %>
-              <input class="btn flex-col cursor-pointer" type="submit" value="Upload"></input>
+              <input class="btn flex-col cursor-pointer" type="submit" value="Upload" />
             </div>
           </div>
 
@@ -95,12 +95,12 @@ defmodule NoozoWeb.Admin.Cvs.Children.SectionItemView do
                 <%= live_img_preview entry, width: 50, height: 50 %>
               </div>
               <div class="flex-col">
-                <progress max="100" value="<%= entry.progress %>"/>
+                <progress max="100" value={entry.progress} />
               </div>
               <div class="flex-col">
                 <div class="btn cursor-pointer inline"
                       phx-click="cancel-entry"
-                      phx-value-ref="<%= entry.ref %>">
+                      phx-value-ref={entry.ref}>
                   cancel
                 </div>
               </div>

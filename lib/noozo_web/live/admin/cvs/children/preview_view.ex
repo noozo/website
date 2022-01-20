@@ -8,7 +8,7 @@ defmodule NoozoWeb.Admin.Cvs.Children.PreviewView do
   alias Timex.Format.Duration.Formatters.Humanized, as: HumanizedDuration
 
   def render(assigns) do
-    ~L"""
+    ~H"""
     <div class="prose max-w-full sm:ml-6 sm:mr-6">
       <div class="pt-12 border-b-2 border-gray-100 pb-10">
         <div class="sm:float-left inline mt-10">
@@ -28,7 +28,7 @@ defmodule NoozoWeb.Admin.Cvs.Children.PreviewView do
       <div class="mt-12 border-b-2 border-gray-100 pb-10 flex flex-row gap-6 items-center">
         <%= if @cv.image do %>
           <div class="rounded-xl">
-            <img class="w-48" alt="<%= @cv.title %>" src="<%= Cv.image_url(@cv) %>" />
+            <img class="w-48" alt={@cv.title} src={Cv.image_url(@cv)} />
           </div>
         <% end %>
         <%= if @cv.abstract do %>
@@ -116,7 +116,7 @@ defmodule NoozoWeb.Admin.Cvs.Children.PreviewView do
   end
 
   defp render_dates_and_image(assigns, item) do
-    ~L"""
+    ~H"""
     <%= if item.date_from || item.date_to do %>
       <span class="font-bold">
         <%= month_year(item.date_from) %> to
@@ -126,7 +126,7 @@ defmodule NoozoWeb.Admin.Cvs.Children.PreviewView do
     <% end %>
     <%= if item.image do %>
       <div class="flex flex-wrap justify-center">
-        <img alt="<%= item.title %>" src="<%= CvSectionItem.image_url(item) %>" />
+        <img alt={item.title} src={CvSectionItem.image_url(item)} />
       </div>
     <% end %>
     """

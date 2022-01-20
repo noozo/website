@@ -13,9 +13,9 @@ defmodule NoozoWeb.Admin.Todo.Components.Search do
 
   @impl true
   def render(assigns) do
-    ~L"""
-    <div id="<%= @id %>" class="mb-6">
-      <form phx-change="search" phx-target="<%= @myself %>">
+    ~H"""
+    <div id={@id} class="mb-6">
+      <form phx-change="search" phx-target={@myself}>
         <div class="flex flex-row items-center gap-2">
           <label for="title">Search</label>
           <div class="mt-1">

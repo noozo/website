@@ -24,7 +24,7 @@ defmodule NoozoWeb.Admin.Accounts.TwoFactorSetupView do
 
   @impl true
   def render(assigns) do
-    ~L"""
+    ~H"""
     <%= if !@user.has_2fa or is_nil(@user.secret_2fa) do %>
       <div>Read the code into your authenticator app</div>
       <div class="w-4 h-4 float-right"><%= Phoenix.HTML.raw(@svg) %></div>

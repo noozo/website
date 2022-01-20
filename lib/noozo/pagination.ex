@@ -15,7 +15,7 @@ defmodule Noozo.Pagination do
     next_page = struct.page_number + 1
     params = assigns[:params] || %{}
 
-    ~L"""
+    ~H"""
       <div>
         <nav class="relative z-0 inline-flex shadow-sm -space-x-px mt-6" aria-label="Pagination">
           <%= Phoenix.LiveView.Helpers.live_patch to: Routes.live_path(socket, live_module, Map.put(params, :page, prev_page)),

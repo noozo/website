@@ -6,7 +6,7 @@ defmodule NoozoWeb.Cvs.ShowView do
   alias NoozoWeb.Admin.Cvs.Children.PreviewView, as: Preview
 
   def render(assigns) do
-    ~L"""
+    ~H"""
       <%= if @cv do %>
         <%= live_render @socket, Preview, id: :preview, session: %{"cv_uuid" => @cv.uuid} %>
       <% else %>

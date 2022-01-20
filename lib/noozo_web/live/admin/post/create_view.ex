@@ -8,7 +8,7 @@ defmodule NoozoWeb.Admin.Post.CreateView do
   alias NoozoWeb.Router.Helpers, as: Routes
 
   def render(assigns) do
-    ~L"""
+    ~H"""
     Creating post...
     """
   end

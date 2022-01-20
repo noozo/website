@@ -12,13 +12,13 @@ defmodule NoozoWeb.Admin.Cvs.Children.Components.SectionItems do
   require Logger
 
   def render(assigns) do
-    ~L"""
-    <div id="<%= @id %>" class="mt-6">
+    ~H"""
+    <div id={@id} class="mt-6">
       <div class="text-lg mb-4 cursor-pointer">
         Items
       </div>
 
-      <a class="btn cursor-pointer" phx-click="add-item" phx-target="<%= @myself %>">
+      <a class="btn cursor-pointer" phx-click="add-item" phx-target={@myself}>
         Add Item
       </a>
 
@@ -28,17 +28,17 @@ defmodule NoozoWeb.Admin.Cvs.Children.Components.SectionItems do
             <%= live_render @socket, SectionItemView, id: "section_item_#{item.uuid}", session: %{"item_uuid" => item.uuid} %>
             <a class="btn cursor-pointer flex-col h-10"
                   phx-click="remove-item"
-                  phx-target="<%= @myself %>"
-                  phx-value-item_uuid="<%= item.uuid %>"
+                  phx-target={@myself}
+                  phx-value-item_uuid={item.uuid}
                   data-confirm="Are you sure you want to delete this item?">X</a>
             <a class="btn cursor-pointer flex-col h-10"
-                  phx-target="<%= @myself %>"
+                  phx-target={@myself}
                   phx-click="move-item-up"
-                  phx-value-item_uuid="<%= item.uuid %>">Up</a>
+                  phx-value-item_uuid={item.uuid}>Up</a>
             <a class="btn cursor-pointer flex-col h-10"
-                  phx-target="<%= @myself %>"
+                  phx-target={@myself}
                   phx-click="move-item-down"
-                  phx-value-item_uuid="<%= item.uuid %>">Down</a>
+                  phx-value-item_uuid={item.uuid}>Down</a>
           </div>
         <% end %>
       </div>

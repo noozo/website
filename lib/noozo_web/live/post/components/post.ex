@@ -20,7 +20,7 @@ defmodule NoozoWeb.Post.Components.Post do
   end
 
   def render(assigns) do
-    ~L"""
+    ~H"""
     <div class="px-6 py-6 bg-white rounded-lg shadow-md border">
       <div class="flex flex-row flex-grow gap-6">
         <div>

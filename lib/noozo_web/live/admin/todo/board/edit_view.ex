@@ -9,7 +9,7 @@ defmodule NoozoWeb.Admin.Todo.Board.EditView do
   alias NoozoWeb.Router.Helpers, as: Routes
 
   def render(assigns) do
-    ~L"""
+    ~H"""
     <%= live_patch "Back to list", to: Routes.live_path(@socket, IndexView) %>
 
     <div class="notifications">

@@ -8,7 +8,7 @@ defmodule NoozoWeb.Admin.Page.EditView do
   alias NoozoWeb.Router.Helpers, as: Routes
 
   def render(assigns) do
-    ~L"""
+    ~H"""
     <%= live_patch "Back to list", to: Routes.live_path(@socket, IndexView), class: "btn" %>
 
     <div class="flex-none p-5">
@@ -30,7 +30,7 @@ defmodule NoozoWeb.Admin.Page.EditView do
                   Title
                 </label>
                 <div class="mt-1">
-                  <input type='text' name='title' value='<%= @page.title %>' phx-debounce="5000" />
+                  <input type='text' name='title' value={@page.title} phx-debounce="5000" />
                 </div>
               </div>
 
@@ -39,7 +39,9 @@ defmodule NoozoWeb.Admin.Page.EditView do
                   Content
                 </label>
                 <div class="mt-1">
-                  <textarea class="w-full" type='text' name='content' rows="20" cols="70" phx-debounce="5000"><%= @page.content %></textarea>
+                  <textarea class="w-full" type='text' name='content' rows="20" cols="70" phx-debounce="5000">
+                    <%= @page.content %>
+                  </textarea>
                 </div>
               </div>
             </div>

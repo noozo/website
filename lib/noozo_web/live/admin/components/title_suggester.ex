@@ -5,8 +5,8 @@ defmodule Admin.Components.TitleSuggester do
   use Phoenix.LiveComponent
 
   def render(assigns) do
-    ~L"""
-    <div class="block shadow sm:rounded-md sm:overflow-hidden mb-4 p-6" id="<%= @id %>">
+    ~H"""
+    <div class="block shadow sm:rounded-md sm:overflow-hidden mb-4 p-6" id={@id}>
       <p><span class="text-gray-400">Tag suggestions:</span> <%= @suggested_title %></p>
     </div>
     """

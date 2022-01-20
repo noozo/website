@@ -11,7 +11,7 @@ defmodule NoozoWeb.Admin.Analytics.IndexView do
   alias Timex.Duration
 
   def render(assigns) do
-    ~L"""
+    ~H"""
     <nav class="navbar" role="navigation" aria-label="main navigation">
       <div class="flex-auto flex space-x-3 max-w-7xl mb-6">
         <a class="btn" href="#" phx-click="change_dates" phx-value-value="today">Today</a>
@@ -32,7 +32,7 @@ defmodule NoozoWeb.Admin.Analytics.IndexView do
                 Start date
               </label>
               <div class="mt-1">
-                <input class="input" type="text" name="start_date" value="<%= @start_date |> Timex.format!("{ISOdate}") %>" />
+                <input class="input" type="text" name="start_date" value={@start_date |> Timex.format!("{ISOdate}")} />
               </div>
             </div>
 
@@ -41,7 +41,7 @@ defmodule NoozoWeb.Admin.Analytics.IndexView do
                 End date
               </label>
               <div class="mt-1">
-                <input class="input" type="text" name="end_date" value="<%= @end_date |> Timex.format!("{ISOdate}") %>" />
+                <input class="input" type="text" name="end_date" value={@end_date |> Timex.format!("{ISOdate}")} />
               </div>
             </div>
 
@@ -52,10 +52,10 @@ defmodule NoozoWeb.Admin.Analytics.IndexView do
               <div class="mt-1">
                 <div class="select">
                   <select name="sort_by">
-                    <option value="day" <%= if @sort_by == :day, do: "selected" %>>Day</option>
-                    <option value="week" <%= if @sort_by == :week, do: "selected" %>>Week</option>
-                    <option value="month" <%= if @sort_by == :month, do: "selected" %>>Month</option>
-                    <option value="year" <%= if @sort_by == :year, do: "selected" %>>Year</option>
+                    <option value="day" selected={@sort_by == :day}>Day</option>
+                    <option value="week" selected={@sort_by == :week}>Week</option>
+                    <option value="month" selected={@sort_by == :month}>Month</option>
+                    <option value="year" selected={@sort_by == :year}>Year</option>
                   </select>
                 </div>
               </div>
@@ -75,7 +75,7 @@ defmodule NoozoWeb.Admin.Analytics.IndexView do
 
     <div id="analytics-diagram"
          phx-hook="AnalyticsDiagram"
-         data-analytics-data="<%= serialize(@all_entries, @sort_by) %>"></div>
+         data-analytics-data={serialize(@all_entries, @sort_by)}></div>
 
     <h2>Total count: <%= @total_count %></h2>
     <%= if is_nil(@path) or @path == "" do %>
@@ -98,7 +98,7 @@ defmodule NoozoWeb.Admin.Analytics.IndexView do
                   <%= for entry <- @paginated_entries do %>
                     <tr>
                       <td>
-                        <a phx-click="view_path" phx-value-value="<%= entry.path %>" href="#">
+                        <a phx-click="view_path" phx-value-value={entry.path} href="#">
                           <%= entry.path %>
                         </a>
                       </td>

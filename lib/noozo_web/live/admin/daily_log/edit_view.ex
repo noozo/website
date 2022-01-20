@@ -8,7 +8,7 @@ defmodule NoozoWeb.Admin.DailyLog.EditView do
   alias NoozoWeb.Router.Helpers, as: Routes
 
   def render(assigns) do
-    ~L"""
+    ~H"""
     <div class="flex flex-col gap-6">
       <div>
         <%= live_patch "Back to list", to: Routes.live_path(@socket, IndexView), class: "btn" %>

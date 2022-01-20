@@ -12,7 +12,7 @@ defmodule NoozoWeb.Admin.Page.IndexView do
   alias NoozoWeb.Router.Helpers, as: Routes
 
   def render(assigns) do
-    ~L"""
+    ~H"""
     <%= if @loading do %>
       <div>Loading information...</div>
     <% else %>

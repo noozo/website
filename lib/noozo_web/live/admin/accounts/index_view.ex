@@ -23,7 +23,7 @@ defmodule NoozoWeb.Admin.Accounts.IndexView do
 
   @impl true
   def render(assigns) do
-    ~L"""
+    ~H"""
     <div class="flex flex-col mt-6">
         <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">

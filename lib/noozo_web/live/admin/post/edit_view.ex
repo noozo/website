@@ -23,7 +23,7 @@ defmodule NoozoWeb.Admin.Post.EditView do
   end
 
   def render(assigns) do
-    ~L"""
+    ~H"""
     <%= live_patch "Back to list", to: Routes.live_path(@socket, IndexView), class: "btn" %>
 
     <div class="flex-none p-5">
