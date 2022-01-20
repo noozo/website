@@ -2,17 +2,15 @@ defmodule NoozoWeb.Admin.Analytics.IndexView do
   @moduledoc """
   List all the boards
   """
-  use Phoenix.LiveView, layout: {NoozoWeb.LayoutView, "live.html"}
-
-  import Noozo.Pagination
+  use NoozoWeb, :surface_view
 
   alias Noozo.Analytics
-  alias NoozoWeb.Router.Helpers, as: Routes
+  alias Noozo.Pagination
   alias Timex.Duration
 
   @impl true
   def render(assigns) do
-    ~H"""
+    ~F"""
     <nav class="navbar" role="navigation" aria-label="main navigation">
       <div class="flex-auto flex space-x-3 max-w-7xl mb-6">
         <a class="btn" href="#" phx-click="change_dates" phx-value-value="today">Today</a>
@@ -33,7 +31,12 @@ defmodule NoozoWeb.Admin.Analytics.IndexView do
                 Start date
               </label>
               <div class="mt-1">
-                <input class="input" type="text" name="start_date" value={@start_date |> Timex.format!("{ISOdate}")} />
+                <input
+                  class="input"
+                  type="text"
+                  name="start_date"
+                  value={@start_date |> Timex.format!("{ISOdate}")}
+                />
               </div>
             </div>
 
@@ -42,7 +45,12 @@ defmodule NoozoWeb.Admin.Analytics.IndexView do
                 End date
               </label>
               <div class="mt-1">
-                <input class="input" type="text" name="end_date" value={@end_date |> Timex.format!("{ISOdate}")} />
+                <input
+                  class="input"
+                  type="text"
+                  name="end_date"
+                  value={@end_date |> Timex.format!("{ISOdate}")}
+                />
               </div>
             </div>
 
@@ -64,7 +72,7 @@ defmodule NoozoWeb.Admin.Analytics.IndexView do
 
             <div class="col-span-6 sm:col-span-3">
               <div class="mt-1">
-                <input class="btn" type="submit" value="Update" />
+                <input class="btn" type="submit" value="Update">
               </div>
             </div>
           </div>
@@ -72,14 +80,16 @@ defmodule NoozoWeb.Admin.Analytics.IndexView do
       </div>
     </form>
 
-    <br />
+    <br>
 
-    <div id="analytics-diagram"
-         phx-hook="AnalyticsDiagram"
-         data-analytics-data={serialize(@all_entries, @sort_by)}></div>
+    <div
+      id="analytics-diagram"
+      phx-hook="AnalyticsDiagram"
+      data-analytics-data={serialize(@all_entries, @sort_by)}
+    />
 
-    <h2>Total count: <%= @total_count %></h2>
-    <%= if is_nil(@path) or @path == "" do %>
+    <h2>Total count: {@total_count}</h2>
+    {#if is_nil(@path) or @path == ""}
       <div class="flex flex-col mt-6">
         <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
@@ -96,18 +106,18 @@ defmodule NoozoWeb.Admin.Analytics.IndexView do
                   </tr>
                 </thead>
                 <tbody>
-                  <%= for entry <- @paginated_entries do %>
+                  {#for entry <- @paginated_entries}
                     <tr>
                       <td>
                         <a phx-click="view_path" phx-value-value={entry.path} href="#">
-                          <%= entry.path %>
+                          {entry.path}
                         </a>
                       </td>
                       <td>
-                        <%= entry.counter %>
+                        {entry.counter}
                       </td>
                     </tr>
-                  <% end %>
+                  {/for}
                 </tbody>
               </table>
             </div>
@@ -115,11 +125,11 @@ defmodule NoozoWeb.Admin.Analytics.IndexView do
         </div>
       </div>
 
-      <%= live_paginate(assigns, @paginated_entries, __MODULE__, @socket) %>
-    <% else %>
-      <h2><%= @path %></h2>
+      <Pagination source_assigns={assigns} entries={@paginated_entries} module={__MODULE__} />
+    {#else}
+      <h2>{@path}</h2>
       <p><a phx-click="view_path" phx-value-value="" href="#">view all</a></p>
-    <% end %>
+    {/if}
     """
   end
 

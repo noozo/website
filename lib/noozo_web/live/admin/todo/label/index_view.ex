@@ -2,15 +2,14 @@ defmodule NoozoWeb.Admin.Todo.Label.IndexView do
   @moduledoc """
   Label management
   """
-  use Phoenix.LiveView, layout: {NoozoWeb.LayoutView, "live.html"}
+  use NoozoWeb, :surface_view
 
-  import Noozo.Pagination
-
+  alias Noozo.Pagination
   alias Noozo.Todo
 
   @impl true
   def render(assigns) do
-    ~H"""
+    ~F"""
     <div class="mb-6">
       <span class="btn cursor-pointer" phx-click="create-label">Create label</span>
     </div>
@@ -23,36 +22,38 @@ defmodule NoozoWeb.Admin.Todo.Label.IndexView do
           <th>Preview</th>
         </thead>
         <tbody>
-          <%= for label <- @labels.entries do %>
+          {#for label <- @labels.entries}
             <tr>
               <td>
                 <form phx-change={"update-title-#{label.id}"} phx-debounce="500">
-                  <input type="text" name="title" value={label.title} phx-debounce="500" />
+                  <input type="text" name="title" value={label.title} phx-debounce="500">
                 </form>
               </td>
               <td>
                 <form phx-change={"update-text-color-#{label.id}"} phx-debounce="500">
-                  <input type="text" name="text_color_hex" value={label.text_color_hex} phx-debounce="500" />
+                  <input type="text" name="text_color_hex" value={label.text_color_hex} phx-debounce="500">
                 </form>
               </td>
               <td>
                 <form phx-change={"update-color-#{label.id}"} phx-debounce="500">
-                  <input type="text" name="color_hex" value={label.color_hex} phx-debounce="500" />
+                  <input type="text" name="color_hex" value={label.color_hex} phx-debounce="500">
                 </form>
               </td>
               <td>
-                <div class="rounded-lg p-4"
-                     style={"background-color: #{label.color_hex}; color: #{label.text_color_hex}"}>
-                  <%= label.title %>
+                <div
+                  class="rounded-lg p-4"
+                  style={"background-color: #{label.color_hex}; color: #{label.text_color_hex}"}
+                >
+                  {label.title}
                 </div>
               </td>
             </tr>
-          <% end %>
+          {/for}
         </tbody>
       </table>
     </div>
 
-    <%= live_paginate(assigns, @labels, __MODULE__, @socket) %>
+    <Pagination source_assigns={assigns} entries={@labels} module={__MODULE__} />
     """
   end
 

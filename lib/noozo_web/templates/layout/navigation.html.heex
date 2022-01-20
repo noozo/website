@@ -82,7 +82,7 @@
                 <%= link "Logout", to: Routes.auth_path(@conn, :logout), class: "btn-nav-dropdown" %>
               </div>
             </div>
-          <% else %>
+          {#else}
             <div class="ml-3 relative">
               <%= link "Admin", to: Routes.live_path(@conn, NoozoWeb.Admin.Post.IndexView), class: "btn-nav"%>
             </div>

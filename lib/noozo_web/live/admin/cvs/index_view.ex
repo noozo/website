@@ -2,22 +2,22 @@ defmodule NoozoWeb.Admin.Cvs.IndexView do
   @moduledoc """
   Admin CVs index live view
   """
-  use Phoenix.LiveView, layout: {NoozoWeb.LayoutView, "live.html"}
-
-  import Noozo.Pagination
+  use NoozoWeb, :surface_view
 
   alias Noozo.Cvs
+  alias Noozo.Pagination
   alias NoozoWeb.Admin.Cvs.CreateView
   alias NoozoWeb.Admin.Cvs.EditView
-  alias NoozoWeb.Router.Helpers, as: Routes
+
+  data loading, :boolean, default: true
 
   @impl true
   def render(assigns) do
-    ~H"""
-    <%= if @loading do %>
+    ~F"""
+    {#if @loading}
       <div>Loading information...</div>
-    <% else %>
-      <%= live_patch("Create CV", to: Routes.live_path(@socket, CreateView), class: "btn") %>
+    {#else}
+      <LivePatch to={Routes.live_path(@socket, CreateView)} class="btn">CreateCV</LivePatch>
 
       <div class="flex flex-col mt-6">
         <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -35,16 +35,16 @@ defmodule NoozoWeb.Admin.Cvs.IndexView do
                   </tr>
                 </thead>
                 <tbody>
-                  <%= for cv <- @cvs.entries do %>
+                  {#for cv <- @cvs.entries}
                     <tr>
                       <td>
-                        <%= live_patch(cv.title, to: Routes.live_path(@socket, EditView, cv.uuid)) %>
+                        <LivePatch to={Routes.live_path(@socket, EditView, cv.uuid)} class="btn">{cv.title}</LivePatch>
                       </td>
                       <td>
-                        <%= cv.user.email %>
+                        {cv.user.email}
                       </td>
                     </tr>
-                  <% end %>
+                  {/for}
                 </tbody>
               </table>
             </div>
@@ -52,14 +52,9 @@ defmodule NoozoWeb.Admin.Cvs.IndexView do
         </div>
       </div>
 
-      <%= live_paginate(assigns, @cvs, __MODULE__, @socket) %>
-    <% end %>
+      <Pagination source_assigns={assigns} entries={@cvs} module={__MODULE__} />
+    {/if}
     """
-  end
-
-  @impl true
-  def mount(_params, _session, socket) do
-    {:ok, assign(socket, loading: true)}
   end
 
   @impl true

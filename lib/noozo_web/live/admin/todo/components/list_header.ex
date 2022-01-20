@@ -23,10 +23,10 @@ defmodule NoozoWeb.Admin.Todo.Components.ListHeader do
                   value={@list.title} id={@id}/>
           </div>
         </form>
-      <% else %>
+      {#else}
         <div>
           <div class="btn" phx-click="toggle_list" phx-value-list_id={@list.id} phx-value-board_id={@list.board_id}>
-            <%= if @list.open do %>-<% else %>+<% end %>
+            <%= if @list.open do %>-{#else}+<% end %>
           </div>
         </div>
         <div class="flex-grow text-center py-2 text-sm" phx-click="start_editing" phx-target={@myself}>

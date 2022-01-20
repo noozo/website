@@ -2,14 +2,14 @@ defmodule NoozoWeb.Admin.Cvs.CreateView do
   @moduledoc """
   Admin CVs create live view
   """
-  use Phoenix.LiveView, layout: {NoozoWeb.LayoutView, "live.html"}
+  use NoozoWeb, :surface_view
+
   alias Noozo.Cvs
   alias NoozoWeb.Admin.Cvs.EditView
-  alias NoozoWeb.Router.Helpers, as: Routes
 
   @impl true
   def render(assigns) do
-    ~H"""
+    ~F"""
     Creating cv...
     """
   end

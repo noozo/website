@@ -27,13 +27,13 @@ defmodule NoozoWeb.Admin.Todo.Components.ItemModal.Content do
             </div>
           </div>
         </form>
-      <% else %>
+      {#else}
         <div class="text-xs flex flex-col rounded-lg border-2 border-dashed p-4 prose" phx-click="start_editing" phx-target={@myself}>
           <%= if @item.content do %>
             <div>
               <%= (@item.content || "") |> Earmark.as_html!() |> Phoenix.HTML.raw() %>
             </div>
-          <% else %>
+          {#else}
             <div>There is nothing here. Click to edit.</div>
           <% end %>
         </div>

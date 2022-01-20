@@ -51,6 +51,14 @@ defmodule NoozoWeb do
 
   def surface_component do
     quote do
+      use Surface.LiveComponent
+
+      unquote(view_helpers())
+    end
+  end
+
+  def surface_func_component do
+    quote do
       use Surface.Component
 
       unquote(view_helpers())
@@ -89,6 +97,8 @@ defmodule NoozoWeb do
       alias NoozoWeb.Router
       alias NoozoWeb.Router.Helpers, as: Routes
       alias NoozoWeb.TemplateUtils
+
+      alias Surface.Components.LivePatch
     end
   end
 

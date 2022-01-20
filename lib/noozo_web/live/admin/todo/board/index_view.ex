@@ -2,24 +2,24 @@ defmodule NoozoWeb.Admin.Todo.Board.IndexView do
   @moduledoc """
   List all the boards
   """
-  use Phoenix.LiveView, layout: {NoozoWeb.LayoutView, "live.html"}
+  use NoozoWeb, :surface_view
 
-  import Noozo.Pagination
-
+  alias Noozo.Pagination
   alias Noozo.Todo
+
   alias NoozoWeb.Admin.Todo.Board.CreateView
   alias NoozoWeb.Admin.Todo.Board.EditView
   alias NoozoWeb.Admin.Todo.Board.ShowView
-  alias NoozoWeb.Router.Helpers, as: Routes
-  alias NoozoWeb.TemplateUtils
+
+  data loading, :boolean, default: true
 
   @impl true
   def render(assigns) do
-    ~H"""
-    <%= if @loading do %>
+    ~F"""
+    {#if @loading}
       <div>Loading information...</div>
-    <% else %>
-      <%= live_patch "Create Board", to: Routes.live_path(@socket, CreateView) %>
+    {#else}
+      {live_patch("Create Board", to: Routes.live_path(@socket, CreateView))}
       <div class="boards">
         <table class="table">
           <thead>
@@ -28,25 +28,20 @@ defmodule NoozoWeb.Admin.Todo.Board.IndexView do
             <th>Created at</th>
           </thead>
           <tbody>
-            <%= for board <- @boards.entries do %>
+            {#for board <- @boards.entries}
               <tr>
-                <td><%= live_patch board.title, to: Routes.live_path(@socket, ShowView, board.id) %></td>
-                <td><%= live_patch "Rename", to: Routes.live_path(@socket, EditView, board.id) %></td>
-                <td><%= TemplateUtils.format_date(board.inserted_at) %></td>
+                <td>{live_patch(board.title, to: Routes.live_path(@socket, ShowView, board.id))}</td>
+                <td>{live_patch("Rename", to: Routes.live_path(@socket, EditView, board.id))}</td>
+                <td>{TemplateUtils.format_date(board.inserted_at)}</td>
               </tr>
-            <% end %>
+            {/for}
           </tbody>
         </table>
       </div>
 
-      <%= live_paginate(assigns, @boards, __MODULE__, @socket) %>
-    <% end %>
+      <Pagination source_assigns={assigns} entries={@boards} module={__MODULE__} />
+    {/if}
     """
-  end
-
-  @impl true
-  def mount(_params, _session, socket) do
-    {:ok, assign(socket, loading: true)}
   end
 
   @impl true

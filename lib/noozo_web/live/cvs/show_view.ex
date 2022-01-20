@@ -8,11 +8,11 @@ defmodule NoozoWeb.Cvs.ShowView do
   @impl true
   def render(assigns) do
     ~F"""
-      {#if @cv}
-        {live_render @socket, Preview, id: :preview, session: %{"cv_uuid" => @cv.uuid}}
-      {#else}
-        <p class="text-center">The logged in user has no CVs</p>
-      {/if}
+    {#if @cv}
+      {live_render(@socket, Preview, id: :preview, session: %{"cv_uuid" => @cv.uuid})}
+    {#else}
+      <p class="text-center">The logged in user has no CVs</p>
+    {/if}
     """
   end
 

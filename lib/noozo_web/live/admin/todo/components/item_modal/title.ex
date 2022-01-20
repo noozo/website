@@ -18,7 +18,7 @@ defmodule NoozoWeb.Admin.Todo.Components.ItemModal.Title do
                    value={@item.title} id={@id} />
           </div>
         </form>
-      <% else %>
+      {#else}
         <div class="text-lg font-bold" phx-click="start_editing" phx-target={@myself}>
           <%= @item.title %>
         </div>

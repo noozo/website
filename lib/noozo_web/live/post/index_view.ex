@@ -2,10 +2,9 @@ defmodule NoozoWeb.Post.IndexView do
   use NoozoWeb, :surface_view
 
   alias Noozo.Core
+  alias Noozo.Pagination
 
   alias NoozoWeb.Post.Components.Post
-
-  import Noozo.Pagination
 
   @impl true
   def render(assigns) do
@@ -20,7 +19,7 @@ defmodule NoozoWeb.Post.IndexView do
       <div class="flex flex-grow flex-col flex-nowrap gap-8 md:min-w-full">
         {#if Enum.any?(@posts.entries)}
           {#for post <- @posts.entries}
-            <Post post={post} ga_id={@ga_id} />
+            <Post id={"post_#{post.id}"} post={post} ga_id={@ga_id} />
           {/for}
         {#else}
           <p class="text-center">
@@ -30,7 +29,7 @@ defmodule NoozoWeb.Post.IndexView do
         {/if}
       </div>
 
-      {live_paginate(assigns, @posts, __MODULE__, @socket)}
+      <Pagination source_assigns={assigns} entries={@posts} module={__MODULE__} />
     </div>
     """
   end

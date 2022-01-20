@@ -8,8 +8,6 @@ defmodule NoozoWeb.Post.Components.Post do
   alias NoozoWeb.Endpoint
   alias NoozoWeb.Post.ShowView
 
-  alias Surface.Components.LivePatch
-
   prop post, :struct, required: true
   prop ga_id, :string, required: true
 
@@ -21,8 +19,11 @@ defmodule NoozoWeb.Post.Components.Post do
         <div>
           {#if @post.image}
             <LivePatch to={Routes.live_path(Endpoint, ShowView, @post.slug)}>
-              <img alt={@post.title} class="w-24 h-auto md:w-32 md:rounded-none rounded-full"
-                   src={Post.image_url(@post)} />
+              <img
+                alt={@post.title}
+                class="w-24 h-auto md:w-32 md:rounded-none rounded-full"
+                src={Post.image_url(@post)}
+              />
             </LivePatch>
           {/if}
         </div>
@@ -44,7 +45,10 @@ defmodule NoozoWeb.Post.Components.Post do
           </div>
 
           <div class="mt-2">
-            <LivePatch to={Routes.live_path(Endpoint, ShowView, @post.slug)} class="text-2xl text-black font-bold hover:underline">
+            <LivePatch
+              to={Routes.live_path(Endpoint, ShowView, @post.slug)}
+              class="text-2xl text-black font-bold hover:underline"
+            >
               {@post.title}
             </LivePatch>
             <p class="mt-2 text-black">
@@ -59,7 +63,9 @@ defmodule NoozoWeb.Post.Components.Post do
             <div>
               <a href="/resume/1" class="flex items-center"><img
                   src="https://avatars.githubusercontent.com/u/3353?s=48&u=07467282a87d8ad4d4f07ae54266cd85a3cc2cbb&v=4"
-                  alt="avatar" class="mx-4 w-10 h-10 object-cover rounded-full hidden sm:block">
+                  alt="avatar"
+                  class="mx-4 w-10 h-10 object-cover rounded-full hidden sm:block"
+                />
                 <h1 class="text-black font-bold hover:underline">Pedro A.</h1>
               </a>
             </div>

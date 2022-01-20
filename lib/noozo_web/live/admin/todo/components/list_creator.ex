@@ -30,7 +30,7 @@ defmodule NoozoWeb.Admin.Todo.Components.ListCreator do
             </div>
           </div>
         </form>
-      <% else %>
+      {#else}
         <form phx-submit="input_title" phx-target={@myself}>
           <button class="new-list"><i class="material-icons">add</i> Add another list</button>
         </form>

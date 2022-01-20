@@ -4,9 +4,9 @@ defmodule NoozoWeb.Admin.Post.IndexView do
   """
   use NoozoWeb, :surface_view
 
-  import Noozo.Pagination
-
   alias Noozo.Core
+  alias Noozo.Pagination
+
   alias NoozoWeb.Admin.Post.CreateView
   alias NoozoWeb.Admin.Post.EditView
   alias NoozoWeb.Router.Helpers, as: Routes
@@ -86,7 +86,7 @@ defmodule NoozoWeb.Admin.Post.IndexView do
         </div>
       </div>
 
-      {live_paginate(assigns, @posts, __MODULE__, @socket)}
+      <Pagination source_assigns={assigns} entries={@posts} module={__MODULE__} />
     {/if}
     """
   end

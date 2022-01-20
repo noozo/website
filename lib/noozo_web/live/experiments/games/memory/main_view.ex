@@ -15,7 +15,7 @@ defmodule NoozoWeb.Experiments.Games.Memory.MainView do
           <div>
             <%= if element.found do %>
               <img src={element.src} width="100" height="100" />
-            <% else %>
+            {#else}
               <img src={Routes.static_path(@socket, "/images/experiments/games/memory/question.png")}
                 width="100" height="100"
                 phx-click="clicked_element"

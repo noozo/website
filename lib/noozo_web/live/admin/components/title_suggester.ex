@@ -2,20 +2,22 @@ defmodule Admin.Components.TitleSuggester do
   @moduledoc """
   Title suggester component
   """
-  use Phoenix.LiveComponent
+  use NoozoWeb, :surface_component
 
-  @impl true
-  def render(assigns) do
-    ~H"""
-    <div class="block shadow sm:rounded-md sm:overflow-hidden mb-4 p-6" id={@id}>
-      <p><span class="text-gray-400">Tag suggestions:</span> <%= @suggested_title %></p>
-    </div>
-    """
-  end
+  prop suggested_title, :string
 
   @impl true
   def update(%{id: id, post: post} = _assigns, socket) do
     {:ok, assign(socket, id: id, suggested_title: suggestion(post.content))}
+  end
+
+  @impl true
+  def render(assigns) do
+    ~F"""
+    <div class="block shadow sm:rounded-md sm:overflow-hidden mb-4 p-6" id={@id}>
+      <p><span class="text-gray-400">Tag suggestions:</span> {@suggested_title}</p>
+    </div>
+    """
   end
 
   defp suggestion(content) do
