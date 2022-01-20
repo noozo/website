@@ -84,8 +84,7 @@ defmodule Noozo.MixProject do
       {:mox, "~> 1.0", only: :test},
       {:dialyxir, "~> 1.1", only: [:dev, :test], runtime: false},
       {:sobelow, "~> 0.11", only: [:dev, :test], runtime: false},
-      {:esbuild, "~> 0.4", runtime: Mix.env() == :dev},
-      {:dart_sass, "~> 0.3", runtime: Mix.env() == :dev}
+      {:esbuild, "~> 0.4", runtime: Mix.env() == :dev}
     ]
   end
 
@@ -118,7 +117,6 @@ defmodule Noozo.MixProject do
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate", "test"],
       "assets.deploy": [
-        "sass default --no-source-map --style=compressed",
         "cmd --cd assets npm run deploy",
         "esbuild default --minify",
         "phx.digest"

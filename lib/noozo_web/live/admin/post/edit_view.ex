@@ -39,7 +39,7 @@ defmodule NoozoWeb.Admin.Post.EditView do
 
     <div class="mt-5 md:mt-0 flex flex-row gap-6">
       <div class="mt-5 md:mt-0 flex flex-col">
-        <form class="mb-4" phx-submit="save" phx-change="update-title-and-content" phx-debounce="500">
+        <form class="mb-4" phx-submit="save" phx-change="update-title-and-content">
           <div class="shadow sm:rounded-md sm:overflow-hidden">
             <div class="px-4 py-5 bg-white space-y-6 sm:p-6 flex flex-col gap-6">
               <div>
@@ -47,7 +47,7 @@ defmodule NoozoWeb.Admin.Post.EditView do
                   Title
                 </label>
                 <div class="mt-1">
-                  <input type='text' name='title' value={@post.title} />
+                  <input type='text' name='title' value={@post.title} phx-debounce="500" />
                 </div>
               </div>
 
@@ -56,7 +56,7 @@ defmodule NoozoWeb.Admin.Post.EditView do
                   Content
                 </label>
                 <div class="mt-1">
-                  <textarea class="w-full" type='text' name='content' rows="15">
+                  <textarea class="w-full" type='text' name='content' rows="15" phx-debounce="500">
                     <%= @post.content %>
                   </textarea>
                 </div>

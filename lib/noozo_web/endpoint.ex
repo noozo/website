@@ -10,8 +10,7 @@ defmodule NoozoWeb.Endpoint do
     signing_salt: "CfRkHouB"
   ]
 
-  socket "/live", Phoenix.LiveView.Socket,
-    websocket: [connect_info: [session: @session_options]]
+  socket "/live", Phoenix.LiveView.Socket, websocket: [connect_info: [session: @session_options]]
 
   socket "/socket", NoozoWeb.UserSocket,
     websocket: true,
