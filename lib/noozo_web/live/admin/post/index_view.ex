@@ -2,7 +2,7 @@ defmodule NoozoWeb.Admin.Post.IndexView do
   @moduledoc """
   Admin posts index live view
   """
-  use Phoenix.LiveView, layout: {NoozoWeb.LayoutView, "live.html"}
+  use NoozoWeb, :surface_view
 
   import Noozo.Pagination
 
@@ -12,10 +12,8 @@ defmodule NoozoWeb.Admin.Post.IndexView do
   alias NoozoWeb.Router.Helpers, as: Routes
   alias NoozoWeb.TemplateUtils
 
-  @impl true
-  def mount(_params, _session, socket) do
-    {:ok, assign(socket, loading: true)}
-  end
+  @doc "Wether the data is loading or not"
+  data loading, :boolean, default: true
 
   @impl true
   def handle_info({:load_posts, params}, socket) do
@@ -29,16 +27,16 @@ defmodule NoozoWeb.Admin.Post.IndexView do
   @impl true
   def handle_params(params, _uri, socket) do
     send(self(), {:load_posts, params})
-    {:noreply, assign(socket, loading: true)}
+    {:noreply, socket}
   end
 
   @impl true
   def render(assigns) do
-    ~H"""
-    <%= if @loading do %>
+    ~F"""
+    {#if @loading}
       <div>Loading information...</div>
-    <% else %>
-      <%= live_patch "Create Post", to: Routes.live_path(@socket, CreateView), class: "btn" %>
+    {#else}
+      {live_patch("Create Post", to: Routes.live_path(@socket, CreateView), class: "btn")}
 
       <!-- This example requires Tailwind CSS v2.0+ -->
       <div class="flex flex-col mt-6">
@@ -63,24 +61,24 @@ defmodule NoozoWeb.Admin.Post.IndexView do
                   </tr>
                 </thead>
                 <tbody>
-                  <%= for post <- @posts.entries do %>
+                  {#for post <- @posts.entries}
                     <tr>
                       <td>
-                        <%= live_patch post.title, to: Routes.live_path(@socket, EditView, post.id) %>
+                        {live_patch(post.title, to: Routes.live_path(@socket, EditView, post.id))}
                       </td>
                       <td>
-                        <%= post.slug %>
+                        {post.slug}
                       </td>
                       <td>
                         <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                          <%= post.status %>
+                          {post.status}
                         </span>
                       </td>
                       <td class="text-sm text-gray-500">
-                        <%= TemplateUtils.format_date(post.published_at) %>
+                        {TemplateUtils.format_date(post.published_at)}
                       </td>
                     </tr>
-                  <% end %>
+                  {/for}
                 </tbody>
               </table>
             </div>
@@ -88,8 +86,8 @@ defmodule NoozoWeb.Admin.Post.IndexView do
         </div>
       </div>
 
-      <%= live_paginate(assigns, @posts, __MODULE__, @socket) %>
-    <% end %>
+      {live_paginate(assigns, @posts, __MODULE__, @socket)}
+    {/if}
     """
   end
 end

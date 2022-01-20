@@ -64,6 +64,11 @@ config :esbuild,
     env: %{"NODE_PATH" => Path.expand("../deps", __DIR__)}
   ]
 
+config :surface, :components, [
+  {Surface.Components.Form.ErrorTag,
+   default_translator: {NoozoWeb.ErrorHelpers, :translate_error}}
+]
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env()}.exs"

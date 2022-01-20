@@ -1,15 +1,10 @@
 defmodule NoozoWeb.Gallery.IndexView do
-  use Phoenix.LiveView, layout: {NoozoWeb.LayoutView, "live.html"}
+  use NoozoWeb, :surface_view
 
   import Noozo.Pagination
 
   alias Noozo.Gallery
   alias Noozo.Gallery.Image
-
-  @impl true
-  def mount(_params, _session, socket) do
-    {:ok, socket}
-  end
 
   @impl true
   def handle_params(params, _uri, socket) do
@@ -27,19 +22,19 @@ defmodule NoozoWeb.Gallery.IndexView do
 
   @impl true
   def render(assigns) do
-    ~H"""
+    ~F"""
     <h1 class="text-2xl font-bold">Some of my doings in the workshop</h1>
-    <%= if Enum.any?(@images) do %>
+    {#if Enum.any?(@images)}
       <div class="w-full flex flex-row flex-wrap gap-6 mx-auto p-8">
-        <%= for image <- @images do %>
+        {#for image <- @images}
           <div class="w-60 h-auto bg-white rounded shadow-md" x-data="{open: false}">
             <div class="cursor-pointer text-grey-darkest no-underline" x-on:click.prevent="open = true">
-                <h1 class="text-xl p-6"><%= image.title %>.</h1>
-                <%= if image.image do %>
+                <h1 class="text-xl p-6">{image.title}.</h1>
+                {#if image.image}
                   <div class="align-bottom">
                     <img alt={image.title} class="w-60" src={Image.image_url(image)} />
                   </div>
-                <% end %>
+                {/if}
             </div>
 
             <div x-show.transition.opacity="open" x-on:click.away="open = false"
@@ -48,7 +43,7 @@ defmodule NoozoWeb.Gallery.IndexView do
               <div x-show.transition="open"
                 class="container max-w-3xl max-h-full bg-white rounded-xl shadow-lg overflow-auto">
                 <div class="px-8 py-4 border-b border-gray-200">
-                  <h2><%= image.title %>.</h2>
+                  <h2>{image.title}.</h2>
                 </div>
                 <div class="px-8 py-4">
                   <img alt={image.title} class="w-full" src={Image.image_url(image)} />
@@ -62,12 +57,12 @@ defmodule NoozoWeb.Gallery.IndexView do
               </div>
             </div>
           </div>
-        <% end %>
+        {/for}
       </div>
-      <%= live_paginate(assigns, @images, __MODULE__, @socket) %>
-    <% else %>
+      {live_paginate(assigns, @images, __MODULE__, @socket)}
+    {#else}
       <p class="mt-6 text-center">There are no images in the gallery. <a class="underline" href="/admin/gallery">Add some</a>?</p>
-    <% end %>
+    {/if}
     """
   end
 end

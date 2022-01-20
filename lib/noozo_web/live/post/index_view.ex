@@ -1,29 +1,36 @@
 defmodule NoozoWeb.Post.IndexView do
-  use Phoenix.LiveView, layout: {NoozoWeb.LayoutView, "live.html"}
+  use NoozoWeb, :surface_view
 
   alias Noozo.Core
+
+  alias NoozoWeb.Post.Components.Post
 
   import Noozo.Pagination
 
   @impl true
   def render(assigns) do
-    ~H"""
+    ~F"""
     <div>
-      <%= if @tag do %>
-        <div class="md:text-2xl lg:text-2xl xl:text-4xl font-bold mb-6">Posts about <%= @tag.name %></div>
-      <% end %>
+      {#if @tag}
+        <div class="md:text-2xl lg:text-2xl xl:text-4xl font-bold mb-6">
+          Posts about {@tag.name}
+        </div>
+      {/if}
 
       <div class="flex flex-grow flex-col flex-nowrap gap-8 md:min-w-full">
-        <%= if Enum.any?(@posts.entries) do %>
-          <%= for post <- @posts.entries do %>
-            <%= live_component NoozoWeb.Post.Components.Post, post: post, ga_id: @ga_id %>
-          <% end %>
-        <% else %>
-          <p class="text-center">There is nothing here. Why don't you <a class="underline" href="/admin/posts">write something</a>?</p>
-        <% end %>
+        {#if Enum.any?(@posts.entries)}
+          {#for post <- @posts.entries}
+            <Post post={post} ga_id={@ga_id} />
+          {/for}
+        {#else}
+          <p class="text-center">
+            There is nothing here.
+            Why don't you <a class="underline" href="/admin/posts">write something</a>?
+          </p>
+        {/if}
       </div>
 
-      <%= live_paginate(assigns, @posts, __MODULE__, @socket) %>
+      {live_paginate(assigns, @posts, __MODULE__, @socket)}
     </div>
     """
   end

@@ -1,5 +1,5 @@
 defmodule NoozoWeb.Cvs.ShowView do
-  use Phoenix.LiveView, layout: {NoozoWeb.LayoutView, "live.html"}
+  use NoozoWeb, :surface_view
 
   alias Noozo.Cvs
 
@@ -7,12 +7,12 @@ defmodule NoozoWeb.Cvs.ShowView do
 
   @impl true
   def render(assigns) do
-    ~H"""
-      <%= if @cv do %>
-        <%= live_render @socket, Preview, id: :preview, session: %{"cv_uuid" => @cv.uuid} %>
-      <% else %>
+    ~F"""
+      {#if @cv}
+        {live_render @socket, Preview, id: :preview, session: %{"cv_uuid" => @cv.uuid}}
+      {#else}
         <p class="text-center">The logged in user has no CVs</p>
-      <% end %>
+      {/if}
     """
   end
 

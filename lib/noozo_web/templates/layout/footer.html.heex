@@ -1,4 +1,4 @@
-<footer class="max-h-10 bg-gray-300 bottom-0 text-xs p-2 shadow shadow-lg">
+<footer class="max-h-10 bg-gray-500 bottom-0 text-xs p-2 shadow shadow-lg">
   <div class="text-center">
       v<%=
         {:ok, version} = :application.get_key(:noozo, :vsn)
@@ -11,5 +11,7 @@
     <a href="https://phoenixframework.org/">
       <img class="inline" src={Routes.static_path(@conn, "/images/phoenix.png")} alt="Phoenix Framework" />
     </a>
+    - Source code available
+    <a href="https://github.com/noozo/website" target="_blank" class="text-white">@Github</a>
   </div>
 </footer>
