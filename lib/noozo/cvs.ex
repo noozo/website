@@ -105,6 +105,7 @@ defmodule Noozo.Cvs do
     )
   end
 
+  @impl true
   def update_cv(%Cv{} = cv, attrs, before_save_func \\ & &1) do
     cv
     |> Cv.changeset(before_save(attrs, before_save_func))
@@ -124,6 +125,7 @@ defmodule Noozo.Cvs do
     |> broadcast(:header_item_created)
   end
 
+  @impl true
   def update_header_item(item, attrs) do
     item
     |> CvHeaderItem.changeset(attrs)
@@ -160,12 +162,14 @@ defmodule Noozo.Cvs do
     end
   end
 
+  @impl true
   def update_section(section_uuid, attrs) when is_binary(section_uuid) do
     section_uuid
     |> get_section!()
     |> update_section(attrs)
   end
 
+  @impl true
   def update_section(section, attrs) do
     section
     |> CvSection.changeset(attrs)
@@ -199,6 +203,7 @@ defmodule Noozo.Cvs do
     |> broadcast(:section_item_created)
   end
 
+  @impl true
   def update_section_item(cv_section_item, attrs, before_save_func \\ & &1) do
     cv_section_item
     |> CvSectionItem.changeset(before_save(attrs, before_save_func))

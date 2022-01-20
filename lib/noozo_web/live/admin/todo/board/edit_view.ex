@@ -8,6 +8,7 @@ defmodule NoozoWeb.Admin.Todo.Board.EditView do
   alias NoozoWeb.Admin.Todo.Board.IndexView
   alias NoozoWeb.Router.Helpers, as: Routes
 
+  @impl true
   def render(assigns) do
     ~H"""
     <%= live_patch "Back to list", to: Routes.live_path(@socket, IndexView) %>
@@ -26,7 +27,7 @@ defmodule NoozoWeb.Admin.Todo.Board.EditView do
         <form phx-change="save">
           <div class='control-group'>
             <label class='control-label' for='title-input'>Title</label>
-            <input class='form-control' type='text' name='title' value='<%= @board.title %>' phx-debounce="500" />
+            <input class='form-control' type='text' name='title' value={@board.title} phx-debounce="500" />
           </div>
         </form>
       </div>
@@ -34,14 +35,17 @@ defmodule NoozoWeb.Admin.Todo.Board.EditView do
     """
   end
 
+  @impl true
   def mount(_params, _session, socket) do
     {:ok, assign(socket, info: nil, error: nil)}
   end
 
+  @impl true
   def handle_params(params, _uri, socket) do
     {:noreply, assign(socket, board: Todo.get_board!(params["id"]))}
   end
 
+  @impl true
   def handle_event(
         "save",
         %{"_target" => _target, "title" => title} = _event,

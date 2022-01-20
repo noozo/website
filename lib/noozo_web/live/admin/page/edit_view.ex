@@ -7,6 +7,7 @@ defmodule NoozoWeb.Admin.Page.EditView do
   alias NoozoWeb.Admin.Page.IndexView
   alias NoozoWeb.Router.Helpers, as: Routes
 
+  @impl true
   def render(assigns) do
     ~H"""
     <%= live_patch "Back to list", to: Routes.live_path(@socket, IndexView), class: "btn" %>
@@ -59,6 +60,7 @@ defmodule NoozoWeb.Admin.Page.EditView do
     """
   end
 
+  @impl true
   def mount(_params, _session, socket) do
     {:ok,
      socket
@@ -66,10 +68,12 @@ defmodule NoozoWeb.Admin.Page.EditView do
      |> assign(:error, nil)}
   end
 
+  @impl true
   def handle_params(params, _uri, socket) do
     {:noreply, assign(socket, page: Core.get_page!(params["id"]))}
   end
 
+  @impl true
   def handle_event(
         "save",
         %{"_target" => _target, "title" => title, "content" => content} = _event,

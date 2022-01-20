@@ -6,6 +6,7 @@ defmodule NoozoWeb.Post.Components.Likes do
 
   alias Noozo.Core
 
+  @impl true
   def render(assigns) do
     ~H"""
     <div class="likes">
@@ -26,6 +27,7 @@ defmodule NoozoWeb.Post.Components.Likes do
     """
   end
 
+  @impl true
   def update(assigns, socket) do
     data =
       assigns
@@ -37,12 +39,14 @@ defmodule NoozoWeb.Post.Components.Likes do
     {:ok, assign(socket, data)}
   end
 
+  @impl true
   def handle_event("toggle_like", %{"user_liked" => "false"} = _event, socket) do
     # Wants to like
     {:ok, post} = Core.like_post(socket.assigns.ga_id, socket.assigns.post.id)
     {:noreply, assign(socket, setup_like(socket.assigns, post))}
   end
 
+  @impl true
   def handle_event("toggle_like", %{"user_liked" => "true"} = _event, socket) do
     # Wants to dislike
     {:ok, post} = Core.dislike_post(socket.assigns.ga_id, socket.assigns.post.id)

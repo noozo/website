@@ -11,6 +11,7 @@ defmodule NoozoWeb.Admin.Cvs.IndexView do
   alias NoozoWeb.Admin.Cvs.EditView
   alias NoozoWeb.Router.Helpers, as: Routes
 
+  @impl true
   def render(assigns) do
     ~H"""
     <%= if @loading do %>
@@ -56,10 +57,12 @@ defmodule NoozoWeb.Admin.Cvs.IndexView do
     """
   end
 
+  @impl true
   def mount(_params, _session, socket) do
     {:ok, assign(socket, loading: true)}
   end
 
+  @impl true
   def handle_info({:load_cvs, params}, socket) do
     {:noreply,
      assign(socket,
@@ -68,6 +71,7 @@ defmodule NoozoWeb.Admin.Cvs.IndexView do
      )}
   end
 
+  @impl true
   def handle_params(params, _uri, socket) do
     send(self(), {:load_cvs, params})
     {:noreply, assign(socket, loading: true)}

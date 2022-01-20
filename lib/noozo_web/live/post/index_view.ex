@@ -5,6 +5,7 @@ defmodule NoozoWeb.Post.IndexView do
 
   import Noozo.Pagination
 
+  @impl true
   def render(assigns) do
     ~H"""
     <div>
@@ -27,6 +28,7 @@ defmodule NoozoWeb.Post.IndexView do
     """
   end
 
+  @impl true
   def mount(_params, session, socket) do
     {:ok,
      assign(socket,
@@ -37,6 +39,7 @@ defmodule NoozoWeb.Post.IndexView do
      )}
   end
 
+  @impl true
   def handle_params(params, _uri, socket) do
     params = Map.put(params, :page_size, 4)
 

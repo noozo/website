@@ -2,35 +2,49 @@ defmodule NoozoWeb.Experiments.Games.Memory.MainView do
   use Phoenix.LiveView, layout: {NoozoWeb.LayoutView, "live.html"}
   alias NoozoWeb.Router.Helpers, as: Routes
 
+  @impl true
   def render(assigns) do
     ~H"""
-    <div class="content">
-      <div class="row">
-      Game ended: <%= @game_ended %>
-      </div>
-      <div class="row">
-        <%= for {element, index} <- Enum.with_index(@elements) do %>
-          <div class="column column-40">
-            <%= if element.found do %>
-              <img src="<%= element.src %>" width="100" height="100" />
-            <% else %>
-              <img src="<%= Routes.static_path(@socket, "/images/experiments/games/memory/question.png") %>" width="100" height="100"
-                 phx-click="clicked_element" phx-value-element_id="<%= element.id %>" />
-            <% end %>
-          </div>
-          <%= if index == 3 do %>
-            </div><div class="row">
-          <% end %>
-        <% end %>
-      </div>
-    </div>
+      <div></div>
     """
   end
 
+  # @impl true
+  # def render(assigns) do
+  #   ~H"""
+  #   <div class="content">
+  #     <div class="row">
+  #     Game ended: <%= @game_ended %>
+  #     </div>
+
+  #     <div class="row">
+  #       <%= for {element, index} <- Enum.with_index(@elements) do %>
+  #         <div class="column column-40">
+  #           <%= if element.found do %>
+  #             <img src={element.src} width="100" height="100" />
+  #           <% else %>
+  #             <img src={Routes.static_path(@socket, "/images/experiments/games/memory/question.png")}
+  #                width="100" height="100"
+  #                phx-click="clicked_element"
+  #                phx-value-element_id={element.id} />
+  #           <% end %>
+  #         </div>
+  #         <%= if index == 3 do %>
+  #           </div>
+  #           <div class="row">
+  #         <% end %>
+  #       <% end %>
+  #     </div>
+  #   </div>
+  #   """
+  # end
+
+  @impl true
   def mount(params, _session, socket) do
     {:ok, assign(socket, setup_game_data(socket, params["theme"] || ""))}
   end
 
+  @impl true
   def handle_event("clicked_element", %{"element_id" => id} = _event, socket) do
     id = String.to_integer(id)
     elements = socket.assigns.elements
@@ -59,6 +73,7 @@ defmodule NoozoWeb.Experiments.Games.Memory.MainView do
     end
   end
 
+  @impl true
   def handle_info({:click_timeout, id}, socket) do
     elements = socket.assigns.elements
 
@@ -73,6 +88,7 @@ defmodule NoozoWeb.Experiments.Games.Memory.MainView do
      )}
   end
 
+  @impl true
   def handle_info({:hide_elements, id1, id2}, socket) do
     elements =
       socket.assigns.elements

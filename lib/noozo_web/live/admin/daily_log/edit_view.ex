@@ -7,6 +7,7 @@ defmodule NoozoWeb.Admin.DailyLog.EditView do
   alias NoozoWeb.Admin.DailyLog.IndexView
   alias NoozoWeb.Router.Helpers, as: Routes
 
+  @impl true
   def render(assigns) do
     ~H"""
     <div class="flex flex-col gap-6">
@@ -47,14 +48,17 @@ defmodule NoozoWeb.Admin.DailyLog.EditView do
     """
   end
 
+  @impl true
   def mount(_params, _session, socket) do
     {:ok, socket}
   end
 
+  @impl true
   def handle_params(params, _uri, socket) do
     {:noreply, assign(socket, entry: DailyLog.find_or_create(params["date"]))}
   end
 
+  @impl true
   def handle_event(
         "save",
         %{"_target" => _target, "content" => content} = _event,

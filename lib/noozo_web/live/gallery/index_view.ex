@@ -6,10 +6,12 @@ defmodule NoozoWeb.Gallery.IndexView do
   alias Noozo.Gallery
   alias Noozo.Gallery.Image
 
+  @impl true
   def mount(_params, _session, socket) do
     {:ok, socket}
   end
 
+  @impl true
   def handle_params(params, _uri, socket) do
     Gallery.subscribe()
     params = Map.put(params, "page_size", 8)
@@ -17,11 +19,13 @@ defmodule NoozoWeb.Gallery.IndexView do
     {:noreply, assign(socket, images: images, params: params, page_title: "Gallery")}
   end
 
+  @impl true
   def handle_info({_event, _item}, socket) do
     images = Gallery.list(socket.assigns.params)
     {:noreply, assign(socket, :images, images)}
   end
 
+  @impl true
   def render(assigns) do
     ~H"""
     <h1 class="text-2xl font-bold">Some of my doings in the workshop</h1>
@@ -33,7 +37,7 @@ defmodule NoozoWeb.Gallery.IndexView do
                 <h1 class="text-xl p-6"><%= image.title %>.</h1>
                 <%= if image.image do %>
                   <div class="align-bottom">
-                    <img alt="<%= image.title %>" class="w-60" src="<%= Image.image_url(image) %>" />
+                    <img alt={image.title} class="w-60" src={Image.image_url(image)} />
                   </div>
                 <% end %>
             </div>
@@ -47,7 +51,7 @@ defmodule NoozoWeb.Gallery.IndexView do
                   <h2><%= image.title %>.</h2>
                 </div>
                 <div class="px-8 py-4">
-                  <img alt="<%= image.title %>" class="w-full" src="<%= Image.image_url(image) %>" />
+                  <img alt={image.title} class="w-full" src={Image.image_url(image)} />
                 </div>
                 <div class="px-8 py-4 border-t border-gray-200 text-center">
                   <button x-on:click.prevent="open = false"

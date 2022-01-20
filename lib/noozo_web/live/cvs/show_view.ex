@@ -5,6 +5,7 @@ defmodule NoozoWeb.Cvs.ShowView do
 
   alias NoozoWeb.Admin.Cvs.Children.PreviewView, as: Preview
 
+  @impl true
   def render(assigns) do
     ~H"""
       <%= if @cv do %>
@@ -15,6 +16,7 @@ defmodule NoozoWeb.Cvs.ShowView do
     """
   end
 
+  @impl true
   def handle_params(%{"user_id" => user_id} = _params, _uri, socket) do
     cv = Cvs.get_user_cv!(user_id)
     {:noreply, assign(socket, cv: cv, page_title: "Resume: #{cv.title}")}

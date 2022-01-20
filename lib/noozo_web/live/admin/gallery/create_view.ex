@@ -7,16 +7,19 @@ defmodule NoozoWeb.Admin.Gallery.CreateView do
   alias NoozoWeb.Admin.Gallery.EditView
   alias NoozoWeb.Router.Helpers, as: Routes
 
+  @impl true
   def render(assigns) do
     ~H"""
     Creating gallery image...
     """
   end
 
+  @impl true
   def mount(_params, _session, socket) do
     {:ok, socket}
   end
 
+  @impl true
   def handle_params(_params, _uri, socket) do
     {:ok, image} = Gallery.create_image(%{title: "Untitled Image"})
 

@@ -10,6 +10,7 @@ defmodule NoozoWeb.Post.Components.Post do
   alias NoozoWeb.Router.Helpers, as: Routes
   alias NoozoWeb.TemplateUtils
 
+  @impl true
   def update(assigns, socket) do
     data =
       assigns
@@ -19,6 +20,7 @@ defmodule NoozoWeb.Post.Components.Post do
     {:ok, assign(socket, data)}
   end
 
+  @impl true
   def render(assigns) do
     ~H"""
     <div class="px-6 py-6 bg-white rounded-lg shadow-md border">
@@ -26,8 +28,8 @@ defmodule NoozoWeb.Post.Components.Post do
         <div>
           <%= if @post.image do %>
             <%= live_patch to: Routes.live_path(@socket, ShowView, @post.slug) do %>
-              <img alt="<%= @post.title %>" class="w-24 h-auto md:w-32 md:rounded-none rounded-full"
-                   src="<%= Post.image_url(@post) %>" />
+              <img alt={@post.title} class="w-24 h-auto md:w-32 md:rounded-none rounded-full"
+                   src={Post.image_url(@post)} />
             <% end %>
           <% end %>
         </div>
@@ -40,7 +42,7 @@ defmodule NoozoWeb.Post.Components.Post do
             <div class="hidden md:inline">
               <%= for tag <- assigns.post.tags do %>
                 <div class="tag-xs text-xs inline">
-                  <a href="<%= Routes.live_path(@socket, NoozoWeb.Post.IndexView, tag.name) %>">
+                  <a href={Routes.live_path(@socket, NoozoWeb.Post.IndexView, tag.name)}>
                     <%= tag.name %>
                   </a>
                 </div>

@@ -59,6 +59,7 @@ defmodule Noozo.MixProject do
       {:curtail, "~> 1.0"},
       {:ueberauth, "~> 0.6"},
       {:ueberauth_identity, "~> 0.2"},
+      {:httpoison, "~> 1.7"},
       {:bcrypt_elixir, "~> 2.0"},
       {:scrivener_ecto, "~> 2.0"},
       {:html_sanitize_ex, "~> 1.3"},

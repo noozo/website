@@ -8,6 +8,7 @@ defmodule NoozoWeb.Admin.Todo.Label.IndexView do
 
   alias Noozo.Todo
 
+  @impl true
   def render(assigns) do
     ~H"""
     <div class="mb-6">
@@ -55,15 +56,18 @@ defmodule NoozoWeb.Admin.Todo.Label.IndexView do
     """
   end
 
+  @impl true
   def handle_params(params, _uri, socket) do
     {:noreply, assign(socket, labels: Todo.list_labels(params), params: params)}
   end
 
+  @impl true
   def handle_event("update-title-" <> id, %{"title" => title} = _event, socket) do
     {:ok, _label} = Todo.update_label(id, %{title: title})
     {:noreply, assign(socket, labels: Todo.list_labels(socket.assigns.params))}
   end
 
+  @impl true
   def handle_event(
         "update-text-color-" <> id,
         %{"text_color_hex" => text_color_hex} = _event,
@@ -73,11 +77,13 @@ defmodule NoozoWeb.Admin.Todo.Label.IndexView do
     {:noreply, assign(socket, labels: Todo.list_labels(socket.assigns.params))}
   end
 
+  @impl true
   def handle_event("update-color-" <> id, %{"color_hex" => color_hex} = _event, socket) do
     {:ok, _label} = Todo.update_label(id, %{color_hex: color_hex})
     {:noreply, assign(socket, labels: Todo.list_labels(socket.assigns.params))}
   end
 
+  @impl true
   def handle_event("create-label", _event, socket) do
     case Todo.create_label(%{title: "new label", color_hex: "#ffffff"}) do
       {:ok, _label} ->

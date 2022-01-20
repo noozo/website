@@ -5,10 +5,11 @@ defmodule NoozoWeb.Page.ShowView do
   alias NoozoWeb.Router.Helpers, as: Routes
   alias NoozoWeb.TemplateUtils
 
+  @impl true
   def render(assigns) do
     ~H"""
     <%= if @page do  %>
-      <div id="<%= @page.id %>">
+      <div id={@page.id}>
         <%= if @current_user do %>
           <div class="mt-5 flex lg:mt-0 lg:ml-4 float-right">
             <span class="hidden sm:block">
@@ -33,10 +34,12 @@ defmodule NoozoWeb.Page.ShowView do
     """
   end
 
+  @impl true
   def mount(_params, session, socket) do
     {:ok, assign(socket, :current_user, session["current_user"])}
   end
 
+  @impl true
   def handle_params(params, _uri, socket) do
     page = Core.get_page_by_slug(params["slug"])
     {:noreply, assign(socket, page: page, page_title: page.title)}

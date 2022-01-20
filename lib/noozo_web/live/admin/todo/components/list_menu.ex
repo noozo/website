@@ -4,6 +4,7 @@ defmodule NoozoWeb.Admin.Todo.Components.ListMenu do
   """
   use Phoenix.LiveComponent
 
+  @impl true
   def render(assigns) do
     ~H"""
     <div id={@id} class="relative inline-block text-left" x-data="{showing: false}">
@@ -40,6 +41,7 @@ defmodule NoozoWeb.Admin.Todo.Components.ListMenu do
     """
   end
 
+  @impl true
   def update(%{id: id, list: list} = _assigns, socket) do
     {:ok, assign(socket, id: id, list: list)}
   end

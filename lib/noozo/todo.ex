@@ -53,6 +53,7 @@ defmodule Noozo.Todo do
     |> Repo.insert()
   end
 
+  @impl true
   def update_board(%Board{} = board, attrs) do
     board
     |> Board.changeset(attrs)
@@ -113,6 +114,7 @@ defmodule Noozo.Todo do
     |> broadcast(:list_deleted)
   end
 
+  @impl true
   def update_list(%List{} = list, attrs) do
     list
     |> List.changeset(attrs)
@@ -166,6 +168,7 @@ defmodule Noozo.Todo do
     |> broadcast(:item_created)
   end
 
+  @impl true
   def update_item(%Item{} = item, attrs) do
     item
     |> Item.changeset(attrs)
@@ -224,6 +227,7 @@ defmodule Noozo.Todo do
     end
   end
 
+  @impl true
   def update_label(label_id, attrs) do
     Label
     |> Repo.get!(label_id)

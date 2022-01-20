@@ -34,6 +34,7 @@ defmodule Noozo.DailyLog do
     end
   end
 
+  @impl true
   def update_entry(%Entry{} = entry, attrs) do
     entry
     |> Entry.changeset(attrs)

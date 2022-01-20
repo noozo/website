@@ -6,6 +6,7 @@ defmodule Admin.Components.TagEditor do
 
   alias Noozo.Core
 
+  @impl true
   def render(assigns) do
     ~H"""
     <div class="block shadow sm:rounded-md sm:overflow-hidden mb-4" id={@id}>
@@ -50,26 +51,29 @@ defmodule Admin.Components.TagEditor do
     """
   end
 
-  def mount(socket) do
-    {:ok, assign(socket, suggestions: [])}
+  @impl true
+  def update(%{id: id, post: post} = _assigns, socket) do
+    {:ok, assign(socket, id: id, suggestions: [], post: post)}
   end
 
+  @impl true
   def handle_event("remove", %{"tag_id" => tag_id} = _event, socket) do
     post_id = socket.assigns.post.id
     Core.delete_tagging!(tag_id, post_id)
     {:noreply, assign(socket, post: Core.get_post!(post_id), suggestions: [])}
   end
 
+  @impl true
   def handle_event("add", %{"new_tag" => tag_name}, socket) do
     post_id = socket.assigns.post.id
     {:ok, _tagging} = Core.tag_post!(tag_name, post_id)
     {:noreply, assign(socket, post: Core.get_post!(post_id), suggestions: [])}
   end
 
+  @impl true
   def handle_event("suggest", %{"new_tag" => tag_name}, socket) do
     suggestions =
       case String.trim(tag_name) do
-        nil -> []
         "" -> []
         tag_name -> Enum.map(Core.suggest_tags(tag_name), fn t -> t.name end)
       end

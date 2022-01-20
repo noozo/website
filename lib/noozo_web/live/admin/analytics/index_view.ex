@@ -10,6 +10,7 @@ defmodule NoozoWeb.Admin.Analytics.IndexView do
   alias NoozoWeb.Router.Helpers, as: Routes
   alias Timex.Duration
 
+  @impl true
   def render(assigns) do
     ~H"""
     <nav class="navbar" role="navigation" aria-label="main navigation">
@@ -122,6 +123,7 @@ defmodule NoozoWeb.Admin.Analytics.IndexView do
     """
   end
 
+  @impl true
   def mount(params, _session, socket) do
     {start_date, end_date, sort_by, path} = parse_params(params)
 
@@ -137,6 +139,7 @@ defmodule NoozoWeb.Admin.Analytics.IndexView do
      )}
   end
 
+  @impl true
   def handle_params(params, _uri, socket) do
     {start_date, end_date, sort_by, path} = parse_params(params)
 
@@ -152,6 +155,7 @@ defmodule NoozoWeb.Admin.Analytics.IndexView do
      )}
   end
 
+  @impl true
   def handle_event(
         "update",
         %{"start_date" => _start_date, "end_date" => _end_date, "sort_by" => _sort_by} = event,
@@ -172,6 +176,7 @@ defmodule NoozoWeb.Admin.Analytics.IndexView do
      )}
   end
 
+  @impl true
   def handle_event("view_path", %{"value" => path} = _event, socket) do
     {:noreply,
      push_redirect(
@@ -186,12 +191,15 @@ defmodule NoozoWeb.Admin.Analytics.IndexView do
      )}
   end
 
+  @impl true
   def handle_event("change_dates", %{"value" => "today"}, socket),
     do: redirect(socket, Timex.now(), Timex.now() |> Timex.add(Duration.from_days(1)))
 
+  @impl true
   def handle_event("change_dates", %{"value" => "yesterday"}, socket),
     do: redirect(socket, Timex.now() |> Timex.subtract(Duration.from_days(1)), Timex.now())
 
+  @impl true
   def handle_event("change_dates", %{"value" => "week"}, socket),
     do:
       redirect(
@@ -200,6 +208,7 @@ defmodule NoozoWeb.Admin.Analytics.IndexView do
         Timex.now() |> Timex.add(Duration.from_days(1))
       )
 
+  @impl true
   def handle_event("change_dates", %{"value" => "fortnite"}, socket),
     do:
       redirect(
@@ -208,6 +217,7 @@ defmodule NoozoWeb.Admin.Analytics.IndexView do
         Timex.now() |> Timex.add(Duration.from_days(1))
       )
 
+  @impl true
   def handle_event("change_dates", %{"value" => "month"}, socket),
     do:
       redirect(
@@ -216,6 +226,7 @@ defmodule NoozoWeb.Admin.Analytics.IndexView do
         Timex.now() |> Timex.add(Duration.from_days(1))
       )
 
+  @impl true
   def handle_event("change_dates", %{"value" => "year"}, socket),
     do:
       redirect(

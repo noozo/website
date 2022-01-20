@@ -10,6 +10,7 @@ defmodule NoozoWeb.Admin.Post.EditView do
   alias NoozoWeb.Router.Helpers, as: Routes
   alias NoozoWeb.TemplateUtils
 
+  @impl true
   def mount(_params, _session, socket) do
     {:ok,
      socket
@@ -22,6 +23,7 @@ defmodule NoozoWeb.Admin.Post.EditView do
      )}
   end
 
+  @impl true
   def render(assigns) do
     ~H"""
     <%= live_patch "Back to list", to: Routes.live_path(@socket, IndexView), class: "btn" %>
@@ -45,7 +47,7 @@ defmodule NoozoWeb.Admin.Post.EditView do
                   Title
                 </label>
                 <div class="mt-1">
-                  <input type='text' name='title' value='<%= @post.title %>' phx-debounce="5000" />
+                  <input type='text' name='title' value={@post.title} />
                 </div>
               </div>
 
@@ -54,7 +56,9 @@ defmodule NoozoWeb.Admin.Post.EditView do
                   Content
                 </label>
                 <div class="mt-1">
-                  <textarea class="w-full" type='text' name='content' rows="15" phx-debounce="5000"><%= @post.content %></textarea>
+                  <textarea class="w-full" type='text' name='content' rows="15">
+                    <%= @post.content %>
+                  </textarea>
                 </div>
               </div>
 
@@ -63,7 +67,8 @@ defmodule NoozoWeb.Admin.Post.EditView do
                   Status
                 </label>
                 <div class="mt-1">
-                  <select class="focus:ring-indigo-500 focus:border-indigo-500 h-full py-0 pl-2 pr-7 text-gray-500 sm:text-sm rounded-md" name="status" phx-blur="update-status">
+                  <select class="focus:ring-indigo-500 focus:border-indigo-500 h-full py-0 pl-2 pr-7 text-gray-500 sm:text-sm rounded-md"
+                          name="status" phx-blur="update-status">
                     <%= TemplateUtils.status_item("draft", "Draft", @post) %>
                     <%= TemplateUtils.status_item("published", "Published", @post) %>
                   </select>
@@ -85,10 +90,10 @@ defmodule NoozoWeb.Admin.Post.EditView do
                       <%= live_img_preview entry, height: 80 %>
                     </div>
                     <div class="column">
-                      <progress max="100" value="<%= entry.progress %>"/>
+                      <progress max="100" value={entry.progress} />
                     </div>
                     <div class="column">
-                      <a href="#" phx-click="cancel-entry" phx-value-ref="<%= entry.ref %>">
+                      <a href="#" phx-click="cancel-entry" phx-value-ref={entry.ref}>
                         cancel
                       </a>
                     </div>
@@ -127,19 +132,23 @@ defmodule NoozoWeb.Admin.Post.EditView do
     """
   end
 
+  @impl true
   def handle_params(params, _uri, socket) do
     {:noreply, assign(socket, post: Core.get_post!(params["id"]))}
   end
 
+  @impl true
   def handle_event("validate", _params, socket) do
     {:noreply, socket}
   end
 
+  @impl true
   def handle_event("cancel-entry", %{"ref" => ref}, socket) do
     {:noreply, cancel_upload(socket, :cover_photo, ref)}
   end
 
   # cover
+  @impl true
   def handle_event(
         "save",
         %{"content" => content, "status" => status, "title" => title} = _event,
@@ -160,6 +169,7 @@ defmodule NoozoWeb.Admin.Post.EditView do
   end
 
   # Title and content changes
+  @impl true
   def handle_event(
         "update-title-and-content",
         %{"title" => title, "content" => content} = _event,
@@ -170,6 +180,7 @@ defmodule NoozoWeb.Admin.Post.EditView do
   end
 
   # Status changes
+  @impl true
   def handle_event(
         "update-status",
         %{"value" => new_status} = _event,
@@ -179,6 +190,7 @@ defmodule NoozoWeb.Admin.Post.EditView do
     {:noreply, assign(socket, post: post, info: "Post saved")}
   end
 
+  @impl true
   def handle_event("remove-cover-photo", _event, %{assigns: assigns} = socket) do
     {:ok, post} = Core.update_post(assigns.post, %{image: nil, image_type: nil})
     {:noreply, assign(socket, post: post, info: "Post saved")}

@@ -9,15 +9,18 @@ defmodule NoozoWeb.Admin.Gallery.IndexView do
   alias NoozoWeb.Admin.Gallery.EditView
   alias NoozoWeb.Router.Helpers, as: Routes
 
+  @impl true
   def mount(_params, _session, socket) do
     {:ok, socket}
   end
 
+  @impl true
   def handle_params(params, _session, socket) do
     images = Gallery.list(params)
     {:noreply, assign(socket, :images, images)}
   end
 
+  @impl true
   def render(assigns) do
     ~H"""
     <%= live_patch("Upload Image", to: Routes.live_path(@socket, CreateView), class: "btn") %>

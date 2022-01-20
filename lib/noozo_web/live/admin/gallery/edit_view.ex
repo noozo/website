@@ -9,6 +9,7 @@ defmodule NoozoWeb.Admin.Gallery.EditView do
   alias NoozoWeb.Admin.Gallery.IndexView
   alias NoozoWeb.Router.Helpers, as: Routes
 
+  @impl true
   def render(assigns) do
     ~H"""
     <%= live_patch "Back to list", to: Routes.live_path(@socket, IndexView), class: "btn" %>
@@ -103,6 +104,7 @@ defmodule NoozoWeb.Admin.Gallery.EditView do
     """
   end
 
+  @impl true
   def mount(_params, _session, socket) do
     {:ok,
      socket
@@ -116,11 +118,13 @@ defmodule NoozoWeb.Admin.Gallery.EditView do
      )}
   end
 
+  @impl true
   def handle_params(params, _uri, socket) do
     image = Gallery.get_image!(params["uuid"])
     {:noreply, assign(socket, image: image)}
   end
 
+  @impl true
   def handle_event("save", %{"title" => title, "order" => order} = _event, socket) do
     {:ok, image} =
       Gallery.update_image(socket.assigns.image, %{
@@ -131,6 +135,7 @@ defmodule NoozoWeb.Admin.Gallery.EditView do
     {:noreply, assign(socket, image: image)}
   end
 
+  @impl true
   def handle_event("upload", _event, socket) do
     {:ok, image} =
       Gallery.update_image(
@@ -142,14 +147,17 @@ defmodule NoozoWeb.Admin.Gallery.EditView do
     {:noreply, assign(socket, image: image, info: "Image saved")}
   end
 
+  @impl true
   def handle_event("validate", _params, socket) do
     {:noreply, socket}
   end
 
+  @impl true
   def handle_event("cancel-entry", %{"ref" => ref}, socket) do
     {:noreply, cancel_upload(socket, :image, ref)}
   end
 
+  @impl true
   def handle_event("remove-image", _event, %{assigns: assigns} = socket) do
     {:ok, image} = Gallery.update_image(assigns.image, %{image: nil, image_type: nil})
     {:noreply, assign(socket, image: image, info: "Image saved")}

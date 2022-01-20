@@ -4,6 +4,7 @@ defmodule NoozoWeb.Admin.Cvs.Children.Components.ExpandCollapse do
   """
   use Phoenix.LiveComponent
 
+  @impl true
   def render(assigns) do
     ~H"""
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
@@ -19,6 +20,7 @@ defmodule NoozoWeb.Admin.Cvs.Children.Components.ExpandCollapse do
     """
   end
 
+  @impl true
   def update(%{var: var} = _assigns, socket) do
     {:ok, assign(socket, var: var)}
   end

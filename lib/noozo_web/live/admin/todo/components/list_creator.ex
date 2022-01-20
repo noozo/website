@@ -9,6 +9,7 @@ defmodule NoozoWeb.Admin.Todo.Components.ListCreator do
   @impl true
   def render(assigns) do
     height = if assigns.creating, do: "28", else: "16"
+
     ~H"""
     <div id={@id} class={"h-#{height} bg-gray-200 hover:bg-gray-300 text-sm rounded-lg p-4"} style="min-width: 250px;">
       <%= if @creating do %>

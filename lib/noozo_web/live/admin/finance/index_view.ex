@@ -100,8 +100,8 @@ defmodule NoozoWeb.Admin.Finance.IndexView do
     <div class="text-lg mb-6 font-medium">Finances</div>
 
     <form phx-change="update-dates">
-      <input type="date" name="start_date" max="<%= Timex.today() %>" value="<%= @params["start_date"] %>" />
-      <input type="date" name="end_date" max="<%= Timex.today() %>" value="<%= @params["end_date"] %>" />
+      <input type="date" name="start_date" max={Timex.today()} value={@params["start_date"]} />
+      <input type="date" name="end_date" max={Timex.today()} value={@params["end_date"]} />
     </form>
     <table>
       <thead>
@@ -139,7 +139,7 @@ defmodule NoozoWeb.Admin.Finance.IndexView do
 
     <div id="finance-diagram"
       phx-hook="FinanceDiagram"
-      data-finance-data="<%= serialize(@movements) %>"
+      data-finance-data={serialize(@movements)}
       class="mt-6 h-64"></div>
 
     <div class="text-lg font-medium mt-10 mb-6">Upload movements</div>
@@ -156,7 +156,7 @@ defmodule NoozoWeb.Admin.Finance.IndexView do
 
         <div class="flex">
           <%= live_file_input @uploads.csv %>
-          <input class="btn flex-col cursor-pointer" type="submit" value="Upload" <%= disabled_submit?(@uploads) %>></input>
+          <input class="btn flex-col cursor-pointer" type="submit" value="Upload" disabled={disabled_submit?(@uploads)} />
         </div>
       </div>
     </form>
@@ -167,12 +167,12 @@ defmodule NoozoWeb.Admin.Finance.IndexView do
         <%= entry.client_name %>
         </div>
         <div class="flex-col">
-          <progress max="100" value="<%= entry.progress %>"/>
+          <progress max="100" value={entry.progress} />
         </div>
         <div class="flex-col">
           <div class="btn cursor-pointer inline"
                 phx-click="cancel-entry"
-                phx-value-ref="<%= entry.ref %>">
+                phx-value-ref={entry.ref}>
             cancel
           </div>
         </div>

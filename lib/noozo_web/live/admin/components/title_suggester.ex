@@ -4,6 +4,7 @@ defmodule Admin.Components.TitleSuggester do
   """
   use Phoenix.LiveComponent
 
+  @impl true
   def render(assigns) do
     ~H"""
     <div class="block shadow sm:rounded-md sm:overflow-hidden mb-4 p-6" id={@id}>
@@ -12,6 +13,7 @@ defmodule Admin.Components.TitleSuggester do
     """
   end
 
+  @impl true
   def update(%{id: id, post: post} = _assigns, socket) do
     {:ok, assign(socket, id: id, suggested_title: suggestion(post.content))}
   end

@@ -5,6 +5,7 @@ defmodule NoozoWeb.Admin.Cvs.Children.SectionItemView do
 
   alias NoozoWeb.Admin.Cvs.Children.Components.ExpandCollapse
 
+  @impl true
   def render(assigns) do
     ~H"""
       <div class="shadow p-2"
@@ -112,6 +113,7 @@ defmodule NoozoWeb.Admin.Cvs.Children.SectionItemView do
     """
   end
 
+  @impl true
   def mount(_params, %{"item_uuid" => item_uuid} = _session, socket) do
     item = Cvs.get_section_item!(item_uuid)
 
@@ -126,6 +128,7 @@ defmodule NoozoWeb.Admin.Cvs.Children.SectionItemView do
      )}
   end
 
+  @impl true
   def handle_event("save", event, socket) do
     {:ok, item} =
       Cvs.update_section_item(
@@ -136,6 +139,7 @@ defmodule NoozoWeb.Admin.Cvs.Children.SectionItemView do
     {:noreply, assign(socket, item: item, info: "Item saved")}
   end
 
+  @impl true
   def handle_event("upload", _event, socket) do
     {:ok, item} =
       Cvs.update_section_item(
@@ -147,6 +151,7 @@ defmodule NoozoWeb.Admin.Cvs.Children.SectionItemView do
     {:noreply, assign(socket, item: item, info: "Item saved")}
   end
 
+  @impl true
   def handle_event("date-changed", %{"field" => field, "value" => value}, socket) do
     {:ok, item} =
       Cvs.update_section_item(
@@ -157,14 +162,17 @@ defmodule NoozoWeb.Admin.Cvs.Children.SectionItemView do
     {:noreply, assign(socket, item: item, info: "Item saved")}
   end
 
+  @impl true
   def handle_event("validate", _params, socket) do
     {:noreply, socket}
   end
 
+  @impl true
   def handle_event("cancel-entry", %{"ref" => ref}, socket) do
     {:noreply, cancel_upload(socket, :image, ref)}
   end
 
+  @impl true
   def handle_event("remove-image", _event, %{assigns: assigns} = socket) do
     {:ok, item} = Cvs.update_section_item(assigns.item, %{image: nil, image_type: nil})
     {:noreply, assign(socket, item: item, info: "Item saved")}

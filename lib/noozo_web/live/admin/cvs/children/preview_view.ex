@@ -7,6 +7,7 @@ defmodule NoozoWeb.Admin.Cvs.Children.PreviewView do
 
   alias Timex.Format.Duration.Formatters.Humanized, as: HumanizedDuration
 
+  @impl true
   def render(assigns) do
     ~H"""
     <div class="prose max-w-full sm:ml-6 sm:mr-6">
@@ -80,12 +81,14 @@ defmodule NoozoWeb.Admin.Cvs.Children.PreviewView do
     """
   end
 
+  @impl true
   def mount(_params, %{"cv_uuid" => cv_uuid} = _session, socket) do
     Cvs.subscribe()
     cv = Cvs.get_full_cv!(cv_uuid)
     {:ok, assign(socket, %{cv: cv})}
   end
 
+  @impl true
   def handle_info({_event, _item}, socket) do
     cv = Cvs.get_full_cv!(socket.assigns.cv.uuid)
     {:noreply, assign(socket, :cv, cv)}

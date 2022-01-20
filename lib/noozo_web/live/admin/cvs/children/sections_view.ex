@@ -9,6 +9,7 @@ defmodule NoozoWeb.Admin.Cvs.Children.SectionsView do
 
   require Logger
 
+  @impl true
   def render(assigns) do
     ~H"""
     <div class="mt-6" x-data="{collapsed: false}">
@@ -57,16 +58,19 @@ defmodule NoozoWeb.Admin.Cvs.Children.SectionsView do
     """
   end
 
+  @impl true
   def mount(_params, %{"cv_uuid" => cv_uuid} = _session, socket) do
     sections = Cvs.get_sections!(cv_uuid)
     {:ok, assign(socket, %{cv_uuid: cv_uuid, sections: sections})}
   end
 
+  @impl true
   def handle_event("add-section", _event, socket) do
     {:ok, section} = Cvs.create_section(socket.assigns.cv_uuid)
     {:noreply, assign(socket, :sections, socket.assigns.sections ++ [section])}
   end
 
+  @impl true
   def handle_event(
         "update-section",
         %{"section_uuid" => section_uuid, "title" => title} = _event,
@@ -76,24 +80,28 @@ defmodule NoozoWeb.Admin.Cvs.Children.SectionsView do
     {:noreply, assign(socket, :section, section)}
   end
 
+  @impl true
   def handle_event("remove-section", %{"section_uuid" => section_uuid} = _event, socket) do
     {:ok, _section} = Cvs.delete_section(section_uuid)
     sections = Enum.reject(socket.assigns.sections, &(&1.uuid == section_uuid))
     {:noreply, assign(socket, :sections, sections)}
   end
 
+  @impl true
   def handle_event("move-section-up", %{"section_uuid" => section_uuid} = _event, socket) do
     :ok = Cvs.move_item_up!(CvSection, section_uuid, &Cvs.update_section/2)
     sections = Cvs.get_sections!(socket.assigns.cv_uuid)
     {:noreply, assign(socket, :sections, sections)}
   end
 
+  @impl true
   def handle_event("move-section-down", %{"section_uuid" => section_uuid} = _event, socket) do
     :ok = Cvs.move_item_down!(CvSection, section_uuid, &Cvs.update_section/2)
     sections = Cvs.get_sections!(socket.assigns.cv_uuid)
     {:noreply, assign(socket, :sections, sections)}
   end
 
+  @impl true
   def handle_info({event, _cv}, socket) do
     Logger.debug("Sections - Unhandled event: #{event}")
     {:noreply, socket}

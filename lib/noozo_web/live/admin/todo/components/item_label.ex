@@ -6,6 +6,7 @@ defmodule NoozoWeb.Admin.Todo.Components.ItemLabel do
 
   alias Noozo.Todo
 
+  @impl true
   def render(assigns) do
     ~H"""
     <div id={@id} class="flex flex-col">
@@ -26,10 +27,12 @@ defmodule NoozoWeb.Admin.Todo.Components.ItemLabel do
     """
   end
 
-  def mount(%{"item" => item} = _params, _session, socket) do
+  @impl true
+  def update(%{item: item} = _assigns, socket) do
     {:ok, assign(socket, item: item)}
   end
 
+  @impl true
   def handle_event(
         "select_label",
         %{"label_id" => label_id} = _event,

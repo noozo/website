@@ -7,16 +7,19 @@ defmodule NoozoWeb.Admin.Cvs.CreateView do
   alias NoozoWeb.Admin.Cvs.EditView
   alias NoozoWeb.Router.Helpers, as: Routes
 
+  @impl true
   def render(assigns) do
     ~H"""
     Creating cv...
     """
   end
 
+  @impl true
   def mount(_params, session, socket) do
     {:ok, assign(socket, current_user: session["current_user"])}
   end
 
+  @impl true
   def handle_params(_params, _uri, %{assigns: assigns} = socket) do
     {:ok, cv} = Cvs.create_cv(%{title: "Untitled CV", user_id: assigns.current_user.id})
 

@@ -12,6 +12,7 @@ defmodule NoozoWeb.Admin.Cvs.EditView do
   alias NoozoWeb.Admin.Cvs.IndexView
   alias NoozoWeb.Router.Helpers, as: Routes
 
+  @impl true
   def render(assigns) do
     ~H"""
     <%= live_patch "Back to list", to: Routes.live_path(@socket, IndexView), class: "btn" %>
@@ -129,6 +130,7 @@ defmodule NoozoWeb.Admin.Cvs.EditView do
     """
   end
 
+  @impl true
   def mount(_params, _session, socket) do
     {:ok,
      socket
@@ -142,11 +144,13 @@ defmodule NoozoWeb.Admin.Cvs.EditView do
      )}
   end
 
+  @impl true
   def handle_params(params, _uri, socket) do
     cv = Cvs.get_cv!(params["uuid"])
     {:noreply, assign(socket, cv: cv)}
   end
 
+  @impl true
   def handle_event(
         "save",
         %{"title" => title, "subtitle" => subtitle, "abstract" => abstract} = _event,
@@ -162,6 +166,7 @@ defmodule NoozoWeb.Admin.Cvs.EditView do
     {:noreply, assign(socket, cv: cv)}
   end
 
+  @impl true
   def handle_event("upload", _event, socket) do
     {:ok, cv} =
       Cvs.update_cv(
@@ -173,14 +178,17 @@ defmodule NoozoWeb.Admin.Cvs.EditView do
     {:noreply, assign(socket, cv: cv)}
   end
 
+  @impl true
   def handle_event("validate", _params, socket) do
     {:noreply, socket}
   end
 
+  @impl true
   def handle_event("cancel-entry", %{"ref" => ref}, socket) do
     {:noreply, cancel_upload(socket, :image, ref)}
   end
 
+  @impl true
   def handle_event("remove-image", _event, %{assigns: assigns} = socket) do
     {:ok, cv} = Cvs.update_cv(assigns.cv, %{image: nil, image_type: nil})
     {:noreply, assign(socket, cv: cv)}

@@ -8,6 +8,7 @@ defmodule NoozoWeb.Admin.Cvs.Children.HeaderItemsView do
 
   require Logger
 
+  @impl true
   def render(assigns) do
     ~H"""
     <div class="mt-6" x-data="{collapsed: true}">
@@ -44,35 +45,41 @@ defmodule NoozoWeb.Admin.Cvs.Children.HeaderItemsView do
     """
   end
 
+  @impl true
   def mount(_params, %{"cv_uuid" => cv_uuid} = _session, socket) do
     Cvs.subscribe()
     items = Cvs.get_header_items!(cv_uuid)
     {:ok, assign(socket, %{cv_uuid: cv_uuid, items: items})}
   end
 
+  @impl true
   def handle_event("add-item", _event, socket) do
     {:ok, item} = Cvs.create_header_item(socket.assigns.cv_uuid)
     {:noreply, assign(socket, :items, socket.assigns.items ++ [item])}
   end
 
+  @impl true
   def handle_event("remove-item", %{"item_uuid" => item_uuid} = _event, socket) do
     {:ok, _item} = Cvs.delete_header_item(item_uuid)
     items = Enum.reject(socket.assigns.items, &(&1.uuid == item_uuid))
     {:noreply, assign(socket, :items, items)}
   end
 
+  @impl true
   def handle_event("move-item-up", %{"item_uuid" => item_uuid} = _event, socket) do
     :ok = Cvs.move_item_up!(CvHeaderItem, item_uuid, &Cvs.update_header_item/2)
     items = Cvs.get_header_items!(socket.assigns.cv_uuid)
     {:noreply, assign(socket, :items, items)}
   end
 
+  @impl true
   def handle_event("move-item-down", %{"item_uuid" => item_uuid} = _event, socket) do
     :ok = Cvs.move_item_down!(CvHeaderItem, item_uuid, &Cvs.update_header_item/2)
     items = Cvs.get_header_items!(socket.assigns.cv_uuid)
     {:noreply, assign(socket, :items, items)}
   end
 
+  @impl true
   def handle_info({event, _cv}, socket) do
     Logger.debug("HeaderItemsView - Unhandled event: #{event}")
     {:noreply, socket}

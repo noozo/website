@@ -5,9 +5,10 @@ defmodule NoozoWeb.Post.ShowView do
   alias NoozoWeb.Router.Helpers, as: Routes
   alias NoozoWeb.TemplateUtils
 
+  @impl true
   def render(assigns) do
     ~H"""
-    <div class="lg:flex lg:items-center lg:justify-between mb-8" id="<%= @post.id %>">
+    <div class="lg:flex lg:items-center lg:justify-between mb-8" id={@post.id}>
       <div class="flex-1 min-w-0">
         <%= render_tags(assigns) %>
 
@@ -58,17 +59,21 @@ defmodule NoozoWeb.Post.ShowView do
 
     <div class="block is-pulled-right">
       <!-- Facebook -->
-      <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=<%= URI.encode_www_form(@url) %>&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">
+      <a target="_blank"
+         href={"https://www.facebook.com/sharer/sharer.php?u=#{URI.encode_www_form(@url)}&amp;src=sdkpreparse"}
+         class="fb-xfbml-parse-ignore">
         <img class="inline" src="/images/bw/facebook_20x20.png"  width="20px" height="20px" />
       </a>
 
       <!-- Twitter -->
-      <a target="_blank" class="twitter-share-button" href="https://twitter.com/intent/tweet?text=I%20wrote%20a%20new%20article%20<%= URI.encode_www_form(@url) %>">
+      <a target="_blank" class="twitter-share-button"
+         href={"https://twitter.com/intent/tweet?text=I%20wrote%20a%20new%20article%20#{URI.encode_www_form(@url)}"}>
         <img class="inline" src="/images/bw/twitter_20x20.png"  width="20px" height="20px" />
       </a>
 
       <!-- LinkedIn -->
-      <a target="_blank" class="twitter-share-button" href="https://www.linkedin.com/shareArticle?mini=true&url=<%= URI.encode_www_form(@url) %>&title=<%= @post.title %>">
+      <a target="_blank" class="twitter-share-button"
+         href={"https://www.linkedin.com/shareArticle?mini=true&url=#{URI.encode_www_form(@url)}&title=#{@post.title}"}>
         <img class="inline" src="/images/bw/linkedin_20x20.png"  width="20px" height="20px" />
       </a>
     </div>
@@ -84,7 +89,7 @@ defmodule NoozoWeb.Post.ShowView do
     <%= if length(assigns.post.tags) > 0 do %>
       <%= for tag <- assigns.post.tags do %>
         <div class="tag">
-          <a href="<%= Routes.live_path(@socket, NoozoWeb.Post.IndexView, tag.name) %>">
+          <a href={Routes.live_path(@socket, NoozoWeb.Post.IndexView, tag.name)}>
             <%= tag.name %>
           </a>
         </div>
@@ -93,10 +98,12 @@ defmodule NoozoWeb.Post.ShowView do
     """
   end
 
+  @impl true
   def mount(_params, session, socket) do
     {:ok, assign(socket, current_user: session["current_user"], ga_id: session["ga_id"])}
   end
 
+  @impl true
   def handle_params(params, uri, socket) do
     post = fetch_post(params["slug"])
     {:noreply, assign(socket, post: post, url: uri, page_title: post.title)}
