@@ -5,39 +5,28 @@ defmodule NoozoWeb.Experiments.Games.Memory.MainView do
   @impl true
   def render(assigns) do
     ~H"""
-      <div></div>
+    <div class="content">
+      <div class="row">
+      Game ended: <%= @game_ended %>
+      </div>
+
+      <div class="cols-3">
+        <%= for element <- @elements do %>
+          <div>
+            <%= if element.found do %>
+              <img src={element.src} width="100" height="100" />
+            <% else %>
+              <img src={Routes.static_path(@socket, "/images/experiments/games/memory/question.png")}
+                width="100" height="100"
+                phx-click="clicked_element"
+                phx-value-element_id={element.id} />
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    </div>
     """
   end
-
-  # @impl true
-  # def render(assigns) do
-  #   ~H"""
-  #   <div class="content">
-  #     <div class="row">
-  #     Game ended: <%= @game_ended %>
-  #     </div>
-
-  #     <div class="row">
-  #       <%= for {element, index} <- Enum.with_index(@elements) do %>
-  #         <div class="column column-40">
-  #           <%= if element.found do %>
-  #             <img src={element.src} width="100" height="100" />
-  #           <% else %>
-  #             <img src={Routes.static_path(@socket, "/images/experiments/games/memory/question.png")}
-  #                width="100" height="100"
-  #                phx-click="clicked_element"
-  #                phx-value-element_id={element.id} />
-  #           <% end %>
-  #         </div>
-  #         <%= if index == 3 do %>
-  #           </div>
-  #           <div class="row">
-  #         <% end %>
-  #       <% end %>
-  #     </div>
-  #   </div>
-  #   """
-  # end
 
   @impl true
   def mount(params, _session, socket) do

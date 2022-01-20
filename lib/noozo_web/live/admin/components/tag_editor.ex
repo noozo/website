@@ -66,14 +66,14 @@ defmodule Admin.Components.TagEditor do
   end
 
   @impl true
-  def handle_event("add", %{"new_tag" => tag_name}, socket) do
+  def handle_event("add", %{"tag" => %{"new_tag" => tag_name}}, socket) do
     post_id = socket.assigns.post.id
     {:ok, _tagging} = Core.tag_post!(tag_name, post_id)
     {:noreply, assign(socket, post: Core.get_post!(post_id), suggestions: [])}
   end
 
   @impl true
-  def handle_event("suggest", %{"new_tag" => tag_name}, socket) do
+  def handle_event("suggest", %{"tag" => %{"new_tag" => tag_name}}, socket) do
     suggestions =
       case String.trim(tag_name) do
         "" -> []

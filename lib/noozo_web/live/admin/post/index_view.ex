@@ -13,8 +13,23 @@ defmodule NoozoWeb.Admin.Post.IndexView do
   alias NoozoWeb.TemplateUtils
 
   @impl true
-  def mount(params, _session, socket) do
-    {:ok, assign(socket, loading: false, posts: Core.list_posts(params, false))}
+  def mount(_params, _session, socket) do
+    {:ok, assign(socket, loading: true)}
+  end
+
+  @impl true
+  def handle_info({:load_posts, params}, socket) do
+    {:noreply,
+     assign(socket,
+       loading: false,
+       posts: Core.list_posts(params, false)
+     )}
+  end
+
+  @impl true
+  def handle_params(params, _uri, socket) do
+    send(self(), {:load_posts, params})
+    {:noreply, assign(socket, loading: true)}
   end
 
   @impl true

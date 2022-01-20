@@ -66,7 +66,7 @@ td { @apply px-6 py-2 whitespace-nowrap; }
     @apply bg-gray-900 text-white;
 }
 .admin .btn-nav-mobile {
-    @apply text-white hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium;
+    @apply text-gray-400 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium;
 }
 .admin main a {
     @apply text-black hover:underline;
@@ -86,4 +86,11 @@ input[type="email"],
 input[type="password"],
 input[type="date"] {
     @apply shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border-gray-300 rounded-md;
+}
+
+.cols-3 {
+    display: grid;
+    grid-auto-flow: row;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
 }
