@@ -2,21 +2,16 @@ defmodule NoozoWeb.Admin.Gallery.CreateView do
   @moduledoc """
   Admin Gallery create live view
   """
-  use Phoenix.LiveView, layout: {NoozoWeb.LayoutView, "live.html"}
+  use NoozoWeb, :surface_view
+
   alias Noozo.Gallery
   alias NoozoWeb.Admin.Gallery.EditView
-  alias NoozoWeb.Router.Helpers, as: Routes
 
   @impl true
   def render(assigns) do
-    ~H"""
+    ~F"""
     Creating gallery image...
     """
-  end
-
-  @impl true
-  def mount(_params, _session, socket) do
-    {:ok, socket}
   end
 
   @impl true

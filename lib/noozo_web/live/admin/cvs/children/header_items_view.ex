@@ -1,5 +1,5 @@
 defmodule NoozoWeb.Admin.Cvs.Children.HeaderItemsView do
-  use Phoenix.LiveView, layout: {NoozoWeb.LayoutView, "live.html"}
+  use NoozoWeb, :surface_view
 
   alias Noozo.Cvs
   alias Noozo.Cvs.CvHeaderItem
@@ -10,36 +10,45 @@ defmodule NoozoWeb.Admin.Cvs.Children.HeaderItemsView do
 
   @impl true
   def render(assigns) do
-    ~H"""
+    ~F"""
     <div class="mt-6" x-data="{collapsed: true}">
       <div class="text-lg mb-4 cursor-pointer" @click="collapsed = !collapsed">
-        <%= live_component ExpandCollapse, var: "collapsed" %>
+        <ExpandCollapse var="collapsed" />
         Header Items
       </div>
 
-      <a class="btn cursor-pointer mb-6" phx-click="add-item"
-         :class="{'hidden': collapsed, 'visible': !collapsed}">
+      <a
+        class="btn cursor-pointer mb-6"
+        phx-click="add-item"
+        :class="{'hidden': collapsed, 'visible': !collapsed}"
+      >
         Add Header Item
       </a>
 
       <div class="mt-6" :class="{'hidden': collapsed, 'visible': !collapsed}">
-        <%= for item <- @items do %>
+        {#for item <- @items}
           <div class="flex">
             <div class="flex-col">
-              <%= live_component HeaderItem, id: "header_item_#{item.uuid}", item: item %>
+              <HeaderItem id="header_item_#{item.uuid}" item={item} />
             </div>
-            <a class="btn cursor-pointer flex-col h-10"
-               phx-click="remove-item"
-               phx-value-item_uuid={item.uuid}
-               data-confirm="Are you sure you want to delete this item?">X</a>
-            <a class="btn cursor-pointer flex-col h-10"
-               phx-click="move-item-up"
-               phx-value-item_uuid={item.uuid}>Up</a>
-            <a class="btn cursor-pointer flex-col h-10"
-               phx-click="move-item-down"
-               phx-value-item_uuid={item.uuid}>Down</a>
+            <a
+              class="btn cursor-pointer flex-col h-10"
+              phx-click="remove-item"
+              phx-value-item_uuid={item.uuid}
+              data-confirm="Are you sure you want to delete this item?"
+            >X</a>
+            <a
+              class="btn cursor-pointer flex-col h-10"
+              phx-click="move-item-up"
+              phx-value-item_uuid={item.uuid}
+            >Up</a>
+            <a
+              class="btn cursor-pointer flex-col h-10"
+              phx-click="move-item-down"
+              phx-value-item_uuid={item.uuid}
+            >Down</a>
           </div>
-        <% end %>
+        {/for}
       </div>
     </div>
     """

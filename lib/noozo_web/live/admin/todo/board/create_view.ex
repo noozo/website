@@ -2,21 +2,16 @@ defmodule NoozoWeb.Admin.Todo.Board.CreateView do
   @moduledoc """
   Create boards
   """
-  use Phoenix.LiveView, layout: {NoozoWeb.LayoutView, "live.html"}
+  use NoozoWeb, :surface_view
+
   alias Noozo.Todo
   alias NoozoWeb.Admin.Todo.Board.EditView
-  alias NoozoWeb.Router.Helpers, as: Routes
 
   @impl true
   def render(assigns) do
-    ~H"""
+    ~F"""
     Creating board...
     """
-  end
-
-  @impl true
-  def mount(_params, _session, socket) do
-    {:ok, socket}
   end
 
   @impl true

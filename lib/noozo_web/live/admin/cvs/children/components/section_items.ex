@@ -2,7 +2,7 @@ defmodule NoozoWeb.Admin.Cvs.Children.Components.SectionItems do
   @moduledoc """
   Section items component
   """
-  use Phoenix.LiveComponent
+  use NoozoWeb, :surface_component
 
   alias Noozo.Cvs
   alias Noozo.Cvs.CvSectionItem
@@ -11,9 +11,18 @@ defmodule NoozoWeb.Admin.Cvs.Children.Components.SectionItems do
 
   require Logger
 
+  prop section_uuid, :string, required: true
+  data items, :list
+
+  @impl true
+  def update(%{id: id, section_uuid: section_uuid} = _assigns, socket) do
+    section = Cvs.get_section!(section_uuid)
+    {:ok, assign(socket, %{id: id, items: section.items, section_uuid: section_uuid})}
+  end
+
   @impl true
   def render(assigns) do
-    ~H"""
+    ~F"""
     <div id={@id} class="mt-6">
       <div class="text-lg mb-4 cursor-pointer">
         Items
@@ -24,33 +33,36 @@ defmodule NoozoWeb.Admin.Cvs.Children.Components.SectionItems do
       </a>
 
       <div class="mt-6">
-        <%= for item <- @items do %>
+        {#for item <- @items}
           <div class="flex">
-            <%= live_render @socket, SectionItemView, id: "section_item_#{item.uuid}", session: %{"item_uuid" => item.uuid} %>
-            <a class="btn cursor-pointer flex-col h-10"
-                  phx-click="remove-item"
-                  phx-target={@myself}
-                  phx-value-item_uuid={item.uuid}
-                  data-confirm="Are you sure you want to delete this item?">X</a>
-            <a class="btn cursor-pointer flex-col h-10"
-                  phx-target={@myself}
-                  phx-click="move-item-up"
-                  phx-value-item_uuid={item.uuid}>Up</a>
-            <a class="btn cursor-pointer flex-col h-10"
-                  phx-target={@myself}
-                  phx-click="move-item-down"
-                  phx-value-item_uuid={item.uuid}>Down</a>
+            {live_render(@socket, SectionItemView,
+              id: "section_item_#{item.uuid}",
+              session: %{"item_uuid" => item.uuid}
+            )}
+            <a
+              class="btn cursor-pointer flex-col h-10"
+              phx-click="remove-item"
+              phx-target={@myself}
+              phx-value-item_uuid={item.uuid}
+              data-confirm="Are you sure you want to delete this item?"
+            >X</a>
+            <a
+              class="btn cursor-pointer flex-col h-10"
+              phx-target={@myself}
+              phx-click="move-item-up"
+              phx-value-item_uuid={item.uuid}
+            >Up</a>
+            <a
+              class="btn cursor-pointer flex-col h-10"
+              phx-target={@myself}
+              phx-click="move-item-down"
+              phx-value-item_uuid={item.uuid}
+            >Down</a>
           </div>
-        <% end %>
+        {/for}
       </div>
     </div>
     """
-  end
-
-  @impl true
-  def update(%{id: id, section_uuid: section_uuid} = _assigns, socket) do
-    section = Cvs.get_section!(section_uuid)
-    {:ok, assign(socket, %{id: id, items: section.items, section_uuid: section_uuid})}
   end
 
   @impl true
@@ -78,11 +90,5 @@ defmodule NoozoWeb.Admin.Cvs.Children.Components.SectionItems do
     :ok = Cvs.move_item_down!(CvSectionItem, item_uuid, &Cvs.update_section_item/2)
     section = Cvs.get_section!(socket.assigns.section_uuid)
     {:noreply, assign(socket, :items, section.items)}
-  end
-
-  @impl true
-  def handle_info({event, _cv}, socket) do
-    Logger.debug("SectionItems - Unhandled event: #{event}")
-    {:noreply, socket}
   end
 end

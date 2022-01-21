@@ -1,36 +1,41 @@
 defmodule NoozoWeb.Experiments.Games.Memory.MainView do
-  use Phoenix.LiveView, layout: {NoozoWeb.LayoutView, "live.html"}
-  alias NoozoWeb.Router.Helpers, as: Routes
+  use NoozoWeb, :surface_view
 
-  @impl true
-  def render(assigns) do
-    ~H"""
-    <div class="content">
-      <div class="row">
-      Game ended: <%= @game_ended %>
-      </div>
-
-      <div class="cols-3">
-        <%= for element <- @elements do %>
-          <div>
-            <%= if element.found do %>
-              <img src={element.src} width="100" height="100" />
-            {#else}
-              <img src={Routes.static_path(@socket, "/images/experiments/games/memory/question.png")}
-                width="100" height="100"
-                phx-click="clicked_element"
-                phx-value-element_id={element.id} />
-            <% end %>
-          </div>
-        <% end %>
-      </div>
-    </div>
-    """
-  end
+  data game_ended, :boolean, default: false
+  prop elements, :list, required: true
 
   @impl true
   def mount(params, _session, socket) do
     {:ok, assign(socket, setup_game_data(socket, params["theme"] || ""))}
+  end
+
+  @impl true
+  def render(assigns) do
+    ~F"""
+    <div class="content">
+      <div class="row">
+        Game ended: {@game_ended}
+      </div>
+
+      <div class="cols-3">
+        {#for element <- @elements}
+          <div>
+            {#if element.found}
+              <img src={element.src} width="100" height="100">
+            {#else}
+              <img
+                src={Routes.static_path(@socket, "/images/experiments/games/memory/question.png")}
+                width="100"
+                height="100"
+                phx-click="clicked_element"
+                phx-value-element_id={element.id}
+              />
+            {/if}
+          </div>
+        {/for}
+      </div>
+    </div>
+    """
   end
 
   @impl true

@@ -1,5 +1,5 @@
 defmodule NoozoWeb.Admin.Cvs.Children.SectionsView do
-  use Phoenix.LiveView, layout: {NoozoWeb.LayoutView, "live.html"}
+  use NoozoWeb, :surface_view
 
   alias Noozo.Cvs
   alias Noozo.Cvs.CvSection
@@ -11,48 +11,57 @@ defmodule NoozoWeb.Admin.Cvs.Children.SectionsView do
 
   @impl true
   def render(assigns) do
-    ~H"""
+    ~F"""
     <div class="mt-6" x-data="{collapsed: false}">
       <div class="text-lg mb-4 cursor-pointer" @click="collapsed = !collapsed">
-        <%= live_component ExpandCollapse, var: "collapsed" %>
+        <ExpandCollapse var="collapsed" />
         Sections
       </div>
 
-      <a class="btn cursor-pointer" phx-click="add-section"
-         :class="{'hidden': collapsed, 'visible': !collapsed}">
+      <a
+        class="btn cursor-pointer"
+        phx-click="add-section"
+        :class="{'hidden': collapsed, 'visible': !collapsed}"
+      >
         Add Section
       </a>
 
       <div class="mt-6" :class="{'hidden': collapsed, 'visible': !collapsed}">
-        <%= for section <- @sections do %>
+        {#for section <- @sections}
           <div id={"section_container_#{section.uuid}"}>
             <div class="mb-6" x-data="{sectionCollapsed: true}">
               <div class="flex">
                 <div @click="sectionCollapsed = !sectionCollapsed">
-                  <%= live_component ExpandCollapse, var: "sectionCollapsed" %>
+                  <ExpandCollapse var="sectionCollapsed" />
                 </div>
                 <form phx-change="update-section" phx-debounce="500">
-                  <input type="hidden" name="section_uuid" value={section.uuid} />
-                  <input class='mr-4 flex-col' type='text' name='title' phx-debounce="500" value={section.title} />
+                  <input type="hidden" name="section_uuid" value={section.uuid}>
+                  <input class="mr-4 flex-col" type="text" name="title" phx-debounce="500" value={section.title}>
                 </form>
-                <a class="btn cursor-pointer flex-col"
-                   phx-click="remove-section"
-                   phx-value-section_uuid={section.uuid}
-                   data-confirm="Are you sure you want to delete this section?">X</a>
-                <a class="btn cursor-pointer flex-col h-10"
-                   phx-click="move-section-up"
-                   phx-value-section_uuid={section.uuid}>Up</a>
-                <a class="btn cursor-pointer flex-col h-10"
-                   phx-click="move-section-down"
-                   phx-value-section_uuid={section.uuid}>Down</a>
+                <a
+                  class="btn cursor-pointer flex-col"
+                  phx-click="remove-section"
+                  phx-value-section_uuid={section.uuid}
+                  data-confirm="Are you sure you want to delete this section?"
+                >X</a>
+                <a
+                  class="btn cursor-pointer flex-col h-10"
+                  phx-click="move-section-up"
+                  phx-value-section_uuid={section.uuid}
+                >Up</a>
+                <a
+                  class="btn cursor-pointer flex-col h-10"
+                  phx-click="move-section-down"
+                  phx-value-section_uuid={section.uuid}
+                >Down</a>
               </div>
 
               <div class="mt-2 ml-4" :class="{'hidden': sectionCollapsed, 'visible': !sectionCollapsed}">
-                <%= live_component SectionItems, id: "cv_section_items_#{section.uuid}", section_uuid: section.uuid %>
+                <SectionItems id="cv_section_items_#{section.uuid}" section_uuid={section.uuid} />
               </div>
             </div>
           </div>
-        <% end %>
+        {/for}
       </div>
     </div>
     """
