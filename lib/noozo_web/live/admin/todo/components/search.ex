@@ -2,24 +2,21 @@ defmodule NoozoWeb.Admin.Todo.Components.Search do
   @moduledoc """
   Search component to highlight items in board
   """
-  use Phoenix.LiveComponent
+  use NoozoWeb, :surface_component
 
   alias Noozo.Todo
 
-  @impl true
-  def update(%{id: id, current_user: current_user} = _assigns, socket) do
-    {:ok, assign(socket, id: id, current_user: current_user)}
-  end
+  prop current_user, :struct, required: true
 
   @impl true
   def render(assigns) do
-    ~H"""
+    ~F"""
     <div id={@id} class="mb-6">
-      <form phx-change="search" phx-target={@myself}>
+      <form change="search">
         <div class="flex flex-row items-center gap-2">
           <label for="title">Search</label>
           <div class="mt-1">
-            <input type="text" size="30" name="q" phx-debounce="500" />
+            <input type="text" size="30" name="q" phx-debounce="500">
           </div>
         </div>
       </form>

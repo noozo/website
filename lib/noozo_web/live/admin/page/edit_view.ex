@@ -2,23 +2,26 @@ defmodule NoozoWeb.Admin.Page.EditView do
   @moduledoc """
   Admin pages edit live view
   """
-  use Phoenix.LiveView, layout: {NoozoWeb.LayoutView, "live.html"}
+  use NoozoWeb, :surface_view
+
   alias Noozo.Core
   alias NoozoWeb.Admin.Page.IndexView
-  alias NoozoWeb.Router.Helpers, as: Routes
+
+  data info, :string
+  data error, :string
 
   @impl true
   def render(assigns) do
-    ~H"""
-    <%= live_patch "Back to list", to: Routes.live_path(@socket, IndexView), class: "btn" %>
+    ~F"""
+    {live_patch("Back to list", to: Routes.live_path(@socket, IndexView), class: "btn")}
 
     <div class="flex-none p-5">
-      <%= unless is_nil(@info) do %>
-        <div class="shadow p-5 bg-green-300 rounded-md" role="alert"><%= @info %></div>
-      <% end %>
-      <%= unless is_nil(@error) do %>
-        <div class="shadow p-5 bg-red-300 rounded-md" role="alert"><%= @error %></div>
-      <% end %>
+      {#unless is_nil(@info)}
+        <div class="shadow p-5 bg-green-300 rounded-md" role="alert">{@info}</div>
+      {/unless}
+      {#unless is_nil(@error)}
+        <div class="shadow p-5 bg-red-300 rounded-md" role="alert">{@error}</div>
+      {/unless}
     </div>
 
     <div class="mt-5 md:mt-0 flex flex-row gap-6">
@@ -31,7 +34,7 @@ defmodule NoozoWeb.Admin.Page.EditView do
                   Title
                 </label>
                 <div class="mt-1">
-                  <input type='text' name='title' value={@page.title} phx-debounce="5000" />
+                  <input type="text" name="title" value={@page.title} phx-debounce="5000">
                 </div>
               </div>
 
@@ -40,8 +43,8 @@ defmodule NoozoWeb.Admin.Page.EditView do
                   Content
                 </label>
                 <div class="mt-1">
-                  <textarea class="w-full" type='text' name='content' rows="20" cols="70" phx-debounce="5000">
-                    <%= @page.content %>
+                  <textarea class="w-full" type="text" name="content" rows="20" cols="70" phx-debounce="5000">
+                    {@page.content}
                   </textarea>
                 </div>
               </div>
@@ -51,9 +54,9 @@ defmodule NoozoWeb.Admin.Page.EditView do
       </div>
 
       <div class="w-1/2 border-2 border-dashed border-gray-200 p-4 prose lg:prose-xl">
-        <h2 class="title"><%= @page.title %></h2>
+        <h2 class="title">{@page.title}</h2>
         <div class="block">
-          <%= @page.content |> Phoenix.HTML.raw() %>
+          {@page.content |> Phoenix.HTML.raw()}
         </div>
       </div>
     </div>

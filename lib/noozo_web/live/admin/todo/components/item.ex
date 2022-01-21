@@ -2,23 +2,22 @@ defmodule NoozoWeb.Admin.Todo.Components.Item do
   @moduledoc """
   Item component
   """
-  use Phoenix.LiveComponent
+  use NoozoWeb, :surface_component
 
   alias Noozo.Repo
   alias Noozo.Todo
 
   import Ecto.Query, warn: false
 
+  prop item, :struct
+  prop search_result_ids, :list
+  data opacity, :integer, default: 100
+
   @impl true
   def update(%{id: id, item: item, search_result_ids: search_result_ids} = _assigns, socket) do
     # Update opacity depending if id is in search_result_ids (the ones that didnt match)
     opacity = if search_result_ids == [] or Enum.member?(search_result_ids, id), do: 100, else: 20
     {:ok, assign(socket, id: id, item: item, opacity: opacity)}
-  end
-
-  @impl true
-  def update(%{id: id, item: item} = _assigns, socket) do
-    {:ok, assign(socket, id: id, item: item, opacity: 100)}
   end
 
   # Converts id in assigns into item, by smartly identifying all
@@ -59,19 +58,21 @@ defmodule NoozoWeb.Admin.Todo.Components.Item do
     hardcoded_styles =
       "background-color: #{label_bg}; color: #{label_color}; opacity: #{opacity};"
 
-    ~H"""
-    <div id={@id}
-         class="p-1 pl-2 pr-2 hover:bg-opacity-50 border cursor-pointer text-xs rounded-md"
-         phx-hook="Draggable"
-         draggable="true"
-         phx-value-draggable_id={@item.id}
-         phx-value-draggable_type="item"
-         phx-click="item_clicked"
-         style={hardcoded_styles}>
-      <%= @item.title %>
-      <%= if @item.content do %>
+    ~F"""
+    <div
+      id={@id}
+      class="p-1 pl-2 pr-2 hover:bg-opacity-50 border cursor-pointer text-xs rounded-md"
+      phx-hook="Draggable"
+      draggable="true"
+      phx-value-draggable_id={@item.id}
+      phx-value-draggable_type="item"
+      phx-click="item_clicked"
+      style={hardcoded_styles}
+    >
+      {@item.title}
+      {#if @item.content}
         <div class="tag-xs bg-white">...</div>
-      <% end %>
+      {/if}
     </div>
     """
   end
