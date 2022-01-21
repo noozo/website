@@ -36,7 +36,7 @@ defmodule NoozoWeb.Admin.Post.IndexView do
     {#if @loading}
       <div>Loading information...</div>
     {#else}
-      {live_patch("Create Post", to: Routes.live_path(@socket, CreateView), class: "btn")}
+      <LivePatch to={Routes.live_path(@socket, CreateView)} class="btn">Create Post</LivePatch>
 
       <!-- This example requires Tailwind CSS v2.0+ -->
       <div class="flex flex-col mt-6">
@@ -64,7 +64,7 @@ defmodule NoozoWeb.Admin.Post.IndexView do
                   {#for post <- @posts.entries}
                     <tr>
                       <td>
-                        {live_patch(post.title, to: Routes.live_path(@socket, EditView, post.id))}
+                        <LivePatch to={Routes.live_path(@socket, EditView, post.id)} class="btn">{post.title}</LivePatch>
                       </td>
                       <td>
                         {post.slug}

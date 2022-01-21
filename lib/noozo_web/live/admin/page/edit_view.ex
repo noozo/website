@@ -13,7 +13,7 @@ defmodule NoozoWeb.Admin.Page.EditView do
   @impl true
   def render(assigns) do
     ~F"""
-    {live_patch("Back to list", to: Routes.live_path(@socket, IndexView), class: "btn")}
+    <LivePatch to={Routes.live_path(@socket, IndexView)} class="btn">Back to list</LivePatch>
 
     <div class="flex-none p-5">
       {#unless is_nil(@info)}

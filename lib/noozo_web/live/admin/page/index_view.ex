@@ -18,7 +18,7 @@ defmodule NoozoWeb.Admin.Page.IndexView do
     {#if @loading}
       <div>Loading information...</div>
     {#else}
-      {live_patch("Create Page", to: Routes.live_path(@socket, CreateView), class: "btn")}
+      <LivePatch to={Routes.live_path(@socket, CreateView)} class="btn">Create Page</LivePatch>
 
       <div class="flex flex-col mt-6">
         <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -39,7 +39,7 @@ defmodule NoozoWeb.Admin.Page.IndexView do
                   {#for page <- @pages.entries}
                     <tr>
                       <td>
-                        {live_patch(page.title, to: Routes.live_path(@socket, EditView, page.id))}
+                        <LivePatch to={Routes.live_path(@socket, EditView, page.id)} class="btn">{page.title}</LivePatch>
                       </td>
                       <td>
                         {page.slug}

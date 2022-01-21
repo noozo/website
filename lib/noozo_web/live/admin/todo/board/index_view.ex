@@ -19,7 +19,7 @@ defmodule NoozoWeb.Admin.Todo.Board.IndexView do
     {#if @loading}
       <div>Loading information...</div>
     {#else}
-      {live_patch("Create Board", to: Routes.live_path(@socket, CreateView))}
+      <LivePatch to={Routes.live_path(@socket, CreateView)}>Create Board</LivePatch>
       <div class="boards">
         <table class="table">
           <thead>
@@ -30,8 +30,12 @@ defmodule NoozoWeb.Admin.Todo.Board.IndexView do
           <tbody>
             {#for board <- @boards.entries}
               <tr>
-                <td>{live_patch(board.title, to: Routes.live_path(@socket, ShowView, board.id))}</td>
-                <td>{live_patch("Rename", to: Routes.live_path(@socket, EditView, board.id))}</td>
+                <td>
+                  <LivePatch to={Routes.live_path(@socket, ShowView, board.id)}>{board.title}</LivePatch>
+                </td>
+                <td>
+                  <LivePatch to={Routes.live_path(@socket, EditView, board.id)}>Rename</LivePatch>
+                </td>
                 <td>{TemplateUtils.format_date(board.inserted_at)}</td>
               </tr>
             {/for}

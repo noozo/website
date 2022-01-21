@@ -16,7 +16,7 @@ defmodule NoozoWeb.Admin.Gallery.IndexView do
   @impl true
   def render(assigns) do
     ~F"""
-    {live_patch("Upload Image", to: Routes.live_path(@socket, CreateView), class: "btn")}
+    <LivePatch to={Routes.live_path(@socket, CreateView)} class="btn">Upload Image</LivePatch>
 
     <div class="flex flex-col mt-6">
       <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -34,7 +34,7 @@ defmodule NoozoWeb.Admin.Gallery.IndexView do
                 {#for image <- @images.entries}
                   <tr>
                     <td>
-                      {live_patch(image.title, to: Routes.live_path(@socket, EditView, image.uuid))}
+                      <LivePatch to={Routes.live_path(@socket, EditView, image.uuid)}>{image.title}</LivePatch>
                     </td>
                     <td>
                       {data = Base.encode64(image.image)

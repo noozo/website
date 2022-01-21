@@ -19,18 +19,9 @@ defmodule NoozoWeb.Admin.DailyLog.IndexView do
     {#else}
       <div class="flex flex-col gap-6">
         <div class="flex-auto flex gap-3">
-          {live_patch("Last Friday",
-            to: Routes.live_path(@socket, EditView, %Entry{date: last_friday()}),
-            class: "btn"
-          )}
-          {live_patch("Yesterday",
-            to: Routes.live_path(@socket, EditView, %Entry{date: yesterday()}),
-            class: "btn"
-          )}
-          {live_patch("Today",
-            to: Routes.live_path(@socket, EditView, %Entry{date: Timex.today()}),
-            class: "btn"
-          )}
+          <LivePatch to={Routes.live_path(@socket, EditView, %Entry{date: last_friday()})} class="btn">Last Friday</LivePatch>
+          <LivePatch to={Routes.live_path(@socket, EditView, %Entry{date: yesterday()})} class="btn">Yesterday</LivePatch>
+          <LivePatch to={Routes.live_path(@socket, EditView, %Entry{date: Timex.today()})} class="btn">Today</LivePatch>
         </div>
 
         <table class="">
@@ -42,7 +33,9 @@ defmodule NoozoWeb.Admin.DailyLog.IndexView do
           <tbody>
             {#for entry <- @entries.entries}
               <tr>
-                <td>{live_patch(entry.date, to: Routes.live_path(@socket, EditView, entry))}</td>
+                <td>
+                  <LivePatch to={Routes.live_path(@socket, EditView, entry)} class="">{entry.date}</LivePatch>
+                </td>
                 <td>{entry.date |> Timex.weekday() |> Timex.day_name()}</td>
                 <td>{Curtail.truncate(entry.content || "", omission: "...", length: 50)}</td>
               </tr>
