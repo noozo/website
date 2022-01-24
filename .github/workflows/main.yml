@@ -48,10 +48,10 @@ jobs:
                 npx browserslist@latest --update-db
                 npm run deploy
                 cd ..
+                MIX_ENV=prod mix assets.deploy
                 echo "Loading env vars"
                 export $(egrep -v '^#' .env | xargs)
                 env
-                MIX_ENV=prod mix phx.digest
                 echo "Releasing..."
                 MIX_ENV=prod mix release --overwrite
                 MIX_ENV=prod mix ecto.migrate

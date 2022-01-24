@@ -3,7 +3,7 @@
     "license": "MIT",
     "scripts": {
         "build": "node esbuild.js",
-        "deploy": "node esbuild.js --deploy",
+        "deploy": "node esbuild.js --deploy && NODE_ENV=production tailwindcss --postcss --minify --input=css/app.css --output=../priv/static/assets/app.css",
         "watch": "node esbuild.js --watch"
     },
     "dependencies": {
