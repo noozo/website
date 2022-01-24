@@ -44,7 +44,6 @@ jobs:
                 cd assets
                 npm install
                 npx browserslist@latest --update-db
-                npm rebuild node-sass
                 npm run deploy
                 cd ..
                 echo "Loading env vars"

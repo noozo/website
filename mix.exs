@@ -75,6 +75,7 @@ defmodule Noozo.MixProject do
       {:money, "~> 1.9"},
       {:nimble_totp, "~> 0.1.0"},
       {:eqrcode, "~> 0.1.7"},
+      {:esbuild, "~> 0.4"},
 
       # Testing and things
       {:floki, "~> 0.32", only: :test},
@@ -84,8 +85,7 @@ defmodule Noozo.MixProject do
       {:credo, "1.6.1", only: [:dev, :test], runtime: false},
       {:mox, "~> 1.0", only: :test},
       {:dialyxir, "~> 1.1", only: [:dev, :test], runtime: false},
-      {:sobelow, "~> 0.11", only: [:dev, :test], runtime: false},
-      {:esbuild, "~> 0.4", runtime: Mix.env() == :dev}
+      {:sobelow, "~> 0.11", only: [:dev, :test], runtime: false}
     ]
   end
 
