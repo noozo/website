@@ -37,7 +37,9 @@ jobs:
                 echo "Updating mix deps..."
                 mix local.rebar --force
                 mix local.hex --force
-                mix deps.get --only prod
+                mix deps.get
+                mix deps.compile 
+                mix esbuild.install
                 echo "Compiling..."
                 MIX_ENV=prod mix compile
                 echo "Setting up assets..."
