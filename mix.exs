@@ -49,7 +49,6 @@ defmodule Noozo.MixProject do
       {:phoenix_live_dashboard, "~> 0.5"},
       {:phoenix_live_view, "~> 0.17.6"},
       {:surface, "~> 0.7.0"},
-      {:surface_formatter, "~> 0.7.4"},
       {:ecto_psql_extras, "~> 0.2"},
       {:telemetry, "~> 0.4.3"},
       {:telemetry_metrics, "~> 0.6"},
@@ -85,7 +84,8 @@ defmodule Noozo.MixProject do
       {:credo, "1.6.1", only: [:dev, :test], runtime: false},
       {:mox, "~> 1.0", only: :test},
       {:dialyxir, "~> 1.1", only: [:dev, :test], runtime: false},
-      {:sobelow, "~> 0.11", only: [:dev, :test], runtime: false}
+      {:sobelow, "~> 0.11", only: [:dev, :test], runtime: false},
+      {:surface_formatter, "~> 0.7.4", only: :dev}
     ]
   end
 
