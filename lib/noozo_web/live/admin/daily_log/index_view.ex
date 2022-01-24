@@ -2,25 +2,26 @@ defmodule NoozoWeb.Admin.DailyLog.IndexView do
   @moduledoc """
   Admin daily log index live view
   """
-  use Phoenix.LiveView, layout: {NoozoWeb.LayoutView, "live.html"}
-
-  import Noozo.Pagination
+  use NoozoWeb, :surface_view
 
   alias Noozo.DailyLog
   alias Noozo.DailyLog.Entry
+  alias Noozo.Pagination
   alias NoozoWeb.Admin.DailyLog.EditView
-  alias NoozoWeb.Router.Helpers, as: Routes
 
+  data loading, :boolean, default: true
+
+  @impl true
   def render(assigns) do
-    ~L"""
-    <%= if @loading do %>
+    ~F"""
+    {#if @loading}
       <div>Loading information...</div>
-    <% else %>
-      <div class=" flex flex-col gap-6">
+    {#else}
+      <div class="flex flex-col gap-6">
         <div class="flex-auto flex gap-3">
-          <%= live_patch "Last Friday", to: Routes.live_path(@socket, EditView, %Entry{date: last_friday()}), class: "btn" %>
-          <%= live_patch "Yesterday", to: Routes.live_path(@socket, EditView, %Entry{date: yesterday()}), class: "btn" %>
-          <%= live_patch "Today", to: Routes.live_path(@socket, EditView, %Entry{date: Timex.today()}), class: "btn" %>
+          <LivePatch to={Routes.live_path(@socket, EditView, %Entry{date: last_friday()})} class="btn">Last Friday</LivePatch>
+          <LivePatch to={Routes.live_path(@socket, EditView, %Entry{date: yesterday()})} class="btn">Yesterday</LivePatch>
+          <LivePatch to={Routes.live_path(@socket, EditView, %Entry{date: Timex.today()})} class="btn">Today</LivePatch>
         </div>
 
         <table class="">
@@ -30,26 +31,25 @@ defmodule NoozoWeb.Admin.DailyLog.IndexView do
             <th>Content</th>
           </thead>
           <tbody>
-            <%= for entry <- @entries.entries do %>
+            {#for entry <- @entries.entries}
               <tr>
-                <td><%= live_patch entry.date, to: Routes.live_path(@socket, EditView, entry) %></td>
-                <td><%= entry.date |> Timex.weekday() |> Timex.day_name() %></td>
-                <td><%= Curtail.truncate((entry.content || ""), omission: "...", length: 50) %></td>
+                <td>
+                  <LivePatch to={Routes.live_path(@socket, EditView, entry)} class="">{entry.date}</LivePatch>
+                </td>
+                <td>{entry.date |> Timex.weekday() |> Timex.day_name()}</td>
+                <td>{Curtail.truncate(entry.content || "", omission: "...", length: 50)}</td>
               </tr>
-            <% end %>
+            {/for}
           </tbody>
         </table>
 
-        <%= live_paginate(assigns, @entries, __MODULE__, @socket) %>
+        <Pagination source_assigns={assigns} entries={@entries} module={__MODULE__} />
       </div>
-    <% end %>
+    {/if}
     """
   end
 
-  def mount(_params, _session, socket) do
-    {:ok, assign(socket, loading: true)}
-  end
-
+  @impl true
   def handle_info({:load_entries, params}, socket) do
     {:noreply,
      assign(socket,
@@ -58,6 +58,7 @@ defmodule NoozoWeb.Admin.DailyLog.IndexView do
      )}
   end
 
+  @impl true
   def handle_params(params, _uri, socket) do
     send(self(), {:load_entries, params})
     {:noreply, assign(socket, loading: true)}

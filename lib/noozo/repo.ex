@@ -7,11 +7,13 @@ defmodule Noozo.Repo do
 
   @spec errors_from_changeset(Ecto.Changeset.t()) :: String.t()
   def errors_from_changeset(changeset) when is_map(changeset) do
-    changeset.errors
-    |> Enum.map(fn {field, {msg, _}} ->
-      "#{field}: #{msg}"
-    end)
-    |> Enum.join(", ")
+    Enum.map_join(
+      changeset.errors,
+      ", ",
+      fn {field, {msg, _}} ->
+        "#{field}: #{msg}"
+      end
+    )
   end
 end
 

@@ -1,6 +1,5 @@
-@import "live_view";
-@import "../node_modules/nprogress/nprogress.css";
-@import '../node_modules/chartist/dist/scss/chartist.scss';
+@import 'live_view';
+@import '../node_modules/chartist/dist/chartist.css';
 
 @import "tailwindcss/base";
 @import "tailwindcss/components";
@@ -26,21 +25,22 @@ iframe {
 }
 pre {
     display: inline-block;
-    strong {
-        color: white !important;
-    }
 }
+pre strong {
+    color: white !important;
+}
+
 .tag {
     @apply mr-2 text-xs inline-flex items-center uppercase px-3 py-1 rounded-full bg-white text-black border;
-    a {
-        @apply no-underline;
-    }
+}
+.tag a {
+    @apply no-underline;
 }
 .tag-xs {
     @apply mr-1 text-xs inline-flex items-center px-2 py-1 rounded-lg bg-white text-black border;
-    a {
-        @apply no-underline;
-    }
+}
+.tag-xs a {
+    @apply no-underline;
 }
 .social-icon {
     @apply inline w-4 h-4;
@@ -49,31 +49,27 @@ pre {
 }
 table {
     @apply min-w-full divide-y divide-gray-200;
-    thead { @apply bg-gray-50; }
-    tbody { @apply bg-white divide-y divide-gray-200; }
-    tr {}
-    th { @apply px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider; }
-    td { @apply px-6 py-2 whitespace-nowrap; }
 }
+thead { @apply bg-gray-50; }
+tbody { @apply bg-white divide-y divide-gray-200; }
+tr {}
+th { @apply px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider; }
+td { @apply px-6 py-2 whitespace-nowrap; }
 
-.admin {
-    .btn {
-        @apply px-4 py-2 items-center justify-center rounded-full bg-gray-200 text-black hover:no-underline hover:bg-gray-700 hover:text-white;
-    }
-    .btn-nav {
-        @apply text-white hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium;
-    }
-    .active {
-        @apply bg-gray-900 text-white;
-    }
-    .btn-nav-mobile {
-        @apply text-white hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium;
-    }
-    main {
-        a {
-            @apply text-black hover:underline;
-        }
-    }
+.admin .btn {
+    @apply px-4 py-2 items-center justify-center rounded-full bg-gray-200 text-black hover:no-underline hover:bg-gray-700 hover:text-white;
+}
+.admin .btn-nav {
+    @apply text-gray-400 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium;
+}
+.admin .active {
+    @apply bg-gray-900 text-white;
+}
+.admin .btn-nav-mobile {
+    @apply text-gray-400 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium;
+}
+.admin main a {
+    @apply text-black hover:underline;
 }
 
 .drag-target-active {
@@ -90,4 +86,11 @@ input[type="email"],
 input[type="password"],
 input[type="date"] {
     @apply shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border-gray-300 rounded-md;
+}
+
+.cols-3 {
+    display: grid;
+    grid-auto-flow: row;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
 }

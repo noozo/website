@@ -3,6 +3,7 @@ defmodule NoozoWeb.ErrorView do
 
   # If you want to customize a particular status code
   # for a certain format, you may uncomment below.
+  # @impl true
   # def render("500.html", _assigns) do
   #   "Internal Server Error"
   # end

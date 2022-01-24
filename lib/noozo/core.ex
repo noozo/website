@@ -99,6 +99,7 @@ defmodule Noozo.Core do
     |> Repo.insert()
   end
 
+  @impl true
   def update_post(%Post{} = post, attrs, before_save_func \\ & &1) do
     title = attrs[:title] || post.title
 
@@ -211,6 +212,7 @@ defmodule Noozo.Core do
     |> Repo.insert()
   end
 
+  @impl true
   def update_page(%Page{} = page, attrs) do
     title = attrs.title || page.title
 

@@ -6,9 +6,7 @@ defmodule NoozoWeb.VideoResolver do
   def youtube_embed(video_id) do
     """
     <div class=\"video embed-responsive embed-responsive-16by9\">
-      <iframe class=\"embed-responsive-item\" frameborder=\"0\" height=\"315\" src=\"https://www.youtube.com/embed/#{
-      video_id
-    }\" width=\"560\"></iframe>
+      <iframe class=\"embed-responsive-item\" frameborder=\"0\" height=\"315\" src=\"https://www.youtube.com/embed/#{video_id}\" width=\"560\"></iframe>
       <br/>
       Subscribe to my channel on <script src=\"https://apis.google.com/js/platform.js\"></script>
       <div class=\"g-ytsubscribe\" data-channelid=\"UCBE9Gud_bb-xrwHFAmKpxug\" data-layout=\"default\" data-count=\"default\"></div>

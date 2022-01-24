@@ -18,27 +18,26 @@ config :noozo, NoozoWeb.Endpoint,
   debug_errors: true,
   check_origin: false,
   watchers: [
-    node: [
-      "node_modules/webpack/bin/webpack.js",
-      "--mode",
-      "development",
-      "--watch-stdin",
-      "--progress",
-      "--color",
-      "--display",
-      "minimal",
+    esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]},
+    npx: [
+      "tailwindcss",
+      "--input=css/app.scss",
+      "--output=../priv/static/assets/app.css",
+      "--postcss",
+      "--watch",
       cd: Path.expand("../assets", __DIR__)
     ]
   ]
 
 # Watch static and templates for browser reloading.
 config :noozo, NoozoWeb.Endpoint,
+  reloadable_compilers: [:gettext, :elixir, :surface],
   live_reload: [
     patterns: [
       ~r"priv/static/.*(js|s?css|png|jpeg|jpg|gif|svg)$",
       ~r"priv/gettext/.*(po)$",
-      ~r"lib/noozo_web/{live,views}/.*(ex)$",
-      ~r"lib/noozo_web/templates/.*(eex)$",
+      ~r"lib/noozo_web/{live,views,components}/.*(ex|sface|js)$",
+      ~r"lib/noozo_web/templates/.*(eex|sface)$",
       ~r{lib/*/.*(ex)$}
     ]
   ]

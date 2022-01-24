@@ -1,11 +1,8 @@
 defmodule NoozoWeb.Admin.Finance.IndexView do
-  use Phoenix.LiveView, layout: {NoozoWeb.LayoutView, "live.html"}
-
-  import Noozo.Pagination
+  use NoozoWeb, :surface_view
 
   alias Noozo.Finance
-
-  alias NoozoWeb.Router.Helpers, as: Routes
+  alias Noozo.Pagination
 
   defmodule Line do
     @keys ~w(date description debit credit balance category)a
@@ -96,12 +93,12 @@ defmodule NoozoWeb.Admin.Finance.IndexView do
 
   @impl true
   def render(assigns) do
-    ~L"""
+    ~F"""
     <div class="text-lg mb-6 font-medium">Finances</div>
 
     <form phx-change="update-dates">
-      <input type="date" name="start_date" max="<%= Timex.today() %>" value="<%= @params["start_date"] %>" />
-      <input type="date" name="end_date" max="<%= Timex.today() %>" value="<%= @params["end_date"] %>" />
+      <input type="date" name="start_date" max={Timex.today()} value={@params["start_date"]}>
+      <input type="date" name="end_date" max={Timex.today()} value={@params["end_date"]}>
     </form>
     <table>
       <thead>
@@ -115,69 +112,74 @@ defmodule NoozoWeb.Admin.Finance.IndexView do
         </tr>
       </thead>
       <tbody>
-        <%= for entry <- @page_movements do %>
+        {#for entry <- @page_movements}
           <tr>
-            <td><%= entry.date %></td>
-            <td><%= entry.description %></td>
-            <td><%= entry.debit %></td>
-            <td><%= entry.credit %></td>
-            <td><%= entry.balance %></td>
-            <td><%= entry.category %></td>
+            <td>{entry.date}</td>
+            <td>{entry.description}</td>
+            <td>{entry.debit}</td>
+            <td>{entry.credit}</td>
+            <td>{entry.balance}</td>
+            <td>{entry.category}</td>
           </tr>
-        <% end %>
+        {/for}
         <tr>
-          <td></td>
-          <td></td>
-          <td><%= @debits %></td>
-          <td><%= @credits %></td>
-          <td></td>
-          <td></td>
+          <td />
+          <td />
+          <td>{@debits}</td>
+          <td>{@credits}</td>
+          <td />
+          <td />
         </tr>
       </tbody>
     </table>
-    <%= live_paginate(assigns, @page_movements, __MODULE__, @socket) %>
+    <Pagination source_assigns={assigns} entries={@page_movements} module={__MODULE__} />
 
-    <div id="finance-diagram"
+    <div
+      id="finance-diagram"
       phx-hook="FinanceDiagram"
-      data-finance-data="<%= serialize(@movements) %>"
-      class="mt-6 h-64"></div>
+      data-finance-data={serialize(@movements)}
+      class="mt-6 h-64"
+    />
 
     <div class="text-lg font-medium mt-10 mb-6">Upload movements</div>
 
     <form phx-submit="upload" phx-change="validate">
       <div class="col-span-6">
-        <%= for {_ref, msg} <- @uploads.csv.errors do %>
+        {#for {_ref, msg} <- @uploads.csv.errors}
           <div class="flex-none p-2">
             <p class="shadow p-5 bg-red-300 rounded-md" role="alert">
-              <%= Phoenix.Naming.humanize(msg) %>
+              {Phoenix.Naming.humanize(msg)}
             </p>
           </div>
-        <% end %>
+        {/for}
 
         <div class="flex">
-          <%= live_file_input @uploads.csv %>
-          <input class="btn flex-col cursor-pointer" type="submit" value="Upload" <%= disabled_submit?(@uploads) %>></input>
+          {live_file_input(@uploads.csv)}
+          <input
+            class="btn flex-col cursor-pointer"
+            type="submit"
+            value="Upload"
+            disabled={disabled_submit?(@uploads)}
+          />
         </div>
       </div>
     </form>
 
-    <%= for entry <- @uploads.csv.entries do %>
+    {#for entry <- @uploads.csv.entries}
       <div class="col-span-6">
         <div class="flex-col">
-        <%= entry.client_name %>
+          {entry.client_name}
         </div>
         <div class="flex-col">
-          <progress max="100" value="<%= entry.progress %>"/>
+          <progress max="100" value={entry.progress} />
         </div>
         <div class="flex-col">
-          <div class="btn cursor-pointer inline"
-                phx-click="cancel-entry"
-                phx-value-ref="<%= entry.ref %>">
+          <div class="btn cursor-pointer inline" phx-click="cancel-entry" phx-value-ref={entry.ref}>
             cancel
           </div>
         </div>
       </div>
-    <% end %>
+    {/for}
     """
   end
 

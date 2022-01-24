@@ -64,3 +64,6 @@ privkey.pem
 fullchain.pem
 priv/site_encrypt
 tmp
+
+# Ignore generated js hook files for components
+assets/js/_hooks/

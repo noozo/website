@@ -1,26 +1,22 @@
 defmodule NoozoWeb.Admin.Gallery.IndexView do
-  use Phoenix.LiveView, layout: {NoozoWeb.LayoutView, "live.html"}
-
-  import Noozo.Pagination
+  use NoozoWeb, :surface_view
 
   alias Noozo.Gallery
+  alias Noozo.Pagination
 
   alias NoozoWeb.Admin.Gallery.CreateView
   alias NoozoWeb.Admin.Gallery.EditView
-  alias NoozoWeb.Router.Helpers, as: Routes
 
-  def mount(_params, _session, socket) do
-    {:ok, socket}
-  end
-
+  @impl true
   def handle_params(params, _session, socket) do
     images = Gallery.list(params)
     {:noreply, assign(socket, :images, images)}
   end
 
+  @impl true
   def render(assigns) do
-    ~L"""
-    <%= live_patch("Upload Image", to: Routes.live_path(@socket, CreateView), class: "btn") %>
+    ~F"""
+    <LivePatch to={Routes.live_path(@socket, CreateView)} class="btn">Upload Image</LivePatch>
 
     <div class="flex flex-col mt-6">
       <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -29,36 +25,29 @@ defmodule NoozoWeb.Admin.Gallery.IndexView do
             <table>
               <thead>
                 <tr>
-                  <th scope="col">
-                    Title
-                  </th>
-                  <th scope="col">
-                    Preview
-                  </th>
-                  <th scope="col">
-                    Order
-                  </th>
+                  <th scope="col">Title</th>
+                  <th scope="col">Preview</th>
+                  <th scope="col">Order</th>
                 </tr>
               </thead>
               <tbody>
-                <%= for image <- @images.entries do %>
+                {#for image <- @images.entries}
                   <tr>
                     <td>
-                      <%= live_patch(image.title, to: Routes.live_path(@socket, EditView, image.uuid)) %>
+                      <LivePatch to={Routes.live_path(@socket, EditView, image.uuid)}>{image.title}</LivePatch>
                     </td>
                     <td>
-                      <%=
-                        data = Base.encode64(image.image)
-                        Phoenix.HTML.raw(
-                          "<img class=\"h-20\" src=\"data:"<>image.image_type<>";base64,"<>data<>"\">"
-                        )
-                      %>
+                      {data = Base.encode64(image.image)
+
+                      Phoenix.HTML.raw(
+                        "<img class=\"h-20\" src=\"data:" <> image.image_type <> ";base64," <> data <> "\">"
+                      )}
                     </td>
                     <td>
-                      <%= image.order %>
+                      {image.order}
                     </td>
                   </tr>
-                <% end %>
+                {/for}
               </tbody>
             </table>
           </div>
@@ -66,7 +55,7 @@ defmodule NoozoWeb.Admin.Gallery.IndexView do
       </div>
     </div>
 
-    <%= live_paginate(assigns, @images, __MODULE__, @socket) %>
+    <Pagination source_assigns={assigns} entries={@images} module={__MODULE__} />
     """
   end
 end

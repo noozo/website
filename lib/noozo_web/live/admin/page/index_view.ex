@@ -2,21 +2,23 @@ defmodule NoozoWeb.Admin.Page.IndexView do
   @moduledoc """
   Admin pages index live view
   """
-  use Phoenix.LiveView, layout: {NoozoWeb.LayoutView, "live.html"}
-
-  import Noozo.Pagination
+  use NoozoWeb, :surface_view
 
   alias Noozo.Core
+  alias Noozo.Pagination
+
   alias NoozoWeb.Admin.Page.CreateView
   alias NoozoWeb.Admin.Page.EditView
-  alias NoozoWeb.Router.Helpers, as: Routes
 
+  data loading, :boolean, default: true
+
+  @impl true
   def render(assigns) do
-    ~L"""
-    <%= if @loading do %>
+    ~F"""
+    {#if @loading}
       <div>Loading information...</div>
-    <% else %>
-      <%= live_patch("Create Page", to: Routes.live_path(@socket, CreateView), class: "btn") %>
+    {#else}
+      <LivePatch to={Routes.live_path(@socket, CreateView)} class="btn">Create Page</LivePatch>
 
       <div class="flex flex-col mt-6">
         <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -34,16 +36,16 @@ defmodule NoozoWeb.Admin.Page.IndexView do
                   </tr>
                 </thead>
                 <tbody>
-                  <%= for page <- @pages.entries do %>
+                  {#for page <- @pages.entries}
                     <tr>
                       <td>
-                        <%= live_patch(page.title, to: Routes.live_path(@socket, EditView, page.id)) %>
+                        <LivePatch to={Routes.live_path(@socket, EditView, page.id)} class="btn">{page.title}</LivePatch>
                       </td>
                       <td>
-                        <%= page.slug %>
+                        {page.slug}
                       </td>
                     </tr>
-                  <% end %>
+                  {/for}
                 </tbody>
               </table>
             </div>
@@ -51,15 +53,12 @@ defmodule NoozoWeb.Admin.Page.IndexView do
         </div>
       </div>
 
-      <%= live_paginate(assigns, @pages, __MODULE__, @socket) %>
-    <% end %>
+      <Pagination source_assigns={assigns} entries={@pages} module={__MODULE__} />
+    {/if}
     """
   end
 
-  def mount(_params, _session, socket) do
-    {:ok, assign(socket, loading: true)}
-  end
-
+  @impl true
   def handle_info({:load_pages, params}, socket) do
     {:noreply,
      assign(socket,
@@ -68,6 +67,7 @@ defmodule NoozoWeb.Admin.Page.IndexView do
      )}
   end
 
+  @impl true
   def handle_params(params, _uri, socket) do
     send(self(), {:load_pages, params})
     {:noreply, assign(socket, loading: true)}

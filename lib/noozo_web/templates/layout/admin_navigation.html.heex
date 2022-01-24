@@ -17,7 +17,7 @@
             %>
             <div class="hidden md:block" x-data="{todoMenuOpen: false}" @mouseover.away = "todoMenuOpen = false">
               <div>
-                <button class="btn-nav #{NoozoWeb.TemplateUtils.active(@conn, ["/admin/todo"])}"
+                <button class={"btn-nav #{NoozoWeb.TemplateUtils.active(@conn, ["/admin/todo"])}"}
                         id="todo-menu" aria-haspopup="true"
                         @mouseover="todoMenuOpen = true"
                         :aria-checked="todoMenuOpen">

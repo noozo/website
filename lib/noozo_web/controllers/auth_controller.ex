@@ -10,9 +10,7 @@ defmodule NoozoWeb.AuthController do
 
   alias Noozo.Core
 
-  alias NoozoWeb.Router.Helpers, as: Routes
-
-  def request(conn, %{"redirect_url" => redirect_url} = params) do
+  def request(conn, %{"redirect_url" => redirect_url} = _params) do
     conn
     |> put_req_header("referer", redirect_url)
     |> render("request.html", callback_url: Helpers.callback_url(conn))
@@ -35,7 +33,7 @@ defmodule NoozoWeb.AuthController do
 
   def identity_callback(
         %{assigns: %{ueberauth_auth: auth}} = conn,
-        %{"redirect_url" => redirect_url, "code" => two_factor_code} = params
+        %{"redirect_url" => redirect_url, "code" => two_factor_code} = _params
       ) do
     case login(auth, two_factor_code) do
       {:ok, user} ->

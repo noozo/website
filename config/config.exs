@@ -55,6 +55,20 @@ config :ueberauth, Ueberauth,
 config :money,
   default_currency: :EUR
 
+# Configure esbuild (the version is required)
+config :esbuild,
+  version: "0.12.15",
+  default: [
+    args: ~w(js/app.js --bundle --target=es2017 --outdir=../priv/static/assets),
+    cd: Path.expand("../assets", __DIR__),
+    env: %{"NODE_PATH" => Path.expand("../deps", __DIR__)}
+  ]
+
+config :surface, :components, [
+  {Surface.Components.Form.ErrorTag,
+   default_translator: {NoozoWeb.ErrorHelpers, :translate_error}}
+]
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env()}.exs"

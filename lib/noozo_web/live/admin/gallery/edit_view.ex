@@ -2,24 +2,25 @@ defmodule NoozoWeb.Admin.Gallery.EditView do
   @moduledoc """
   Admin Gallery edit live view
   """
-  use Phoenix.LiveView, layout: {NoozoWeb.LayoutView, "live.html"}
+  use NoozoWeb, :surface_view
 
   alias Noozo.Gallery
 
   alias NoozoWeb.Admin.Gallery.IndexView
   alias NoozoWeb.Router.Helpers, as: Routes
 
+  @impl true
   def render(assigns) do
-    ~L"""
-    <%= live_patch "Back to list", to: Routes.live_path(@socket, IndexView), class: "btn" %>
+    ~F"""
+    <LivePatch to={Routes.live_path(@socket, IndexView)} class="btn">Back to list</LivePatch>
 
     <div class="flex-none p-5">
-      <%= unless is_nil(@info) do %>
-        <div class="shadow p-5 bg-green-300 rounded-md" role="alert"><%= @info %></div>
-      <% end %>
-      <%= unless is_nil(@error) do %>
-        <div class="shadow p-5 bg-red-300 rounded-md" role="alert"><%= @error %></div>
-      <% end %>
+      {#unless is_nil(@info)}
+        <div class="shadow p-5 bg-green-300 rounded-md" role="alert">{@info}</div>
+      {/unless}
+      {#unless is_nil(@error)}
+        <div class="shadow p-5 bg-red-300 rounded-md" role="alert">{@error}</div>
+      {/unless}
     </div>
 
     <div class="mt-2 md:mt-0 md:col-span-2 grid grid-cols-2 gap-6 max-w-full">
@@ -32,7 +33,7 @@ defmodule NoozoWeb.Admin.Gallery.EditView do
                   Title
                 </label>
                 <div class="mt-1">
-                  <input type='text' name='title' value='<%= @image.title %>' phx-debounce="500" />
+                  <input type="text" name="title" value={@image.title} phx-debounce="500">
                 </div>
               </div>
 
@@ -41,60 +42,60 @@ defmodule NoozoWeb.Admin.Gallery.EditView do
                   Order
                 </label>
                 <div class="mt-1">
-                  <input type='text' name='order' value='<%= @image.order %>' phx-debounce="500" />
+                  <input type="text" name="order" value={@image.order} phx-debounce="500">
                 </div>
               </div>
             </div>
           </form>
 
-          <form phx-submit="upload" phx-change="validate"
-              :class="{'hidden': collapsed, 'visible': !collapsed}">
+          <form
+            phx-submit="upload"
+            phx-change="validate"
+            :class="{'hidden': collapsed, 'visible': !collapsed}"
+          >
             <div class="grid grid-cols-6 gap-4 mt-4">
               <label for="image">Image</label>
 
-              <%= if @image.image do %>
+              {#if @image.image}
                 <div class="block mr-6" phx-click="remove-image" data-confirm="Remove image?">
-                  <%=
-                    data = Base.encode64(@image.image)
-                    Phoenix.HTML.raw(
-                      "<img src=\"data:"<>@image.image_type<>";base64,"<>data<>"\" width=\"50px\">"
-                    )
-                  %>
+                  {data = Base.encode64(@image.image)
+
+                  Phoenix.HTML.raw(
+                    "<img src=\"data:" <> @image.image_type <> ";base64," <> data <> "\" width=\"50px\">"
+                  )}
                 </div>
-              <% end %>
+              {/if}
 
               <div class="col-span-6">
-                <%= for {_ref, msg} <- @uploads.image.errors do %>
+                {#for {_ref, msg} <- @uploads.image.errors}
                   <div class="flex-none p-2">
                     <p class="shadow p-5 bg-red-300 rounded-md" role="alert">
-                      <%= Phoenix.Naming.humanize(msg) %>
+                      {Phoenix.Naming.humanize(msg)}
                     </p>
                   </div>
-                <% end %>
+                {/for}
 
                 <div class="flex">
-                  <%= live_file_input @uploads.image %>
-                  <input class="btn flex-col cursor-pointer" type="submit" value="Upload"></input>
+                  {live_file_input(@uploads.image)}
+                  <input class="btn flex-col cursor-pointer" type="submit" value="Upload">
                 </div>
               </div>
 
-              <%= for entry <- @uploads.image.entries do %>
+              {#for entry <- @uploads.image.entries}
                 <div class="col-span-6">
                   <div class="flex-col">
-                    <%= live_img_preview entry, width: 50, height: 50 %>
+                    {live_img_preview(entry, width: 50, height: 50)}
                   </div>
                   <div class="flex-col">
-                    <progress max="100" value="<%= entry.progress %>"/>
+                    <progress max="100" value={entry.progress} />
                   </div>
                   <div class="flex-col">
-                    <div class="btn cursor-pointer inline"
-                          phx-click="cancel-entry"
-                          phx-value-ref="<%= entry.ref %>">
+                    <div class="btn cursor-pointer inline" phx-click="cancel-entry" phx-value-ref={entry.ref}>
                       cancel
                     </div>
                   </div>
                 </div>
-              <% end %>
+              {/for}
             </div>
           </form>
         </div>
@@ -103,6 +104,7 @@ defmodule NoozoWeb.Admin.Gallery.EditView do
     """
   end
 
+  @impl true
   def mount(_params, _session, socket) do
     {:ok,
      socket
@@ -116,11 +118,13 @@ defmodule NoozoWeb.Admin.Gallery.EditView do
      )}
   end
 
+  @impl true
   def handle_params(params, _uri, socket) do
     image = Gallery.get_image!(params["uuid"])
     {:noreply, assign(socket, image: image)}
   end
 
+  @impl true
   def handle_event("save", %{"title" => title, "order" => order} = _event, socket) do
     {:ok, image} =
       Gallery.update_image(socket.assigns.image, %{
@@ -131,6 +135,7 @@ defmodule NoozoWeb.Admin.Gallery.EditView do
     {:noreply, assign(socket, image: image)}
   end
 
+  @impl true
   def handle_event("upload", _event, socket) do
     {:ok, image} =
       Gallery.update_image(
@@ -142,14 +147,17 @@ defmodule NoozoWeb.Admin.Gallery.EditView do
     {:noreply, assign(socket, image: image, info: "Image saved")}
   end
 
+  @impl true
   def handle_event("validate", _params, socket) do
     {:noreply, socket}
   end
 
+  @impl true
   def handle_event("cancel-entry", %{"ref" => ref}, socket) do
     {:noreply, cancel_upload(socket, :image, ref)}
   end
 
+  @impl true
   def handle_event("remove-image", _event, %{assigns: assigns} = socket) do
     {:ok, image} = Gallery.update_image(assigns.image, %{image: nil, image_type: nil})
     {:noreply, assign(socket, image: image, info: "Image saved")}

@@ -16,10 +16,10 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css?family=Libre+Barcode+128+Text|Share+Tech" rel="stylesheet" />
 
-    <link rel="stylesheet" type="text/css" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
+    <link phx-track-static rel="stylesheet" href={Routes.static_path(@conn, "/assets/app.css")} />
     <%=# controller_css(@conn) %>
     <%= csrf_meta_tag() %>
-    <script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
+    <script defer phx-track-static type="text/javascript" src={Routes.static_path(@conn, "/assets/app.js")}></script>
   </head>
   <body class="bg-gray-100 flex flex-col h-full min-h-screen m-0 p-0">
       <%= render(NoozoWeb.LayoutView, "navigation.html", conn: @conn) %>

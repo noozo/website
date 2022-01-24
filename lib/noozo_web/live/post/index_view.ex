@@ -1,32 +1,40 @@
 defmodule NoozoWeb.Post.IndexView do
-  use Phoenix.LiveView, layout: {NoozoWeb.LayoutView, "live.html"}
+  use NoozoWeb, :surface_view
 
   alias Noozo.Core
+  alias Noozo.Pagination
 
-  import Noozo.Pagination
+  alias NoozoWeb.Post.Components.Post
 
+  @impl true
   def render(assigns) do
-    ~L"""
+    ~F"""
     <div>
-      <%= if @tag do %>
-        <div class="md:text-2xl lg:text-2xl xl:text-4xl font-bold mb-6">Posts about <%= @tag.name %></div>
-      <% end %>
+      {#if @tag}
+        <div class="md:text-2xl lg:text-2xl xl:text-4xl font-bold mb-6">
+          Posts about {@tag.name}
+        </div>
+      {/if}
 
       <div class="flex flex-grow flex-col flex-nowrap gap-8 md:min-w-full">
-        <%= if Enum.any?(@posts.entries) do %>
-          <%= for post <- @posts.entries do %>
-            <%= live_component(@socket, NoozoWeb.Post.Components.Post, post: post, ga_id: @ga_id) %>
-          <% end %>
-        <% else %>
-          <p class="text-center">There is nothing here. Why don't you <a class="underline" href="/admin/posts">write something</a>?</p>
-        <% end %>
+        {#if Enum.any?(@posts.entries)}
+          {#for post <- @posts.entries}
+            <Post id={"post_#{post.id}"} post={post} ga_id={@ga_id} />
+          {/for}
+        {#else}
+          <p class="text-center">
+            There is nothing here.
+            Why don't you <a class="underline" href="/admin/posts">write something</a>?
+          </p>
+        {/if}
       </div>
 
-      <%= live_paginate(assigns, @posts, __MODULE__, @socket) %>
+      <Pagination source_assigns={assigns} entries={@posts} module={__MODULE__} />
     </div>
     """
   end
 
+  @impl true
   def mount(_params, session, socket) do
     {:ok,
      assign(socket,
@@ -37,6 +45,7 @@ defmodule NoozoWeb.Post.IndexView do
      )}
   end
 
+  @impl true
   def handle_params(params, _uri, socket) do
     params = Map.put(params, :page_size, 4)
 

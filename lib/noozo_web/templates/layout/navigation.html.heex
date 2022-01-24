@@ -9,15 +9,15 @@
       <div class="flex items-center">
         <div class="hidden md:block">
           <div class="flex items-baseline space-x-4">
-            <a class="btn-nav <%= NoozoWeb.TemplateUtils.active(@conn, ["/posts", "/tag/"]) %>"
+            <a class={"btn-nav #{NoozoWeb.TemplateUtils.active(@conn, ["/posts", "/tag/"])}"}
                href="/posts">Writings</a>
-            <a class="btn-nav <%= NoozoWeb.TemplateUtils.active(@conn, ["/pages/resume"]) %>"
+            <a class={"btn-nav #{NoozoWeb.TemplateUtils.active(@conn, ["/pages/resume"])}"}
                href="/pages/resume">Resume</a>
-            <a class="btn-nav <%= NoozoWeb.TemplateUtils.active(@conn, ["/pages/uses"]) %>"
+            <a class={"btn-nav #{NoozoWeb.TemplateUtils.active(@conn, ["/pages/uses"])}"}
                href="/pages/uses">Uses</a>
-            <a class="btn-nav <%= NoozoWeb.TemplateUtils.active(@conn, ["/gallery"]) %>"
+            <a class={"btn-nav #{NoozoWeb.TemplateUtils.active(@conn, ["/gallery"])}"}
                href="/gallery">Handmade</a>
-            <a class="btn-nav <%= NoozoWeb.TemplateUtils.active(@conn, ["/pages/other-places"]) %>"
+            <a class={"btn-nav #{NoozoWeb.TemplateUtils.active(@conn, ["/pages/other-places"])}"}
                href="/pages/other-places">One more thing</a>
           </div>
         </div>
@@ -129,15 +129,15 @@
   <div :class="{'block': mobileOpen, 'hidden': !mobileOpen }"
           class="hidden md:hidden">
     <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-      <a class="btn-nav-mobile <%= NoozoWeb.TemplateUtils.active(@conn, ["/posts", "/tag/"]) %>"
+      <a class={"btn-nav-mobile #{NoozoWeb.TemplateUtils.active(@conn, ["/posts", "/tag/"])}"}
           href="/posts">Writings</a>
-      <a class="btn-nav-mobile <%= NoozoWeb.TemplateUtils.active(@conn, ["/pages/resume"]) %>"
+      <a class={"btn-nav-mobile #{NoozoWeb.TemplateUtils.active(@conn, ["/pages/resume"])}"}
           href="/pages/resume">Resume</a>
-      <a class="btn-nav-mobile <%= NoozoWeb.TemplateUtils.active(@conn, ["/pages/uses"]) %>"
+      <a class={"btn-nav-mobile #{NoozoWeb.TemplateUtils.active(@conn, ["/pages/uses"])}"}
           href="/pages/uses">Uses</a>
-      <a class="btn-nav-mobile <%= NoozoWeb.TemplateUtils.active(@conn, ["/gallery"]) %>"
+      <a class={"btn-nav-mobile #{NoozoWeb.TemplateUtils.active(@conn, ["/gallery"])}"}
           href="/gallery">Handmade</a>
-      <a class="btn-nav-mobile <%= NoozoWeb.TemplateUtils.active(@conn, ["/pages/other-places"]) %>"
+      <a class={"btn-nav-mobile #{NoozoWeb.TemplateUtils.active(@conn, ["/pages/other-places"])}"}
           href="/pages/other-places">One more thing</a>
       <%= link "Admin", to: Routes.live_path(@conn, NoozoWeb.Admin.Post.IndexView), class: "btn-nav-mobile"%>
 
