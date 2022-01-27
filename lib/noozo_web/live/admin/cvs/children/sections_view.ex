@@ -57,7 +57,7 @@ defmodule NoozoWeb.Admin.Cvs.Children.SectionsView do
               </div>
 
               <div class="mt-2 ml-4" :class="{'hidden': sectionCollapsed, 'visible': !sectionCollapsed}">
-                <SectionItems id="cv_section_items_#{section.uuid}" section_uuid={section.uuid} />
+                <SectionItems id={"cv_section_items_#{section.uuid}"} section_uuid={section.uuid} />
               </div>
             </div>
           </div>

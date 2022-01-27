@@ -28,13 +28,13 @@ defmodule NoozoWeb.Admin.Todo.Components.List do
       style="min-width: 250px; max-width: 250px;"
     >
       <div phx-hook="DropContainer" id={"#{@id}_drop_container"} class="h-full flex flex-col gap-2">
-        <ListHeader id="list_header_#{@list.id}" list={@list} />
+        <ListHeader id={"list_header_#{@list.id}"} list={@list} />
         <div class="flex flex-col gap-1">
           {#if @list.open}
             {#for item <- @list.items |> Enum.sort_by(& &1.inserted_at)}
               <Item id={item.id} search_result_ids={@search_result_ids} />
             {/for}
-            <ItemCreator id="item_creator_#{@list.id}" list={@list} />
+            <ItemCreator id={"item_creator_#{@list.id}"} list={@list} />
           {/if}
         </div>
       </div>

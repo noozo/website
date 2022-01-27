@@ -29,7 +29,7 @@ defmodule NoozoWeb.Admin.Cvs.Children.HeaderItemsView do
         {#for item <- @items}
           <div class="flex">
             <div class="flex-col">
-              <HeaderItem id="header_item_#{item.uuid}" item={item} />
+              <HeaderItem id={"header_item_#{item.uuid}"} item={item} />
             </div>
             <a
               class="btn cursor-pointer flex-col h-10"

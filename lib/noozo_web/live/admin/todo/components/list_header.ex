@@ -48,7 +48,7 @@ defmodule NoozoWeb.Admin.Todo.Components.ListHeader do
           </div>
         </div>
         <div>
-          <ListMenu id="list_menu_#{@list.id}" list={@list} />
+          <ListMenu id={"list_menu_#{@list.id}"} list={@list} />
         </div>
       {/if}
     </div>

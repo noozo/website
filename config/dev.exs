@@ -21,7 +21,7 @@ config :noozo, NoozoWeb.Endpoint,
     esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]},
     npx: [
       "tailwindcss",
-      "--input=css/app.scss",
+      "--input=css/app.css",
       "--output=../priv/static/assets/app.css",
       "--postcss",
       "--watch",

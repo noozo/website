@@ -158,9 +158,7 @@ defmodule NoozoWeb.Admin.Finance.IndexView do
           <input
             class="btn flex-col cursor-pointer"
             type="submit"
-            value="Upload"
-            disabled={disabled_submit?(@uploads)}
-          />
+            value="Upload" />
         </div>
       </div>
     </form>
@@ -258,12 +256,6 @@ defmodule NoozoWeb.Admin.Finance.IndexView do
       end)
 
     binary_data
-  end
-
-  defp disabled_submit?(uploads) do
-    if Enum.any?(uploads.csv.entries),
-      do: "",
-      else: " disabled"
   end
 
   defp binary_to_string(raw) do
