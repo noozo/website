@@ -155,10 +155,7 @@ defmodule NoozoWeb.Admin.Finance.IndexView do
 
         <div class="flex">
           {live_file_input(@uploads.csv)}
-          <input
-            class="btn flex-col cursor-pointer"
-            type="submit"
-            value="Upload" />
+          <input class="btn flex-col cursor-pointer" type="submit" value="Upload">
         </div>
       </div>
     </form>

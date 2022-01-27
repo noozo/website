@@ -1,4 +1,7 @@
 defmodule Noozo.Pagination do
+  @moduledoc """
+  Live Pagination module
+  """
   use NoozoWeb, :surface_func_component
 
   alias NoozoWeb.Endpoint
