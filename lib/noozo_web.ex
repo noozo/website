@@ -43,7 +43,7 @@ defmodule NoozoWeb do
 
   def surface_view do
     quote do
-      use Surface.LiveView, layout: {NoozoWeb.LayoutView, "live.html"}
+      use Surface.LiveView, layout: {NoozoWeb.LayoutView, :live}
 
       unquote(view_helpers())
     end

@@ -2,7 +2,7 @@ defmodule NoozoWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :noozo
   use SiteEncrypt.Phoenix
 
-  plug Plug.SSL, exclude: [], host: Application.fetch_env!(:noozo, :https_redirect_url)
+  plug Plug.SSL, exclude: [], host: Application.compile_env!(:noozo, :https_redirect_url)
 
   @session_options [
     store: :cookie,

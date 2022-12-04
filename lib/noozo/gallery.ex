@@ -42,7 +42,6 @@ defmodule Noozo.Gallery do
     |> broadcast(:image_created)
   end
 
-  @impl true
   def update_image(%Image{} = image, attrs, before_save_func \\ & &1) do
     image
     |> Image.changeset(before_save(attrs, before_save_func))

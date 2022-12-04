@@ -72,7 +72,6 @@ defmodule Noozo.Accounts do
       {:error, %Ecto.Changeset{}}
 
   """
-  @impl true
   def update_user(%User{} = user, attrs) do
     user
     |> User.changeset(attrs)
