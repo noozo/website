@@ -18,8 +18,8 @@
     <%= csrf_meta_tag() %>
     <script defer phx-track-static type="text/javascript" src={~p"/assets/app.js"}></script>
   </head>
-  <body>
-    <div class="flex flex-col admin">
+  <body class="bg-gray-50">
+    <div class="flex flex-col admin min-h-screen">
       <%= render(NoozoWeb.LayoutView, "admin_navigation.html", conn: @conn) %>
 
       <header class="bg-white shadow border">
@@ -30,7 +30,7 @@
         </div>
       </header>
 
-      <main>
+      <main class="flex-1 bg-gray-50">
         <div class="flex items-center mx-6 py-6 sm:px-6 lg:px-8">
           <%= render(NoozoWeb.LayoutView, "flashes.html", conn: @conn) %>
           <%= @inner_content %>

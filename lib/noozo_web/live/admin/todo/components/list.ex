@@ -42,8 +42,8 @@ defmodule NoozoWeb.Admin.Todo.Components.List do
   # components in the same page and running a single query to get all lists
   # instead of N+1'ing
   @impl true
-  def preload(list_of_assigns) do
-    list_of_ids = Enum.map(list_of_assigns, & &1.id)
+  def update_many(updates) do
+    list_of_ids = Enum.map(updates, fn {assigns, _socket} -> assigns.id end)
 
     item_preload =
       from(
@@ -65,8 +65,10 @@ defmodule NoozoWeb.Admin.Todo.Components.List do
 
     lists = Map.new(Repo.all(query))
 
-    Enum.map(list_of_assigns, fn assigns ->
-      Map.put(assigns, :list, lists[assigns.id])
+    Enum.map(updates, fn {assigns, socket} ->
+      list = lists[assigns.id]
+      search_result_ids = Map.get(assigns, :search_result_ids, [])
+      assign(socket, id: assigns.id, list: list, search_result_ids: search_result_ids)
     end)
   end
 

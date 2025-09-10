@@ -19,11 +19,11 @@ defmodule NoozoWeb.Admin.Todo.Components.Item do
   # components in the same page and running a single query to get all items
   # instead of N+1'ing
   @impl true
-  def preload(list_of_assigns) do
+  def update_many(updates) do
     list_of_ids =
-      list_of_assigns
-      |> Enum.reject(&(not is_nil(&1[:item])))
-      |> Enum.map(& &1.id)
+      updates
+      |> Enum.reject(fn {assigns, _socket} -> not is_nil(assigns[:item]) end)
+      |> Enum.map(fn {assigns, _socket} -> assigns.id end)
 
     query =
       from(
@@ -39,8 +39,12 @@ defmodule NoozoWeb.Admin.Todo.Components.Item do
       |> Repo.all()
       |> Map.new()
 
-    Enum.map(list_of_assigns, fn assigns ->
-      Map.put(assigns, :item, items[assigns.id])
+    Enum.map(updates, fn {assigns, socket} ->
+      item = items[assigns.id]
+      search_result_ids = Map.get(assigns, :search_result_ids, [])
+      # Update opacity depending if id is in search_result_ids (the ones that didnt match)
+      opacity = if search_result_ids == [] or Enum.member?(search_result_ids, assigns.id), do: 100, else: 20
+      assign(socket, id: assigns.id, item: item, opacity: opacity)
     end)
   end
 

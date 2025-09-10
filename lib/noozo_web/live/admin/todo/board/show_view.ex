@@ -5,6 +5,7 @@ defmodule NoozoWeb.Admin.Todo.Board.ShowView do
   use NoozoWeb, :live_view
 
   alias Noozo.Todo
+  alias NoozoWeb.Admin.Todo.Components.Item
   alias NoozoWeb.Admin.Todo.Components.ItemModal
   alias NoozoWeb.Admin.Todo.Components.List
   alias NoozoWeb.Admin.Todo.Components.ListCreator
@@ -125,36 +126,36 @@ defmodule NoozoWeb.Admin.Todo.Board.ShowView do
   @impl true
   def handle_info({:item_moved, item, previous_list_id}, socket) do
     # Send update to the appropriate lists
-    send_update(Components.List, id: item.list_id)
-    send_update(Components.List, id: previous_list_id)
+    send_update(List, id: item.list_id)
+    send_update(List, id: previous_list_id)
     {:noreply, socket}
   end
 
   @impl true
   def handle_info({:item_created, item}, socket) do
     # Send update to the appropriate list
-    send_update(Components.List, id: item.list_id)
+    send_update(List, id: item.list_id)
     {:noreply, socket}
   end
 
   @impl true
   def handle_info({:item_updated, item}, socket) do
     # Send update to the appropriate item
-    send_update(Components.Item, id: item.id)
+    send_update(Item, id: item.id)
     {:noreply, socket}
   end
 
   @impl true
   def handle_info({:item_deleted, item}, socket) do
     # Send update to the appropriate list
-    send_update(Components.List, id: item.list_id)
+    send_update(List, id: item.list_id)
     {:noreply, assign(socket, selected_item: nil)}
   end
 
   @impl true
   def handle_info({:item_label_changed, item}, socket) do
     # Send update to the appropriate item
-    send_update(Components.Item, id: item.id)
+    send_update(Item, id: item.id)
     {:noreply, socket}
   end
 
@@ -168,7 +169,7 @@ defmodule NoozoWeb.Admin.Todo.Board.ShowView do
   @impl true
   def handle_info({:list_updated, list}, socket) do
     # Send update to the appropriate list
-    send_update(Components.List, id: list.id, list: list)
+    send_update(List, id: list.id, list: list)
     {:noreply, socket}
   end
 
