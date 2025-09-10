@@ -41,8 +41,8 @@ defmodule NoozoWeb.TemplateUtils do
   end
 
   def format_date(date) do
-    # date |> Timex.format!("{0D} {Mfull} {YYYY}")
-    {:ok, relative_str} = date |> Timex.format("{relative}", :relative)
+    # date |> Timex.format!("{0D} {Mfull } {YYYY }")
+    {:ok, relative_str} = date |> Timex.format("{relative }", :relative)
     relative_str
   end
 

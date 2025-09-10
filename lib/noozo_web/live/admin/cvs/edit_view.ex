@@ -2,7 +2,7 @@ defmodule NoozoWeb.Admin.Cvs.EditView do
   @moduledoc """
   Admin CVs edit live view
   """
-  use NoozoWeb, :surface_view
+  use NoozoWeb, :live_view
 
   alias Noozo.Cvs
 
@@ -27,16 +27,16 @@ defmodule NoozoWeb.Admin.Cvs.EditView do
 
   @impl true
   def render(assigns) do
-    ~F"""
-    <LivePatch to={Routes.live_path(@socket, IndexView)} class="btn">Back to list</LivePatch>
+    ~H"""
+    <.link to={Routes.live_path(@socket, IndexView)} class="btn">Back to list</.link>
 
     <div class="flex-none p-5">
-      {#unless is_nil(@info)}
-        <div class="shadow p-5 bg-green-300 rounded-md" role="alert">{@info}</div>
-      {/unless}
-      {#unless is_nil(@error)}
-        <div class="shadow p-5 bg-red-300 rounded-md" role="alert">{@error}</div>
-      {/unless}
+      <%= unless is_nil(@info) do %>
+        <div class="shadow p-5 bg-green-300 rounded-md" role="alert"><%= @info %></div>
+      <% end %>
+      <%= unless is_nil(@error) do %>
+        <div class="shadow p-5 bg-red-300 rounded-md" role="alert"><%= @error %></div>
+      <% end %>
     </div>
 
     <div class="mt-2 md:mt-0 md:col-span-2 grid grid-cols-2 gap-6 max-w-full">
@@ -46,7 +46,7 @@ defmodule NoozoWeb.Admin.Cvs.EditView do
             <div class="grid grid-cols-6 gap-6">
               <div class="col-span-6">
                 <label for="title">
-                  Belongs to {@cv.user.email}
+                  Belongs to <%= @cv.user.email %>
                 </label>
               </div>
 
@@ -71,7 +71,7 @@ defmodule NoozoWeb.Admin.Cvs.EditView do
               <div class="col-span-6">
                 <label for="abstract">Abstract</label>
                 <textarea class="w-full" type="text" name="abstract" phx-debounce="500" rows="10">
-                  {@cv.abstract}
+                  <%= @cv.abstract %>
                 </textarea>
               </div>
             </div>
@@ -81,40 +81,39 @@ defmodule NoozoWeb.Admin.Cvs.EditView do
             phx-submit="upload"
             phx-change="validate"
             class="col-span-6 sm:col-span-3"
-            :class="{'hidden': collapsed, 'visible': !collapsed}"
           >
             <div class="grid grid-cols-6 gap-4 mt-4">
               <label for="image">Image</label>
 
-              {#if @cv.image}
+              <%= if @cv.image do %>
                 <div class="block mr-6" phx-click="remove-image" data-confirm="Remove image?">
-                  {data = Base.encode64(@cv.image)
+                  <%= data = Base.encode64(@cv.image)
 
                   Phoenix.HTML.raw(
                     "<img src=\"data:" <> @cv.image_type <> ";base64," <> data <> "\" width=\"50px\">"
-                  )}
+                  ) %>
                 </div>
-              {/if}
+              <% end %>
 
               <div class="col-span-6">
-                {#for {_ref, msg} <- @uploads.image.errors}
+                <%= for {_ref, msg} <- @uploads.image.errors do %>
                   <div class="flex-none p-2">
                     <p class="shadow p-5 bg-red-300 rounded-md" role="alert">
-                      {Phoenix.Naming.humanize(msg)}
+                      <%= Phoenix.Naming.humanize(msg) %>
                     </p>
                   </div>
-                {/for}
+                <% end %>
 
                 <div class="flex">
-                  {live_file_input(@uploads.image)}
+                  <%= live_file_input(@uploads.image) %>
                   <input class="btn flex-col cursor-pointer" type="submit" value="Upload">
                 </div>
               </div>
 
-              {#for entry <- @uploads.image.entries}
+              <%= for entry <- @uploads.image.entries do %>
                 <div class="col-span-6">
                   <div class="flex-col">
-                    {live_img_preview(entry, width: 50, height: 50)}
+                    <.live_img_preview entry={entry} width={50} height={50} />
                   </div>
                   <div class="flex-col">
                     <progress max="100" value={entry.progress} />
@@ -125,18 +124,18 @@ defmodule NoozoWeb.Admin.Cvs.EditView do
                     </div>
                   </div>
                 </div>
-              {/for}
+              <% end %>
             </div>
           </form>
 
-          {live_render(@socket, HeaderItems, id: :cv_header_items, session: %{"cv_uuid" => @cv.uuid})}
-          {live_render(@socket, Sections, id: :sections_view, session: %{"cv_uuid" => @cv.uuid})}
+          <%= live_render(@socket, HeaderItems, id: :cv_header_items, session: %{"cv_uuid" => @cv.uuid}) %>
+          <%= live_render(@socket, Sections, id: :sections_view, session: %{"cv_uuid" => @cv.uuid}) %>
         </div>
       </div>
 
       <div class="shadow sm:rounded-md sm:overflow-hidden">
         <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
-          {live_render(@socket, Preview, id: :preview, session: %{"cv_uuid" => @cv.uuid})}
+          <%= live_render(@socket, Preview, id: :preview, session: %{"cv_uuid" => @cv.uuid}) %>
         </div>
       </div>
     </div>

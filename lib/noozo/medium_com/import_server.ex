@@ -11,7 +11,7 @@ defmodule Noozo.MediumCom.ImportServer do
 
   def start_link(opts) do
     {:ok, pid} = result = GenServer.start_link(@me, opts, name: @me)
-    Logger.debug("#{@me} GenServer started with# #{inspect(pid)}.")
+    Logger.debug("#{}@me  GenServer started with# #{}inspect(pid) .")
     result
   end
 

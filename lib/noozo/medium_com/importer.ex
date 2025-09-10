@@ -32,7 +32,7 @@ defmodule Noozo.MediumCom.Importer do
     |> Enum.map(fn entry ->
       %{
         id_url: entry.id,
-        published_at: Timex.parse!(entry[:"rss2:pubDate"], "{RFC1123}"),
+        published_at: Timex.parse!(entry[:"rss2:pubDate"], "{RFC1123 }"),
         title: entry.title,
         content: entry.content,
         tags: entry.categories

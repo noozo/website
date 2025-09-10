@@ -2,14 +2,14 @@ defmodule NoozoWeb.Admin.Post.CreateView do
   @moduledoc """
   Admin posts create live view
   """
-  use NoozoWeb, :surface_view
+  use NoozoWeb, :live_view
 
   alias Noozo.Core
   alias NoozoWeb.Admin.Post.EditView
 
   @impl true
   def render(assigns) do
-    ~F"""
+    ~H"""
     Creating post...
     """
   end

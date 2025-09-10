@@ -2,26 +2,23 @@ defmodule NoozoWeb.Admin.DailyLog.IndexView do
   @moduledoc """
   Admin daily log index live view
   """
-  use NoozoWeb, :surface_view
+  use NoozoWeb, :live_view
 
   alias Noozo.DailyLog
   alias Noozo.DailyLog.Entry
   alias Noozo.Pagination
   alias NoozoWeb.Admin.DailyLog.EditView
-
-  data loading, :boolean, default: true
-
   @impl true
   def render(assigns) do
-    ~F"""
-    {#if @loading}
+    ~H"""
+    <%= if @loading do %>
       <div>Loading information...</div>
-    {#else}
+    <% else %>
       <div class="flex flex-col gap-6">
         <div class="flex-auto flex gap-3">
-          <LivePatch to={Routes.live_path(@socket, EditView, %Entry{date: last_friday()})} class="btn">Last Friday</LivePatch>
-          <LivePatch to={Routes.live_path(@socket, EditView, %Entry{date: yesterday()})} class="btn">Yesterday</LivePatch>
-          <LivePatch to={Routes.live_path(@socket, EditView, %Entry{date: Timex.today()})} class="btn">Today</LivePatch>
+          <.link to={Routes.live_path(@socket, EditView, %Entry{date: last_friday()})} class="btn">Last Friday</.link>
+          <.link to={Routes.live_path(@socket, EditView, %Entry{date: yesterday()})} class="btn">Yesterday</.link>
+          <.link to={Routes.live_path(@socket, EditView, %Entry{date: Timex.today()})} class="btn">Today</.link>
         </div>
 
         <table class="">
@@ -31,21 +28,21 @@ defmodule NoozoWeb.Admin.DailyLog.IndexView do
             <th>Content</th>
           </thead>
           <tbody>
-            {#for entry <- @entries.entries}
+            <%= for entry <- @entries.entries do %>
               <tr>
                 <td>
-                  <LivePatch to={Routes.live_path(@socket, EditView, entry)} class="">{entry.date}</LivePatch>
+                  <.link to={Routes.live_path(@socket, EditView, entry)} class=""><%= entry.date %></.link>
                 </td>
-                <td>{entry.date |> Timex.weekday() |> Timex.day_name()}</td>
-                <td>{Curtail.truncate(entry.content || "", omission: "...", length: 50)}</td>
+                <td><%= entry.date |> Timex.weekday() |> Timex.day_name() %></td>
+                <td><%= Curtail.truncate(entry.content || "", omission: "...", length: 50) %></td>
               </tr>
-            {/for}
+            <% end %>
           </tbody>
         </table>
 
-        <Pagination source_assigns={assigns} entries={@entries} module={__MODULE__} />
+        <%= Noozo.Pagination.render(%{source_assigns: assigns, entries: @entries, module: __MODULE__}) %>
       </div>
-    {/if}
+    <% end %>
     """
   end
 

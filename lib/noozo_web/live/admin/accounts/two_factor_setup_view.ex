@@ -2,7 +2,7 @@ defmodule NoozoWeb.Admin.Accounts.TwoFactorSetupView do
   @moduledoc """
   Setup 2 FA for a user
   """
-  use NoozoWeb, :surface_view
+  use NoozoWeb, :live_view
 
   alias Noozo.Accounts
 
@@ -24,10 +24,10 @@ defmodule NoozoWeb.Admin.Accounts.TwoFactorSetupView do
 
   @impl true
   def render(assigns) do
-    ~F"""
-    {#if !@user.has_2fa or is_nil(@user.secret_2fa)}
+    ~H"""
+    <%= if !@user.has_2fa or is_nil(@user.secret_2fa) do %>
       <div>Read the code into your authenticator app</div>
-      <div class="w-4 h-4 float-right">{Phoenix.HTML.raw(@svg)}</div>
+      <div class="w-4 h-4 float-right"><%= Phoenix.HTML.raw(@svg) %></div>
       <form phx-submit="save_secret">
         <div class="grid grid-cols-6 gap-4">
           <div class="col-span-6">
@@ -39,9 +39,9 @@ defmodule NoozoWeb.Admin.Accounts.TwoFactorSetupView do
           </div>
         </div>
       </form>
-    {#else}
+    <% else %>
       User has 2FA all set up. TODO: Reset.
-    {/if}
+    <% end %>
     """
   end
 

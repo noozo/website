@@ -2,7 +2,7 @@ defmodule NoozoWeb.Admin.Cvs.Children.Components.SectionItems do
   @moduledoc """
   Section items component
   """
-  use NoozoWeb, :surface_component
+  use NoozoWeb, :live_component
 
   alias Noozo.Cvs
   alias Noozo.Cvs.CvSectionItem
@@ -10,10 +10,6 @@ defmodule NoozoWeb.Admin.Cvs.Children.Components.SectionItems do
   alias NoozoWeb.Admin.Cvs.Children.SectionItemView
 
   require Logger
-
-  prop section_uuid, :string, required: true
-  data items, :list
-
   @impl true
   def update(%{id: id, section_uuid: section_uuid} = _assigns, socket) do
     section = Cvs.get_section!(section_uuid)
@@ -22,7 +18,7 @@ defmodule NoozoWeb.Admin.Cvs.Children.Components.SectionItems do
 
   @impl true
   def render(assigns) do
-    ~F"""
+    ~H"""
     <div id={@id} class="mt-6">
       <div class="text-lg mb-4 cursor-pointer">
         Items
@@ -33,33 +29,30 @@ defmodule NoozoWeb.Admin.Cvs.Children.Components.SectionItems do
       </a>
 
       <div class="mt-6">
-        {#for item <- @items}
+        <%= for item <- @items do %>
           <div class="flex">
-            {live_render(@socket, SectionItemView,
+            <%= live_render(@socket, SectionItemView,
               id: "section_item_#{item.uuid}",
               session: %{"item_uuid" => item.uuid}
-            )}
+            ) %>
             <a
               class="btn cursor-pointer flex-col h-10"
-              phx-click="remove-item"
-              phx-target={@myself}
+              phx-click="remove-item" phx-target={@myself}
               phx-value-item_uuid={item.uuid}
               data-confirm="Are you sure you want to delete this item?"
             >X</a>
             <a
               class="btn cursor-pointer flex-col h-10"
-              phx-target={@myself}
-              phx-click="move-item-up"
+              phx-click="move-item-up" phx-target={@myself}
               phx-value-item_uuid={item.uuid}
             >Up</a>
             <a
               class="btn cursor-pointer flex-col h-10"
-              phx-target={@myself}
-              phx-click="move-item-down"
+              phx-click="move-item-down" phx-target={@myself}
               phx-value-item_uuid={item.uuid}
             >Down</a>
           </div>
-        {/for}
+        <% end %>
       </div>
     </div>
     """

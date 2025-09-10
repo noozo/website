@@ -2,14 +2,14 @@ defmodule NoozoWeb.Admin.Gallery.CreateView do
   @moduledoc """
   Admin Gallery create live view
   """
-  use NoozoWeb, :surface_view
+  use NoozoWeb, :live_view
 
   alias Noozo.Gallery
   alias NoozoWeb.Admin.Gallery.EditView
 
   @impl true
   def render(assigns) do
-    ~F"""
+    ~H"""
     Creating gallery image...
     """
   end

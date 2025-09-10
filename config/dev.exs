@@ -31,13 +31,13 @@ config :noozo, NoozoWeb.Endpoint,
 
 # Watch static and templates for browser reloading.
 config :noozo, NoozoWeb.Endpoint,
-  reloadable_compilers: [:gettext, :elixir, :surface],
+  reloadable_compilers: [:gettext, :elixir],
   live_reload: [
     patterns: [
       ~r"priv/static/.*(js|s?css|png|jpeg|jpg|gif|svg)$",
       ~r"priv/gettext/.*(po)$",
-      ~r"lib/noozo_web/{live,views,components}/.*(ex|sface|js)$",
-      ~r"lib/noozo_web/templates/.*(eex|sface)$",
+      ~r"lib/noozo_web/{live,views,components}/.*(ex|js)$",
+      ~r"lib/noozo_web/templates/.*(eex|heex)$",
       ~r{lib/*/.*(ex)$}
     ]
   ]

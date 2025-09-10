@@ -1,8 +1,5 @@
 defmodule NoozoWeb.Experiments.Games.Memory.MainView do
-  use NoozoWeb, :surface_view
-
-  data game_ended, :boolean, default: false
-  prop elements, :list, required: true
+  use NoozoWeb, :live_view
 
   @impl true
   def mount(params, _session, socket) do
@@ -11,18 +8,18 @@ defmodule NoozoWeb.Experiments.Games.Memory.MainView do
 
   @impl true
   def render(assigns) do
-    ~F"""
+    ~H"""
     <div class="content">
       <div class="row">
-        Game ended: {@game_ended}
+        Game ended: <%= @game_ended %>
       </div>
 
       <div class="cols-3">
-        {#for element <- @elements}
+        <%= for element <- @elements do %>
           <div>
-            {#if element.found}
+            <%= if element.found do %>
               <img src={element.src} width="100" height="100">
-            {#else}
+            <% else %>
               <img
                 src={Routes.static_path(@socket, "/images/experiments/games/memory/question.png")}
                 width="100"
@@ -30,9 +27,9 @@ defmodule NoozoWeb.Experiments.Games.Memory.MainView do
                 phx-click="clicked_element"
                 phx-value-element_id={element.id}
               />
-            {/if}
+            <% end %>
           </div>
-        {/for}
+        <% end %>
       </div>
     </div>
     """

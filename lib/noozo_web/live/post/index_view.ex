@@ -1,5 +1,5 @@
 defmodule NoozoWeb.Post.IndexView do
-  use NoozoWeb, :surface_view
+  use NoozoWeb, :live_view
 
   alias Noozo.Core
   alias Noozo.Pagination
@@ -8,28 +8,28 @@ defmodule NoozoWeb.Post.IndexView do
 
   @impl true
   def render(assigns) do
-    ~F"""
+    ~H"""
     <div>
-      {#if @tag}
+      <%= if @tag do %>
         <div class="md:text-2xl lg:text-2xl xl:text-4xl font-bold mb-6">
-          Posts about {@tag.name}
+          Posts about <%= @tag.name %>
         </div>
-      {/if}
+      <% end %>
 
       <div class="flex flex-grow flex-col flex-nowrap gap-8 md:min-w-full">
-        {#if Enum.any?(@posts.entries)}
-          {#for post <- @posts.entries}
-            <Post id={"post_#{post.id}"} post={post} ga_id={@ga_id} />
-          {/for}
-        {#else}
+        <%= if Enum.any?(@posts.entries) do %>
+          <%= for post <- @posts.entries do %>
+            <.live_component module={Post} id={"post_#{post.id}"} post={post} ga_id={@ga_id} />
+          <% end %>
+        <% else %>
           <p class="text-center">
             There is nothing here.
             Why don't you <a class="underline" href="/admin/posts">write something</a>?
           </p>
-        {/if}
+        <% end %>
       </div>
 
-      <Pagination source_assigns={assigns} entries={@posts} module={__MODULE__} />
+      <%= Noozo.Pagination.render(%{source_assigns: assigns, entries: @posts, module: __MODULE__}) %>
     </div>
     """
   end

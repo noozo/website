@@ -7,7 +7,7 @@ defmodule Noozo.MixProject do
       version: "5.0.0",
       elixir: "~> 1.14",
       elixirc_paths: elixirc_paths(Mix.env()),
-      compilers: Mix.compilers() ++ [:surface],
+      compilers: Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
       deps: deps()
@@ -40,14 +40,13 @@ defmodule Noozo.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:phoenix, "~> 1.6.15"},
+      {:phoenix, "~> 1.8"},
+      {:phoenix_ecto, "~> 4.5"},
       {:phoenix_pubsub, "~> 2.1.1"},
-      {:phoenix_ecto, "~> 4.4.0"},
-      {:plug_cowboy, "~> 2.6.0"},
-      {:phoenix_html, "~> 3.2.0"},
-      {:phoenix_live_dashboard, "~> 0.7.2"},
-      {:phoenix_live_view, "~> 0.18.3"},
-      {:surface, "~> 0.9.1"},
+      {:phoenix_html, "~> 4.1"},
+      {:phoenix_live_dashboard, "~> 0.8.3"},
+      {:phoenix_live_view, "~> 1.0"},
+      {:phoenix_view, ">= 2.0.0"},
       {:ecto_psql_extras, "~> 0.7.10"},
       {:telemetry, "~> 1.1.0"},
       {:telemetry_metrics, "~> 0.6.1"},
@@ -70,21 +69,23 @@ defmodule Noozo.MixProject do
       {:elixir_feed_parser, "~> 2.1.0"},
       {:poison, "~> 5.0.0"},
       {:earmark, "~> 1.4.34"},
-      {:money, "~> 1.12.1"},
+      {:money, "~> 1.12"},
       {:nimble_totp, "~> 0.2.0"},
       {:eqrcode, "~> 0.1.10"},
       {:esbuild, "~> 0.5.0"},
+      # AI powered development
+      {:tidewave, "~> 0.5", only: :dev},
+      {:phoenix_html_helpers, "~> 1.0"},
 
       # Testing and things
       {:floki, "~> 0.34.0", only: :test},
-      {:phoenix_live_reload, "~> 1.4.1", only: :dev},
+      {:phoenix_live_reload, "~> 1.6.1", only: :dev},
       {:mix_test_watch, "~> 1.1.0", only: [:dev, :test], runtime: false},
       {:ex_unit_notifier, "~> 1.2.0", only: [:dev, :test], runtime: false},
       {:credo, "~> 1.6.7", only: [:dev, :test], runtime: false},
       {:mox, "~> 1.0.2", only: :test},
       {:dialyxir, "~> 1.2.0", only: [:dev, :test], runtime: false},
-      {:sobelow, "~> 0.11.1", only: [:dev, :test], runtime: false},
-      {:surface_formatter, "~> 0.7.5", only: :dev}
+      {:sobelow, "~> 0.11.1", only: [:dev, :test], runtime: false}
     ]
   end
 
@@ -104,8 +105,13 @@ defmodule Noozo.MixProject do
         "cmd --cd assets npm run deploy",
         "esbuild default --minify",
         "phx.digest"
+      ],
+      precommit: [
+        "compile --warning-as-errors",
+        "deps.unlock --unused",
+        "format",
+        "credo --strict"
       ]
     ]
   end
-
 end

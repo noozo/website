@@ -2,7 +2,7 @@ defmodule NoozoWeb.Admin.Todo.Board.IndexView do
   @moduledoc """
   List all the boards
   """
-  use NoozoWeb, :surface_view
+  use NoozoWeb, :live_view
 
   alias Noozo.Pagination
   alias Noozo.Todo
@@ -10,16 +10,13 @@ defmodule NoozoWeb.Admin.Todo.Board.IndexView do
   alias NoozoWeb.Admin.Todo.Board.CreateView
   alias NoozoWeb.Admin.Todo.Board.EditView
   alias NoozoWeb.Admin.Todo.Board.ShowView
-
-  data loading, :boolean, default: true
-
   @impl true
   def render(assigns) do
-    ~F"""
-    {#if @loading}
+    ~H"""
+    <%= if @loading do %>
       <div>Loading information...</div>
-    {#else}
-      <LivePatch to={Routes.live_path(@socket, CreateView)}>Create Board</LivePatch>
+    <% else %>
+      <.link to={Routes.live_path(@socket, CreateView)}>Create Board</.link>
       <div class="boards">
         <table class="table">
           <thead>
@@ -28,23 +25,23 @@ defmodule NoozoWeb.Admin.Todo.Board.IndexView do
             <th>Created at</th>
           </thead>
           <tbody>
-            {#for board <- @boards.entries}
+            <%= for board <- @boards.entries do %>
               <tr>
                 <td>
-                  <LivePatch to={Routes.live_path(@socket, ShowView, board.id)}>{board.title}</LivePatch>
+                  <.link to={Routes.live_path(@socket, ShowView, board.id)}><%= board.title %></.link>
                 </td>
                 <td>
-                  <LivePatch to={Routes.live_path(@socket, EditView, board.id)}>Rename</LivePatch>
+                  <.link to={Routes.live_path(@socket, EditView, board.id)}>Rename</.link>
                 </td>
-                <td>{TemplateUtils.format_date(board.inserted_at)}</td>
+                <td><%= TemplateUtils.format_date(board.inserted_at) %></td>
               </tr>
-            {/for}
+            <% end %>
           </tbody>
         </table>
       </div>
 
-      <Pagination source_assigns={assigns} entries={@boards} module={__MODULE__} />
-    {/if}
+      <%= Noozo.Pagination.render(%{source_assigns: assigns, entries: @boards, module: __MODULE__}) %>
+    <% end %>
     """
   end
 

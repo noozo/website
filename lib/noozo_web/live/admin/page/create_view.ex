@@ -2,14 +2,14 @@ defmodule NoozoWeb.Admin.Page.CreateView do
   @moduledoc """
   Admin pages create live view
   """
-  use NoozoWeb, :surface_view
+  use NoozoWeb, :live_view
 
   alias Noozo.Core
   alias NoozoWeb.Admin.Page.EditView
 
   @impl true
   def render(assigns) do
-    ~F"""
+    ~H"""
     Creating page...
     """
   end

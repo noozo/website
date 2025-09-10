@@ -3,7 +3,9 @@ defmodule NoozoWeb.ErrorHelpers do
   Conveniences for translating and building error messages.
   """
 
-  use Phoenix.HTML
+  import Phoenix.HTML
+  import Phoenix.HTML.Form
+  use PhoenixHTMLHelpers
 
   @doc """
   Generates tag for inlined form input errors.
@@ -25,7 +27,7 @@ defmodule NoozoWeb.ErrorHelpers do
     #     dgettext("errors", "is invalid")
     #
     #     # Translate the number of files with plural rules
-    #     dngettext("errors", "1 file", "%{count} files", count)
+    #     dngettext("errors", "1 file", "%{count } files", count)
     #
     # Because the error messages we show in our forms and APIs
     # are defined inside Ecto, we need to translate them dynamically.

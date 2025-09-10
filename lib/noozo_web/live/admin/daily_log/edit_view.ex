@@ -2,23 +2,23 @@ defmodule NoozoWeb.Admin.DailyLog.EditView do
   @moduledoc """
   Admin daily log edit live view
   """
-  use NoozoWeb, :surface_view
+  use NoozoWeb, :live_view
 
   alias Noozo.DailyLog
   alias NoozoWeb.Admin.DailyLog.IndexView
 
   @impl true
   def render(assigns) do
-    ~F"""
+    ~H"""
     <div class="flex flex-col gap-6">
       <div>
-        <LivePatch to={Routes.live_path(@socket, IndexView)} class="btn">Back to list</LivePatch>
+        <.link to={Routes.live_path(@socket, IndexView) } class="btn">Back to list</.link>
       </div>
 
       <div class="pros">
         <h2 class="block text-lg font-medium text-black">
-          {@entry.date |> Timex.weekday() |> Timex.day_name()}
-          {@entry.date}
+          {@entry.date |> Timex.weekday() |> Timex.day_name() }
+          {@entry.date }
         </h2>
       </div>
 
@@ -32,14 +32,14 @@ defmodule NoozoWeb.Admin.DailyLog.EditView do
                 </label>
                 <div class="mt-1">
                   <textarea id="content" name="content" rows="15" cols="50" phx-debounce="1000">
-                    {@entry.content}
+                    {@entry.content }
                   </textarea>
                 </div>
               </div>
 
               <div class="col-span-6 sm:col-span-3 border-2 border-dashed border-gray-200 p-4 prose w-96">
                 <div class="block text-sm text-gray-700">
-                  {(@entry.content || "") |> Earmark.as_html!() |> Phoenix.HTML.raw()}
+                  {(@entry.content || "") |> Earmark.as_html!() |> Phoenix.HTML.raw() }
                 </div>
               </div>
             </div>

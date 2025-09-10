@@ -2,23 +2,20 @@ defmodule NoozoWeb.Admin.Page.IndexView do
   @moduledoc """
   Admin pages index live view
   """
-  use NoozoWeb, :surface_view
+  use NoozoWeb, :live_view
 
   alias Noozo.Core
   alias Noozo.Pagination
 
   alias NoozoWeb.Admin.Page.CreateView
   alias NoozoWeb.Admin.Page.EditView
-
-  data loading, :boolean, default: true
-
   @impl true
   def render(assigns) do
-    ~F"""
-    {#if @loading}
+    ~H"""
+    <%= if @loading do %>
       <div>Loading information...</div>
-    {#else}
-      <LivePatch to={Routes.live_path(@socket, CreateView)} class="btn">Create Page</LivePatch>
+    <% else %>
+      <.link to={Routes.live_path(@socket, CreateView)} class="btn">Create Page</.link>
 
       <div class="flex flex-col mt-6">
         <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -36,16 +33,16 @@ defmodule NoozoWeb.Admin.Page.IndexView do
                   </tr>
                 </thead>
                 <tbody>
-                  {#for page <- @pages.entries}
+                  <%= for page <- @pages.entries do %>
                     <tr>
                       <td>
-                        <LivePatch to={Routes.live_path(@socket, EditView, page.id)} class="btn">{page.title}</LivePatch>
+                        <.link to={Routes.live_path(@socket, EditView, page.id)} class="btn"><%= page.title %></.link>
                       </td>
                       <td>
-                        {page.slug}
+                        <%= page.slug %>
                       </td>
                     </tr>
-                  {/for}
+                  <% end %>
                 </tbody>
               </table>
             </div>
@@ -53,8 +50,8 @@ defmodule NoozoWeb.Admin.Page.IndexView do
         </div>
       </div>
 
-      <Pagination source_assigns={assigns} entries={@pages} module={__MODULE__} />
-    {/if}
+      <%= Noozo.Pagination.render(%{source_assigns: assigns, entries: @pages, module: __MODULE__}) %>
+    <% end %>
     """
   end
 

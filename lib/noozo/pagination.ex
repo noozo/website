@@ -2,35 +2,37 @@ defmodule Noozo.Pagination do
   @moduledoc """
   Live Pagination module
   """
-  use NoozoWeb, :surface_func_component
+  use Phoenix.Component
 
   alias NoozoWeb.Endpoint
 
-  prop source_assigns, :map, required: true
-  prop entries, :struct, required: true
-  prop module, :module, required: true
+  attr :source_assigns, :map, required: true
+  attr :entries, :any, required: true
+  attr :module, :atom, required: true
 
   def render(%{entries: []}), do: ""
 
   def render(
         %{
           entries: entries,
-          module: module,
+          module: _module,
           source_assigns: source_assigns
         } = assigns
       ) do
-    has_previous = entries.page_number > 1
-    has_next = entries.page_number < entries.total_pages
-    prev_page = entries.page_number - 1
-    next_page = entries.page_number + 1
-    params = source_assigns[:params] || %{}
+    assigns =
+      assigns
+      |> assign(:has_previous, entries.page_number > 1)
+      |> assign(:has_next, entries.page_number < entries.total_pages)
+      |> assign(:prev_page, entries.page_number - 1)
+      |> assign(:next_page, entries.page_number + 1)
+      |> assign(:params, source_assigns[:params] || %{})
 
-    ~F"""
+    ~H"""
     <div>
       <nav class="relative z-0 inline-flex shadow-sm -space-x-px mt-6" aria-label="Pagination">
-        <LivePatch
-          to={Routes.live_path(Endpoint, module, Map.put(params, :page, prev_page))}
-          class={"#{if has_previous, do: "", else: "opacity-50"} relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"}
+        <.link
+          navigate={Routes.live_path(Endpoint, @module, Map.put(@params, :page, @prev_page))}
+          class={"#{if @has_previous, do: "", else: "opacity-50"} relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"}
         >
           <span>Newer</span>
           <!-- Heroicon name: chevron-left -->
@@ -47,10 +49,10 @@ defmodule Noozo.Pagination do
               clip-rule="evenodd"
             />
           </svg>
-        </LivePatch>
-        <LivePatch
-          to={Routes.live_path(Endpoint, module, Map.put(params, :page, next_page))}
-          class={"#{if has_next, do: "", else: "opacity-50"} relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"}
+        </.link>
+        <.link
+          navigate={Routes.live_path(Endpoint, @module, Map.put(@params, :page, @next_page))}
+          class={"#{if @has_next, do: "", else: "opacity-50"} relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"}
         >
           <span>Older</span>
           <!-- Heroicon name: chevron-right -->
@@ -67,7 +69,7 @@ defmodule Noozo.Pagination do
               clip-rule="evenodd"
             />
           </svg>
-        </LivePatch>
+        </.link>
       </nav>
     </div>
     """

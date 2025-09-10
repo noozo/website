@@ -2,36 +2,38 @@ defmodule Admin.Components.TagEditor do
   @moduledoc """
   Tag editor component
   """
-  use NoozoWeb, :surface_component
+  use NoozoWeb, :live_component
 
   alias Noozo.Core
 
-  alias Surface.Components.Form
-  alias Surface.Components.Form.TextInput
-
-  prop post, :struct, required: true
-
-  data suggestions, :list, default: []
+  @impl true
+  def update(assigns, socket) do
+    {:ok,
+     socket
+     |> assign(assigns)
+     |> assign(:suggestions, socket.assigns[:suggestions] || [])}
+  end
 
   @impl true
   def render(assigns) do
-    ~F"""
+    ~H"""
     <div class="block shadow sm:rounded-md sm:overflow-hidden mb-4" id={@id}>
       <div class="flex items-baseline mt-4">
         <div class="space-x-2 flex">
-          {#for tag <- @post.tags}
+          <%= for tag <- @post.tags do %>
             <div class="ml-4 text-xs inline-flex items-center font-bold leading-sm uppercase px-3 py-1 rounded-full bg-white text-gray-700 border">
-              {tag.name}
+              <%= tag.name %>
               <a
                 class="cursor-pointer ml-4 text-xs inline-flex items-center font-bold leading-sm uppercase px-3 py-1 rounded-full bg-white text-gray-700 border"
                 phx-click="remove"
+                phx-target={@myself}
                 phx-value-tag_id={tag.id}
               >X</a>
             </div>
-          {/for}
+          <% end %>
         </div>
       </div>
-      <Form for={:tag} change="suggest" submit="add">
+      <.form for={:tag} phx-change="suggest" phx-submit="add" phx-target={@myself}>
         <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
           <div class="grid grid-cols-6 gap-6">
             <div class="col-span-6 sm:col-span-3">
@@ -39,23 +41,22 @@ defmodule Admin.Components.TagEditor do
                 Tags
               </label>
               <div class="mt-1">
-                <TextInput name="new_tag" />
+                <input type="text" name="new_tag" />
               </div>
             </div>
 
             <div class="col-span-6 sm:col-span-3">
-              {Enum.join(@suggestions, ", ")}
+              <%= Enum.join(@suggestions, ", ") %>
             </div>
 
             <div class="col-span-6 sm:col-span-3">
               <div class="mt-1">
-                <button class="btn btn-success">Add tag</button>
-                {submit("Add tag")}
+                <button type="submit" class="btn btn-success">Add tag</button>
               </div>
             </div>
           </div>
         </div>
-      </Form>
+      </.form>
     </div>
     """
   end

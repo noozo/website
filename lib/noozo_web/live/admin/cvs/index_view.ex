@@ -2,22 +2,19 @@ defmodule NoozoWeb.Admin.Cvs.IndexView do
   @moduledoc """
   Admin CVs index live view
   """
-  use NoozoWeb, :surface_view
+  use NoozoWeb, :live_view
 
   alias Noozo.Cvs
   alias Noozo.Pagination
   alias NoozoWeb.Admin.Cvs.CreateView
   alias NoozoWeb.Admin.Cvs.EditView
-
-  data loading, :boolean, default: true
-
   @impl true
   def render(assigns) do
-    ~F"""
-    {#if @loading}
+    ~H"""
+    <%= if @loading do %>
       <div>Loading information...</div>
-    {#else}
-      <LivePatch to={Routes.live_path(@socket, CreateView)} class="btn">CreateCV</LivePatch>
+    <% else %>
+      <.link to={Routes.live_path(@socket, CreateView)} class="btn">CreateCV</.link>
 
       <div class="flex flex-col mt-6">
         <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -35,16 +32,16 @@ defmodule NoozoWeb.Admin.Cvs.IndexView do
                   </tr>
                 </thead>
                 <tbody>
-                  {#for cv <- @cvs.entries}
+                  <%= for cv <- @cvs.entries do %>
                     <tr>
                       <td>
-                        <LivePatch to={Routes.live_path(@socket, EditView, cv.uuid)} class="btn">{cv.title}</LivePatch>
+                        <.link to={Routes.live_path(@socket, EditView, cv.uuid)} class="btn"><%= cv.title %></.link>
                       </td>
                       <td>
-                        {cv.user.email}
+                        <%= cv.user.email %>
                       </td>
                     </tr>
-                  {/for}
+                  <% end %>
                 </tbody>
               </table>
             </div>
@@ -52,8 +49,8 @@ defmodule NoozoWeb.Admin.Cvs.IndexView do
         </div>
       </div>
 
-      <Pagination source_assigns={assigns} entries={@cvs} module={__MODULE__} />
-    {/if}
+      <%= Noozo.Pagination.render(%{source_assigns: assigns, entries: @cvs, module: __MODULE__}) %>
+    <% end %>
     """
   end
 

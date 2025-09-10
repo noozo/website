@@ -2,18 +2,14 @@ defmodule NoozoWeb.Admin.Todo.Components.ItemModal.Title do
   @moduledoc """
   Item modal title, supports edition
   """
-  use NoozoWeb, :surface_component
+  use NoozoWeb, :live_component
 
   alias Noozo.Todo
-
-  prop item, :struct, required: true
-  data editing, :boolean, default: false
-
   @impl true
   def render(assigns) do
-    ~F"""
+    ~H"""
     <div id={@id}>
-      {#if @editing}
+      <%= if @editing do %>
         <form class="" submit="update_title">
           <div class="flex flex-row gap-6">
             <input
@@ -27,11 +23,11 @@ defmodule NoozoWeb.Admin.Todo.Components.ItemModal.Title do
             />
           </div>
         </form>
-      {#else}
-        <div class="text-lg font-bold" click="start_editing">
-          {@item.title}
+      <% else %>
+        <div class="text-lg font-bold" phx-click="start_editing">
+          <%= @item.title %>
         </div>
-      {/if}
+      <% end %>
     </div>
     """
   end

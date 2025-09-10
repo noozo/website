@@ -1,5 +1,5 @@
 defmodule NoozoWeb.Admin.Cvs.Children.HeaderItemsView do
-  use NoozoWeb, :surface_view
+  use NoozoWeb, :live_view
 
   alias Noozo.Cvs
   alias Noozo.Cvs.CvHeaderItem
@@ -10,26 +10,22 @@ defmodule NoozoWeb.Admin.Cvs.Children.HeaderItemsView do
 
   @impl true
   def render(assigns) do
-    ~F"""
-    <div class="mt-6" x-data="{collapsed: true}">
+    ~H"""
+    <div class="mt-6" x-data="{collapsed: false}">
       <div class="text-lg mb-4 cursor-pointer" @click="collapsed = !collapsed">
-        <ExpandCollapse var="collapsed" />
+        <ExpandCollapse.render var="collapsed" />
         Header Items
       </div>
 
-      <a
-        class="btn cursor-pointer mb-6"
-        phx-click="add-item"
-        :class="{'hidden': collapsed, 'visible': !collapsed}"
-      >
+      <a class="btn cursor-pointer" phx-click="add-item">
         Add Header Item
       </a>
 
-      <div class="mt-6" :class="{'hidden': collapsed, 'visible': !collapsed}">
-        {#for item <- @items}
+      <div class="mt-6" x-bind:class="{'hidden': collapsed, 'visible': !collapsed}">
+        <%= for item <- @items do %>
           <div class="flex">
             <div class="flex-col">
-              <HeaderItem id={"header_item_#{item.uuid}"} item={item} />
+              <.live_component module={HeaderItem} id={"header_item_#{item.uuid}"} item={item} />
             </div>
             <a
               class="btn cursor-pointer flex-col h-10"
@@ -48,7 +44,7 @@ defmodule NoozoWeb.Admin.Cvs.Children.HeaderItemsView do
               phx-value-item_uuid={item.uuid}
             >Down</a>
           </div>
-        {/for}
+        <% end %>
       </div>
     </div>
     """
@@ -58,7 +54,13 @@ defmodule NoozoWeb.Admin.Cvs.Children.HeaderItemsView do
   def mount(_params, %{"cv_uuid" => cv_uuid} = _session, socket) do
     Cvs.subscribe()
     items = Cvs.get_header_items!(cv_uuid)
-    {:ok, assign(socket, %{cv_uuid: cv_uuid, items: items})}
+    {:ok, assign(socket, %{items: items, cv_uuid: cv_uuid})}
+  end
+
+  @impl true
+  def handle_info({_event, _item}, socket) do
+    items = Cvs.get_header_items!(socket.assigns.cv_uuid)
+    {:noreply, assign(socket, :items, items)}
   end
 
   @impl true
@@ -86,11 +88,5 @@ defmodule NoozoWeb.Admin.Cvs.Children.HeaderItemsView do
     :ok = Cvs.move_item_down!(CvHeaderItem, item_uuid, &Cvs.update_header_item/2)
     items = Cvs.get_header_items!(socket.assigns.cv_uuid)
     {:noreply, assign(socket, :items, items)}
-  end
-
-  @impl true
-  def handle_info({event, _cv}, socket) do
-    Logger.debug("HeaderItemsView - Unhandled event: #{event}")
-    {:noreply, socket}
   end
 end

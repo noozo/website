@@ -1,5 +1,5 @@
 defmodule NoozoWeb.Admin.Cvs.Children.PreviewView do
-  use NoozoWeb, :surface_view
+  use NoozoWeb, :live_view
 
   alias Noozo.Cvs
   alias Noozo.Cvs.Cv
@@ -9,7 +9,7 @@ defmodule NoozoWeb.Admin.Cvs.Children.PreviewView do
 
   @impl true
   def render(assigns) do
-    ~F"""
+    ~H"""
     <div class="prose max-w-full sm:ml-6 sm:mr-6">
       <div class="pt-12 border-b-2 border-gray-100 pb-10">
         <div class="sm:float-left inline mt-10">
@@ -18,65 +18,65 @@ defmodule NoozoWeb.Admin.Cvs.Children.PreviewView do
         </div>
 
         <div class="mt-10">
-          {#for item <- @cv.header_items}
+          <%= for item <- @cv.header_items do %>
             <div class="text-center sm:text-right">
-              {Phoenix.HTML.raw(item.content)}
+              <%= Phoenix.HTML.raw(item.content) %>
             </div>
-          {/for}
+          <% end %>
         </div>
       </div>
 
       <div class="mt-12 border-b-2 border-gray-100 pb-10 flex flex-row gap-6 items-center">
-        {#if @cv.image}
+        <%= if @cv.image do %>
           <div class="rounded-xl">
-            <img class="w-48" alt={@cv.title} src={Cv.image_url(@cv)}>
+            <img class="w-48" alt={@cv.title} src={Cv.image_url(@cv)} />
           </div>
-        {/if}
-        {#if @cv.abstract}
+        <% end %>
+        <%= if @cv.abstract do %>
           <div class="flex-grow">
-            {@cv.abstract |> String.replace("\n", "<br/>") |> Phoenix.HTML.raw()}
+            <%= @cv.abstract |> String.replace("\n", "<br/>") |> Phoenix.HTML.raw() %>
           </div>
-        {/if}
+        <% end %>
       </div>
 
-      {#for section <- @cv.sections}
+      <%= for section <- @cv.sections do %>
         <div class="border-b-2 border-gray-100">
-          <div class="text-center mt-12 mb-12 text-3xl font-bold">{Phoenix.HTML.raw(section.title)}</div>
+          <div class="text-center mt-12 mb-12 text-3xl font-bold"><%= Phoenix.HTML.raw(section.title) %></div>
 
-          {#for item <- section.items}
+          <%= for item <- section.items do %>
             <div class="grid grid-cols-5 gap-4 mb-8">
               <div class="col-span-1 md:block hidden">
-                {render_dates_and_image(@socket.assigns, item)}
+                <%= render_dates_and_image(assigns, item) %>
               </div>
 
               <div class="md:col-span-4 col-span-5">
-                {#if item.title}
-                  <div class="text-2xl font-bold">{Phoenix.HTML.raw(item.title)}</div>
-                {/if}
+                <%= if item.title do %>
+                  <div class="text-2xl font-bold"><%= Phoenix.HTML.raw(item.title) %></div>
+                <% end %>
 
-                {#if item.subtitle}
+                <%= if item.subtitle do %>
                   <div class="text-sm pb-4">
-                    {Phoenix.HTML.raw(item.subtitle)}
+                    <%= Phoenix.HTML.raw(item.subtitle) %>
                     <span class="block md:hidden">
-                      {render_dates_and_image(@socket.assigns, item)}
+                      <%= render_dates_and_image(assigns, item) %>
                     </span>
                   </div>
-                {/if}
+                <% end %>
 
                 <div class="mb-4">
-                  {item.content |> String.replace("\n", "<br/>") |> Phoenix.HTML.raw()}
+                  <%= item.content |> String.replace("\n", "<br/>") |> Phoenix.HTML.raw() %>
                 </div>
 
-                {#if item.footer}
+                <%= if item.footer do %>
                   <div class="mb-2 text-sm pt-4">
-                    {item.footer |> String.replace("\n", "<br/>") |> Phoenix.HTML.raw()}
+                    <%= item.footer |> String.replace("\n", "<br/>") |> Phoenix.HTML.raw() %>
                   </div>
-                {/if}
+                <% end %>
               </div>
             </div>
-          {/for}
+          <% end %>
         </div>
-      {/for}
+      <% end %>
     </div>
     """
   end
@@ -97,7 +97,7 @@ defmodule NoozoWeb.Admin.Cvs.Children.PreviewView do
   defp month_year(nil), do: nil
 
   defp month_year(date) do
-    Timex.format!(date, "{Mshort} {YYYY}")
+    Timex.format!(date, "{Mshort } {YYYY }")
   end
 
   defp duration(nil, nil), do: nil
@@ -119,20 +119,29 @@ defmodule NoozoWeb.Admin.Cvs.Children.PreviewView do
   end
 
   defp render_dates_and_image(assigns, item) do
-    ~F"""
-    {#if item.date_from || item.date_to}
-      <span class="font-bold">
-        {month_year(item.date_from)} to
-        {month_year(item.date_to) || "present day"}
-      </span>
-      {duration(item.date_from, item.date_to)}
-    {/if}
+    assigns =
+      assign(assigns,
+        item: item,
+        has_dates: item.date_from || item.date_to,
+        month_from: month_year(item.date_from),
+        month_to: month_year(item.date_to) || "present day",
+        dates_duration: duration(item.date_from, item.date_to)
+      )
 
-    {#if item.image}
+    ~H"""
+    <%= if @has_dates do %>
+      <span class="font-bold">
+        <%= @month_from %> to
+        <%= @month_to %>
+      </span>
+      <%= @dates_duration %>
+    <% end %>
+
+    <%= if @item.image do %>
       <div class="flex flex-wrap justify-center">
-        <img alt={item.title} src={CvSectionItem.image_url(item)}>
+        <img alt={@item.title} src={CvSectionItem.image_url(@item)} />
       </div>
-    {/if}
+    <% end %>
     """
   end
 end

@@ -2,20 +2,18 @@ defmodule NoozoWeb.Admin.Cvs.Children.Components.ExpandCollapse do
   @moduledoc """
   Expanding and collapsing divs
   """
-  use NoozoWeb, :surface_func_component
+  use Phoenix.Component
 
-  prop var, :string, required: true
+  attr :var, :string, required: true
 
-  @impl true
   def render(assigns) do
-    ~F"""
+    ~H"""
     <svg
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"
       stroke="currentColor"
-      class="w-5 h-5"
-      :class={"{'hidden': #{@var}, 'inline': !#{@var}}"}
+      class={if @var == "true", do: "w-5 h-5 hidden", else: "w-5 h-5 inline" }>
     >
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
     </svg>
@@ -24,8 +22,7 @@ defmodule NoozoWeb.Admin.Cvs.Children.Components.ExpandCollapse do
       fill="none"
       viewBox="0 0 24 24"
       stroke="currentColor"
-      class="w-5 h-5"
-      :class={"{'inline': #{@var}, 'hidden': !#{@var}}"}
+      class={if @var == "true", do: "w-5 h-5 inline", else: "w-5 h-5 hidden" }>
     >
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
     </svg>

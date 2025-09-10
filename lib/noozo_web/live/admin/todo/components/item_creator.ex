@@ -2,19 +2,15 @@ defmodule NoozoWeb.Admin.Todo.Components.ItemCreator do
   @moduledoc """
   Item creator component
   """
-  use NoozoWeb, :surface_component
+  use NoozoWeb, :live_component
 
   alias Noozo.Todo
-
-  prop list, :struct, required: true
-  data creating, :boolean, default: false
-
   @impl true
   def render(assigns) do
-    ~F"""
+    ~H"""
     <div id={@id}>
-      {#if @creating}
-        <form phx-submit="create_item">
+      <%= if @creating do %>
+        <form phx-submit="create_item" phx-target={@myself}>
           <input type="hidden" name="list_id" value={@list.id}>
           <div class="flex flex-col gap-2">
             <div class="flex-grow">
@@ -32,19 +28,19 @@ defmodule NoozoWeb.Admin.Todo.Components.ItemCreator do
               <div class="flex-grow">
                 <input type="submit" class="tag-xs text-xs" value="Create">
               </div>
-              <div phx-click="cancel" class="tag-xs text-xs is-small is-danger is-right">
+              <div phx-click="cancel" phx-target={@myself } class="tag-xs text-xs is-small is-danger is-right">
                 <i class="material-icons">cancel</i>
               </div>
             </div>
           </div>
         </form>
-      {#else}
-        <form phx-submit="input_title">
+      <% else %>
+        <form phx-submit="input_title" phx-target={@myself}>
           <button class="rounded text-black bg-gray-100 hover:bg-gray-200 p-4 w-full">
             + Add another item
           </button>
         </form>
-      {/if}
+      <% end %>
     </div>
     """
   end

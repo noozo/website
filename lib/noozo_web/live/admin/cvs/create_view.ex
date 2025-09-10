@@ -2,14 +2,14 @@ defmodule NoozoWeb.Admin.Cvs.CreateView do
   @moduledoc """
   Admin CVs create live view
   """
-  use NoozoWeb, :surface_view
+  use NoozoWeb, :live_view
 
   alias Noozo.Cvs
   alias NoozoWeb.Admin.Cvs.EditView
 
   @impl true
   def render(assigns) do
-    ~F"""
+    ~H"""
     Creating cv...
     """
   end

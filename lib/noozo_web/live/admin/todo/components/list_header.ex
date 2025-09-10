@@ -2,19 +2,15 @@ defmodule NoozoWeb.Admin.Todo.Components.ListHeader do
   @moduledoc """
   Header of each list on the board
   """
-  use NoozoWeb, :surface_component
+  use NoozoWeb, :live_component
 
   alias Noozo.Todo
   alias NoozoWeb.Admin.Todo.Components.ListMenu
-
-  prop list, :struct, required: true
-  data editing, :boolean, default: false
-
   @impl true
   def render(assigns) do
-    ~F"""
+    ~H"""
     <div id={@id} class="flex flex-row text-xs">
-      {#if @editing}
+      <%= if @editing do %>
         <form class="" submit="update_title">
           <div class="flex flex-row gap-6">
             <input
@@ -28,29 +24,29 @@ defmodule NoozoWeb.Admin.Todo.Components.ListHeader do
             />
           </div>
         </form>
-      {#else}
+      <% else %>
         <div>
           <div
             class="btn"
-            click="toggle_list"
+            phx-click="toggle_list"
             phx-value-list_id={@list.id}
             phx-value-board_id={@list.board_id}
           >
-            {#if @list.open}-{#else}+{/if}
+            <%= if @list.open do %>-<% else %>+<% end %>
           </div>
         </div>
-        <div class="flex-grow text-center py-2 text-sm" phx-click="start_editing">
-          {@list.title}
+        <div class="flex-grow text-center py-2 text-sm" phx-click="start_editing" phx-target={@myself}>
+          <%= @list.title %>
         </div>
         <div>
-          <div class="tag-xs" phx-click="start_editing">
-            {length(@list.items)}
+          <div class="tag-xs" phx-click="start_editing" phx-target={@myself}>
+            <%= length(@list.items) %>
           </div>
         </div>
         <div>
-          <ListMenu id={"list_menu_#{@list.id}"} list={@list} />
+          <.live_component module={ListMenu} id={"list_menu_#{@list.id}"} list={@list} />
         </div>
-      {/if}
+      <% end %>
     </div>
     """
   end

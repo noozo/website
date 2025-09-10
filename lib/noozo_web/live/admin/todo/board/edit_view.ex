@@ -2,26 +2,23 @@ defmodule NoozoWeb.Admin.Todo.Board.EditView do
   @moduledoc """
   Edit board
   """
-  use NoozoWeb, :surface_view
+  use NoozoWeb, :live_view
 
   alias Noozo.Todo
   alias NoozoWeb.Admin.Todo.Board.IndexView
 
-  data info, :string
-  data error, :string
-
   @impl true
   def render(assigns) do
-    ~F"""
-    <LivePatch to={Routes.live_path(@socket, IndexView)}>Back to list</LivePatch>
+    ~H"""
+    <.link to={Routes.live_path(@socket, IndexView) }>Back to list</.link>
 
     <div class="notifications">
-      {#unless is_nil(@info)}
-        <p class="alert alert-info" role="alert">{@info}</p>
-      {/unless}
-      {#unless is_nil(@error)}
-        <p class="alert alert-danger" role="alert">{@error}</p>
-      {/unless}
+      <%= unless is_nil(@info) do %>
+        <p class="alert alert-info" role="alert"><%= @info %></p>
+      <% end %>
+      <%= unless is_nil(@error) do %>
+        <p class="alert alert-danger" role="alert"><%= @error %></p>
+      <% end %>
     </div>
 
     <div class="edit-grid">

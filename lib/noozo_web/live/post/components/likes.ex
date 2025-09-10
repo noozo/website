@@ -2,16 +2,9 @@ defmodule NoozoWeb.Post.Components.Likes do
   @moduledoc """
   Likes component
   """
-  use NoozoWeb, :surface_component
+  use NoozoWeb, :live_component
 
   alias Noozo.Core
-
-  prop ga_id, :string, required: true
-  prop post, :struct, required: true
-  prop icon_class, :string
-  prop user_liked, :boolean
-  prop tooltip, :string
-  prop like_text, :string
 
   @impl true
   def update(assigns, socket) do
@@ -27,13 +20,14 @@ defmodule NoozoWeb.Post.Components.Likes do
 
   @impl true
   def render(assigns) do
-    ~F"""
+    ~H"""
     <div class="likes">
       <span
         id={"likes_#{@post.id}"}
         class={"icon #{@icon_class} has-tooltip-arrow"}
         phx-hook="TooltipInit"
         phx-click="toggle_like"
+        phx-target={@myself}
         phx-value-user_liked={@user_liked}
         data-tooltip={@tooltip}
       >
@@ -51,7 +45,7 @@ defmodule NoozoWeb.Post.Components.Likes do
             d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
           />
         </svg>
-        {@like_text}
+    <%= @like_text %>
       </span>
     </div>
     """

@@ -1,5 +1,5 @@
 defmodule NoozoWeb.Admin.Finance.IndexView do
-  use NoozoWeb, :surface_view
+  use NoozoWeb, :live_view
 
   alias Noozo.Finance
   alias Noozo.Pagination
@@ -30,7 +30,7 @@ defmodule NoozoWeb.Admin.Finance.IndexView do
       ] = String.split(csv_line, ";")
 
       %Line{
-        date: date_from |> Timex.parse!("{D}-{0M}-{YYYY}") |> Timex.to_date(),
+        date: date_from |> Timex.parse!("{D }-{0M }-{YYYY }") |> Timex.to_date(),
         description: description,
         debit: parse_value(debit),
         credit: parse_value(credit),
@@ -68,9 +68,9 @@ defmodule NoozoWeb.Admin.Finance.IndexView do
   def handle_params(params, _session, socket) do
     start_date =
       params["start_date"] ||
-        Timex.today() |> Timex.shift(years: -2) |> Timex.format!("{YYYY}-{0M}-{D}")
+        Timex.today() |> Timex.shift(years: -2) |> Timex.format!("{YYYY }-{0M }-{D }")
 
-    end_date = params["end_date"] || Timex.today() |> Timex.format!("{YYYY}-{0M}-{D}")
+    end_date = params["end_date"] || Timex.today() |> Timex.format!("{YYYY }-{0M }-{D }")
 
     params =
       params
@@ -93,12 +93,12 @@ defmodule NoozoWeb.Admin.Finance.IndexView do
 
   @impl true
   def render(assigns) do
-    ~F"""
+    ~H"""
     <div class="text-lg mb-6 font-medium">Finances</div>
 
     <form phx-change="update-dates">
-      <input type="date" name="start_date" max={Timex.today()} value={@params["start_date"]}>
-      <input type="date" name="end_date" max={Timex.today()} value={@params["end_date"]}>
+      <input type="date" name="start_date" max={Timex.today() } value={@params["start_date"] }>
+      <input type="date" name="end_date" max={Timex.today() } value={@params["end_date"] }>
     </form>
     <table>
       <thead>
@@ -112,32 +112,32 @@ defmodule NoozoWeb.Admin.Finance.IndexView do
         </tr>
       </thead>
       <tbody>
-        {#for entry <- @page_movements}
+        <%= for entry <- @page_movements do %>
           <tr>
-            <td>{entry.date}</td>
-            <td>{entry.description}</td>
-            <td>{entry.debit}</td>
-            <td>{entry.credit}</td>
-            <td>{entry.balance}</td>
-            <td>{entry.category}</td>
+            <td><%= entry.date %></td>
+            <td><%= entry.description %></td>
+            <td><%= entry.debit %></td>
+            <td><%= entry.credit %></td>
+            <td><%= entry.balance %></td>
+            <td><%= entry.category %></td>
           </tr>
-        {/for}
+    <% end %>
         <tr>
           <td />
           <td />
-          <td>{@debits}</td>
-          <td>{@credits}</td>
+          <td><%= @debits %></td>
+          <td><%= @credits %></td>
           <td />
           <td />
         </tr>
       </tbody>
     </table>
-    <Pagination source_assigns={assigns} entries={@page_movements} module={__MODULE__} />
+    <%= Noozo.Pagination.render(%{source_assigns: assigns, entries: @page_movements, module: __MODULE__}) %>
 
     <div
       id="finance-diagram"
       phx-hook="FinanceDiagram"
-      data-finance-data={serialize(@movements)}
+      data-finance-data={serialize(@movements) }
       class="mt-6 h-64"
     />
 
@@ -145,25 +145,25 @@ defmodule NoozoWeb.Admin.Finance.IndexView do
 
     <form phx-submit="upload" phx-change="validate">
       <div class="col-span-6">
-        {#for {_ref, msg} <- @uploads.csv.errors}
+    <%= for {_ref, msg } <- @uploads.csv.errors  do %>
           <div class="flex-none p-2">
             <p class="shadow p-5 bg-red-300 rounded-md" role="alert">
-              {Phoenix.Naming.humanize(msg)}
+              <%= Phoenix.Naming.humanize(msg) %>
             </p>
           </div>
-        {/for}
+    <% end %>
 
         <div class="flex">
-          {live_file_input(@uploads.csv)}
+          <%= live_file_input(@uploads.csv) %>
           <input class="btn flex-col cursor-pointer" type="submit" value="Upload">
         </div>
       </div>
     </form>
 
-    {#for entry <- @uploads.csv.entries}
+    <%= for entry <- @uploads.csv.entries do %>
       <div class="col-span-6">
         <div class="flex-col">
-          {entry.client_name}
+          <%= entry.client_name %>
         </div>
         <div class="flex-col">
           <progress max="100" value={entry.progress} />
@@ -174,7 +174,7 @@ defmodule NoozoWeb.Admin.Finance.IndexView do
           </div>
         </div>
       </div>
-    {/for}
+    <% end %>
     """
   end
 
@@ -297,19 +297,19 @@ defmodule NoozoWeb.Admin.Finance.IndexView do
 
   defp sort(data, :week) do
     data
-    |> Enum.sort_by(&(&1 |> Map.get(:date) |> Timex.format!("{YYYY}-{0Wiso}")), &<=/2)
-    |> Enum.group_by(&(&1 |> Map.get(:date) |> Timex.format!("{YYYY}-{0Wiso}")))
+    |> Enum.sort_by(&(&1 |> Map.get(:date) |> Timex.format!("{YYYY }-{0Wiso }")), &<=/2)
+    |> Enum.group_by(&(&1 |> Map.get(:date) |> Timex.format!("{YYYY }-{0Wiso }")))
   end
 
   defp sort(data, :month) do
     data
-    |> Enum.sort_by(&(&1 |> Map.get(:date) |> Timex.format!("{YYYY}-{0M}")), &<=/2)
-    |> Enum.group_by(&(&1 |> Map.get(:date) |> Timex.format!("{YYYY}-{0M}")))
+    |> Enum.sort_by(&(&1 |> Map.get(:date) |> Timex.format!("{YYYY }-{0M }")), &<=/2)
+    |> Enum.group_by(&(&1 |> Map.get(:date) |> Timex.format!("{YYYY }-{0M }")))
   end
 
   defp sort(data, :year) do
     data
-    |> Enum.sort_by(&(&1 |> Map.get(:date) |> Timex.format!("{YYYY}")), &<=/2)
-    |> Enum.group_by(&(&1 |> Map.get(:date) |> Timex.format!("{YYYY}")))
+    |> Enum.sort_by(&(&1 |> Map.get(:date) |> Timex.format!("{YYYY }")), &<=/2)
+    |> Enum.group_by(&(&1 |> Map.get(:date) |> Timex.format!("{YYYY }")))
   end
 end

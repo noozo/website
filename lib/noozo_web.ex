@@ -19,7 +19,7 @@ defmodule NoozoWeb do
 
   def controller do
     quote do
-      use Phoenix.Controller, namespace: NoozoWeb
+      use Phoenix.Controller, formats: [:html], layouts: [html: NoozoWeb.LayoutView]
 
       import Plug.Conn
       import NoozoWeb.Gettext
@@ -41,25 +41,17 @@ defmodule NoozoWeb do
     end
   end
 
-  def surface_view do
+  def live_view do
     quote do
-      use Surface.LiveView, layout: {NoozoWeb.LayoutView, :live}
+      use Phoenix.LiveView, layout: {NoozoWeb.LayoutView, :live}
 
       unquote(view_helpers())
     end
   end
 
-  def surface_component do
+  def live_component do
     quote do
-      use Surface.LiveComponent
-
-      unquote(view_helpers())
-    end
-  end
-
-  def surface_func_component do
-    quote do
-      use Surface.Component
+      use Phoenix.LiveComponent
 
       unquote(view_helpers())
     end
@@ -83,13 +75,15 @@ defmodule NoozoWeb do
   defp view_helpers do
     quote do
       # Use all HTML functionality (forms, tags, etc)
-      use Phoenix.HTML
+      import Phoenix.HTML
+      import Phoenix.HTML.Form
+      use PhoenixHTMLHelpers
 
       # Import LiveView helpers (live_render, live_component, live_patch, etc)
       import Phoenix.LiveView.Helpers
 
       # Import basic rendering functionality (render, render_layout, etc)
-      import Phoenix.View
+      # import Phoenix.View - Removed to prevent circular dependency in Phoenix 1.8
 
       import NoozoWeb.ErrorHelpers
       import NoozoWeb.Gettext
@@ -97,8 +91,6 @@ defmodule NoozoWeb do
       alias NoozoWeb.Router
       alias NoozoWeb.Router.Helpers, as: Routes
       alias NoozoWeb.TemplateUtils
-
-      alias Surface.Components.LivePatch
     end
   end
 

@@ -1,5 +1,5 @@
 defmodule NoozoWeb.Admin.Cvs.Children.SectionItemView do
-  use NoozoWeb, :surface_view
+  use NoozoWeb, :live_view
 
   alias Noozo.Cvs
 
@@ -7,20 +7,20 @@ defmodule NoozoWeb.Admin.Cvs.Children.SectionItemView do
 
   @impl true
   def render(assigns) do
-    ~F"""
+    ~H"""
     <div
       class="shadow p-2"
-      :class="{'mb-2': collapsed, 'mb-6': !collapsed}"
-      x-data="{collapsed: true}"
+      x-bind:class="{'mb-2': collapsed, 'mb-6': !collapsed }"
+      x-data="{collapsed: true }"
     >
       <div class="text-lg cursor-pointer" @click="collapsed = !collapsed">
-        <ExpandCollapse var="collapsed" />
-        <span :class="{'visible': collapsed, 'hidden': !collapsed}" class="text-sm">
-          {String.slice(@item.title || @item.content, 0..39)}
+        <ExpandCollapse.render var="collapsed" />
+        <span x-bind:class="{'visible': collapsed, 'hidden': !collapsed }" class="text-sm">
+          <%= String.slice(@item.title || @item.content, 0..39) %>
         </span>
       </div>
 
-      <form phx-change="save" phx-debounce="500" :class="{'hidden': collapsed, 'visible': !collapsed}">
+      <form phx-change="save" phx-debounce="500" x-bind:class="{'hidden': collapsed, 'visible': !collapsed }">
         <div class="grid grid-cols-6 gap-4">
           <div class="col-span-3">
             <label for="date_from">From</label>
@@ -59,14 +59,14 @@ defmodule NoozoWeb.Admin.Cvs.Children.SectionItemView do
           <div class="col-span-6">
             <label for="content">Content</label>
             <textarea type="text" name="content" phx-debounce="500" rows="10">
-              {@item.content}
+              <%= @item.content %>
             </textarea>
           </div>
 
           <div class="col-span-6">
             <label for="footer">Footer</label>
             <textarea type="text" name="footer" phx-debounce="500" rows="5">
-              {@item.footer}
+              <%= @item.footer %>
             </textarea>
           </div>
         </div>
@@ -75,40 +75,36 @@ defmodule NoozoWeb.Admin.Cvs.Children.SectionItemView do
       <form
         phx-submit="upload"
         phx-change="validate"
-        :class="{'hidden': collapsed, 'visible': !collapsed}"
+        x-bind:class="{'hidden': collapsed, 'visible': !collapsed }"
       >
         <div class="grid grid-cols-6 gap-4 mt-4">
           <label for="image">Image</label>
 
-          {#if @item.image}
+          <%= if @item.image do %>
             <div class="block mr-6" phx-click="remove-image" data-confirm="Remove image?">
-              {data = Base.encode64(@item.image)
-
-              Phoenix.HTML.raw(
-                "<img src=\"data:" <> @item.image_type <> ";base64," <> data <> "\" width=\"50px\">"
-              )}
+              <%= Phoenix.HTML.raw("<img src=\"data:" <> @item.image_type <> ";base64," <> Base.encode64(@item.image) <> "\" width=\"50px\">") %>
             </div>
-          {/if}
+          <% end %>
 
           <div class="col-span-6">
-            {#for {_ref, msg} <- @uploads.image.errors}
+            <%= for {_ref, msg} <- @uploads.image.errors do %>
               <div class="flex-none p-2">
                 <p class="shadow p-5 bg-red-300 rounded-md" role="alert">
-                  {Phoenix.Naming.humanize(msg)}
+                  <%= Phoenix.Naming.humanize(msg) %>
                 </p>
               </div>
-            {/for}
+            <% end %>
 
             <div class="flex">
-              {live_file_input(@uploads.image)}
+              <%= live_file_input(@uploads.image) %>
               <input class="btn flex-col cursor-pointer" type="submit" value="Upload">
             </div>
           </div>
 
-          {#for entry <- @uploads.image.entries}
+          <%= for entry <- @uploads.image.entries do %>
             <div class="col-span-6">
               <div class="flex-col">
-                {live_img_preview(entry, width: 50, height: 50)}
+                <.live_img_preview entry={entry} width={50} height={50} />
               </div>
               <div class="flex-col">
                 <progress max="100" value={entry.progress} />
@@ -119,7 +115,7 @@ defmodule NoozoWeb.Admin.Cvs.Children.SectionItemView do
                 </div>
               </div>
             </div>
-          {/for}
+          <% end %>
         </div>
       </form>
     </div>

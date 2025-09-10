@@ -241,7 +241,7 @@ defmodule Noozo.Core do
   def suggest_tags(name) do
     query =
       from(t in Tag,
-        where: ilike(t.name, ^"%#{name}%")
+        where: ilike(t.name, ^"%#{}name %")
       )
 
     Repo.all(query)

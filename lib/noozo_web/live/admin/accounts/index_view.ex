@@ -2,7 +2,7 @@ defmodule NoozoWeb.Admin.Accounts.IndexView do
   @moduledoc """
   User accounts index view
   """
-  use NoozoWeb, :surface_view
+  use NoozoWeb, :live_view
 
   alias Noozo.Accounts
   alias Noozo.Pagination
@@ -16,7 +16,7 @@ defmodule NoozoWeb.Admin.Accounts.IndexView do
 
   @impl true
   def render(assigns) do
-    ~F"""
+    ~H"""
     <div class="flex flex-col mt-6">
       <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
@@ -30,20 +30,20 @@ defmodule NoozoWeb.Admin.Accounts.IndexView do
                 </tr>
               </thead>
               <tbody>
-                {#for user <- @users.entries}
+                <%= for user <- @users.entries do %>
                   <tr>
                     <td>
-                      <LivePatch to={Routes.live_path(@socket, EditView, user.id)}>{user.id}</LivePatch>
+                      <.link navigate={Routes.live_path(@socket, EditView, user.id)}><%= user.id %></.link>
                     </td>
                     <td>
-                      <LivePatch to={Routes.live_path(@socket, EditView, user.id)}>{user.email}</LivePatch>
+                      <.link navigate={Routes.live_path(@socket, EditView, user.id)}><%= user.email %></.link>
                     </td>
                     <td>
-                      {user.has_2fa}
-                      <LivePatch to={Routes.live_path(@socket, TwoFactorSetupView, user.id)}>Setup/View</LivePatch>
+                      <%= user.has_2fa %>
+                      <.link navigate={Routes.live_path(@socket, TwoFactorSetupView, user.id)}>Setup/View</.link>
                     </td>
                   </tr>
-                {/for}
+                <% end %>
               </tbody>
             </table>
           </div>
@@ -51,7 +51,7 @@ defmodule NoozoWeb.Admin.Accounts.IndexView do
       </div>
     </div>
 
-    <Pagination source_assigns={assigns} entries={@users} module={__MODULE__} />
+    <%= Noozo.Pagination.render(%{source_assigns: assigns, entries: @users, module: __MODULE__ }) %>
     """
   end
 end

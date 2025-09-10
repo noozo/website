@@ -2,18 +2,14 @@ defmodule NoozoWeb.Admin.Todo.Components.ItemModal.Content do
   @moduledoc """
   Item modal content, supports edition
   """
-  use NoozoWeb, :surface_component
+  use NoozoWeb, :live_component
 
   alias Noozo.Todo
-
-  prop item, :struct, required: true
-  data editing, :boolean, default: false
-
   @impl true
   def render(assigns) do
-    ~F"""
+    ~H"""
     <div id={@id}>
-      {#if @editing}
+      <%= if @editing do %>
         <form class="" submit="update_content">
           <div class="flex flex-col gap-6">
             <textarea
@@ -22,15 +18,15 @@ defmodule NoozoWeb.Admin.Todo.Components.ItemModal.Content do
               name="content"
               data-component={@id}
               id={@id}
-            >{@item.content}</textarea>
+            ><%= @item.content %></textarea>
 
             <div class="flex flex-row gap-2">
               <div class="flex-grow">
                 <input type="submit" class="tag-xs text-xs cursor-pointer" value="Update">
               </div>
               <div
-                phx-click="cancel"
-                phx-target={@myself}
+                phx-click="cancel" phx-target={@myself }
+                phx-target={@myself }
                 class="tag-xs text-xs is-small is-danger is-right cursor-pointer"
               >
                 <i class="material-icons">cancel</i>
@@ -38,21 +34,20 @@ defmodule NoozoWeb.Admin.Todo.Components.ItemModal.Content do
             </div>
           </div>
         </form>
-      {#else}
+      <% else %>
         <div
           class="text-xs flex flex-col rounded-lg border-2 border-dashed p-4 prose"
-          phx-click="start_editing"
-          phx-target={@myself}
+          phx-click="start_editing" phx-target={@myself}
         >
-          {#if @item.content}
+          <%= if @item.content do %>
             <div>
-              {(@item.content || "") |> Earmark.as_html!() |> Phoenix.HTML.raw()}
+              <%= (@item.content || "") |> Earmark.as_html!() |> Phoenix.HTML.raw() %>
             </div>
-          {#else}
+          <% else %>
             <div>There is nothing here. Click to edit.</div>
-          {/if}
+          <% end %>
         </div>
-      {/if}
+      <% end %>
     </div>
     """
   end

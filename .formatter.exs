@@ -1,11 +1,10 @@
 [
-  import_deps: [:ecto, :phoenix, :surface],
+  import_deps: [:ecto, :phoenix],
   inputs: [
     "*.{ex,exs}",
     "priv/*/seeds.exs",
     "{config,lib,test}/**/*.{ex,exs}",
-    "{lib,test}/**/*.sface"
+    "lib/noozo_web/templates/**/*.heex"
   ],
-  subdirectories: ["priv/*/migrations"],
-  plugins: [Surface.Formatter.Plugin]
+  subdirectories: ["priv/*/migrations"]
 ]

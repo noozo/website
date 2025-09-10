@@ -1,25 +1,24 @@
 defmodule NoozoWeb.Post.ShowView do
-  use NoozoWeb, :surface_view
+  use NoozoWeb, :live_view
 
   alias Noozo.Core
   alias NoozoWeb.Post.IndexView
 
   @impl true
   def render(assigns) do
-    ~F"""
+    ~H"""
     <div class="lg:flex lg:items-center lg:justify-between mb-8" id={"post_#{@post.id}"}>
       <div class="flex-1 min-w-0">
-        {render_tags(assigns)}
+        <%= render_tags(assigns) %>
 
         <h2 class="text-2xl font-bold leading-7 text-black sm:text-3xl sm:truncate mt-4">
-          {#unless @post.status == "published"}
+          <%= unless @post.status == "published" do %>
             [DRAFT]
-          {/unless} {@post.title}
+          <% end %><%= @post.title %>
         </h2>
 
         <div class="mt-1 flex flex-col sm:flex-row sm:flex-wrap sm:mt-0 sm:space-x-6">
           <div class="mt-2 flex items-center text-sm text-black">
-            <!-- Heroicon name: calendar -->
             <svg
               class="flex-shrink-0 mr-1.5 h-5 w-5 text-black"
               xmlns="http://www.w3.org/2000/svg"
@@ -33,19 +32,18 @@ defmodule NoozoWeb.Post.ShowView do
                 clip-rule="evenodd"
               />
             </svg>
-            {TemplateUtils.format_date(@post.published_at)}
+            <%= TemplateUtils.format_date(@post.published_at) %>
           </div>
         </div>
       </div>
 
-      {#if @current_user}
+      <%= if @current_user do %>
         <div class="mt-5 flex lg:mt-0 lg:ml-4">
           <span class="hidden sm:block">
-            <LivePatch
+            <.link
               to={Routes.live_path(@socket, NoozoWeb.Admin.Post.EditView, @post.id)}
               class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-black bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
-              <!-- Heroicon name: pencil -->
               <svg
                 class="-ml-1 mr-2 h-5 w-5 text-black"
                 xmlns="http://www.w3.org/2000/svg"
@@ -56,28 +54,27 @@ defmodule NoozoWeb.Post.ShowView do
                 <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
               </svg>
               Edit
-            </LivePatch>
+            </.link>
           </span>
         </div>
-      {/if}
+      <% end %>
     </div>
 
-    {#if @post.image}
+    <%= if @post.image do %>
       <div class="block mr-6 mb-6 float-left">
-        {data = Base.encode64(@post.image)
+        <%= data = Base.encode64(@post.image)
 
         Phoenix.HTML.raw(
           "<img src=\"data:" <> @post.image_type <> ";base64," <> data <> "\" width=\"200px\">"
-        )}
+        ) %>
       </div>
-    {/if}
+    <% end %>
 
     <div class="max-w-full prose lg:prose-lg">
-      {TemplateUtils.post_content(@post)}
+      <%= TemplateUtils.post_content(@post) %>
     </div>
 
     <div class="block is-pulled-right">
-      <!-- Facebook -->
       <a
         target="_blank"
         href={"https://www.facebook.com/sharer/sharer.php?u=#{URI.encode_www_form(@url)}&amp;src=sdkpreparse"}
@@ -86,7 +83,6 @@ defmodule NoozoWeb.Post.ShowView do
         <img class="inline" src="/images/bw/facebook_20x20.png" width="20px" height="20px">
       </a>
 
-      <!-- Twitter -->
       <a
         target="_blank"
         class="twitter-share-button"
@@ -95,7 +91,6 @@ defmodule NoozoWeb.Post.ShowView do
         <img class="inline" src="/images/bw/twitter_20x20.png" width="20px" height="20px">
       </a>
 
-      <!-- LinkedIn -->
       <a
         target="_blank"
         class="twitter-share-button"
@@ -106,24 +101,24 @@ defmodule NoozoWeb.Post.ShowView do
     </div>
 
     <div class="block mt-6">
-      <LivePatch to={Routes.live_path(@socket, IndexView)} class="btn">
+      <.link to={Routes.live_path(@socket, IndexView)} class="btn">
         &lt;&lt; back to posts
-      </LivePatch>
+      </.link>
     </div>
     """
   end
 
   defp render_tags(assigns) do
-    ~F"""
-    {#if length(assigns.post.tags) > 0}
-      {#for tag <- assigns.post.tags}
+    ~H"""
+    <%= if length(assigns.post.tags) > 0 do %>
+      <%= for tag <- assigns.post.tags do %>
         <div class="tag">
           <a href={Routes.live_path(@socket, NoozoWeb.Post.IndexView, tag.name)}>
-            {tag.name}
+            <%= tag.name %>
           </a>
         </div>
-      {/for}
-    {/if}
+      <% end %>
+    <% end %>
     """
   end
 

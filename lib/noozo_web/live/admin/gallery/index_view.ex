@@ -1,5 +1,5 @@
 defmodule NoozoWeb.Admin.Gallery.IndexView do
-  use NoozoWeb, :surface_view
+  use NoozoWeb, :live_view
 
   alias Noozo.Gallery
   alias Noozo.Pagination
@@ -15,8 +15,8 @@ defmodule NoozoWeb.Admin.Gallery.IndexView do
 
   @impl true
   def render(assigns) do
-    ~F"""
-    <LivePatch to={Routes.live_path(@socket, CreateView)} class="btn">Upload Image</LivePatch>
+    ~H"""
+    <.link to={Routes.live_path(@socket, CreateView) } class="btn">Upload Image</.link>
 
     <div class="flex flex-col mt-6">
       <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -31,23 +31,19 @@ defmodule NoozoWeb.Admin.Gallery.IndexView do
                 </tr>
               </thead>
               <tbody>
-                {#for image <- @images.entries}
+                <%= for image <- @images.entries do %>
                   <tr>
                     <td>
-                      <LivePatch to={Routes.live_path(@socket, EditView, image.uuid)}>{image.title}</LivePatch>
+                      <.link to={Routes.live_path(@socket, EditView, image.uuid)}><%= image.title %></.link>
                     </td>
                     <td>
-                      {data = Base.encode64(image.image)
-
-                      Phoenix.HTML.raw(
-                        "<img class=\"h-20\" src=\"data:" <> image.image_type <> ";base64," <> data <> "\">"
-                      )}
+                      <%= Phoenix.HTML.raw("<img class=\"h-20\" src=\"data:" <> image.image_type <> ";base64," <> Base.encode64(image.image) <> "\">") %>
                     </td>
                     <td>
-                      {image.order}
+                      <%= image.order %>
                     </td>
                   </tr>
-                {/for}
+                <% end %>
               </tbody>
             </table>
           </div>
@@ -55,7 +51,7 @@ defmodule NoozoWeb.Admin.Gallery.IndexView do
       </div>
     </div>
 
-    <Pagination source_assigns={assigns} entries={@images} module={__MODULE__} />
+    <%= Noozo.Pagination.render(%{source_assigns: assigns, entries: @images, module: __MODULE__}) %>
     """
   end
 end

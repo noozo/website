@@ -2,14 +2,14 @@ defmodule NoozoWeb.Admin.Todo.Board.CreateView do
   @moduledoc """
   Create boards
   """
-  use NoozoWeb, :surface_view
+  use NoozoWeb, :live_view
 
   alias Noozo.Todo
   alias NoozoWeb.Admin.Todo.Board.EditView
 
   @impl true
   def render(assigns) do
-    ~F"""
+    ~H"""
     Creating board...
     """
   end

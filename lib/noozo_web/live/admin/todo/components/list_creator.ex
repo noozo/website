@@ -2,24 +2,20 @@ defmodule NoozoWeb.Admin.Todo.Components.ListCreator do
   @moduledoc """
   List creator component
   """
-  use NoozoWeb, :surface_component
+  use NoozoWeb, :live_component
 
   alias Noozo.Todo
-
-  prop board, :struct, required: true
-  data creating, :boolean, default: false
-
   @impl true
   def render(assigns) do
-    height = if assigns.creating, do: "28", else: "16"
+    assigns = assign(assigns, :height, if(assigns.creating, do: "28", else: "16"))
 
-    ~F"""
+    ~H"""
     <div
       id={@id}
-      class={"h-#{height} bg-gray-200 hover:bg-gray-300 text-sm rounded-lg p-4"}
+      class={"h-#{@height} bg-gray-200 hover:bg-gray-300 text-sm rounded-lg p-4"}
       style="min-width: 250px;"
     >
-      {#if @creating}
+      <%= if @creating do %>
         <form phx-submit="create_list" phx-target={@myself}>
           <input type="hidden" name="board_id" value={@board.id}>
           <div class="flex flex-col gap-2">
@@ -39,17 +35,17 @@ defmodule NoozoWeb.Admin.Todo.Components.ListCreator do
               <div class="flex-grow">
                 <input type="submit" class="tag-xs text-xs" value="Create">
               </div>
-              <div phx-click="cancel" phx-target={@myself} class="tag-xs text-xs is-small is-danger is-right">
+              <div phx-click="cancel" phx-target={@myself } phx-target={@myself } class="tag-xs text-xs is-small is-danger is-right">
                 <i class="material-icons">cancel</i>
               </div>
             </div>
           </div>
         </form>
-      {#else}
+      <% else %>
         <form phx-submit="input_title" phx-target={@myself}>
           <button class="new-list"><i class="material-icons">add</i> Add another list</button>
         </form>
-      {/if}
+      <% end %>
     </div>
     """
   end

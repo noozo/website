@@ -2,7 +2,7 @@ defmodule NoozoWeb.Admin.Post.EditView do
   @moduledoc """
   Admin posts edit live view
   """
-  use NoozoWeb, :surface_view
+  use NoozoWeb, :live_view
 
   alias Noozo.Core
   alias NoozoWeb.Admin.Post.IndexView
@@ -24,18 +24,18 @@ defmodule NoozoWeb.Admin.Post.EditView do
 
   @impl true
   def render(assigns) do
-    ~F"""
-    <LivePatch to={Routes.live_path(@socket, IndexView)} class="btn">
+    ~H"""
+    <.link to={Routes.live_path(@socket, IndexView) } class="btn">
       Back to list
-    </LivePatch>
+    </.link>
 
     <div class="flex-none p-5">
-      {#unless is_nil(@info)}
-        <div class="shadow p-5 bg-green-300 rounded-md" role="alert">{@info}</div>
-      {/unless}
-      {#unless is_nil(@error)}
-        <div class="shadow p-5 bg-red-300 rounded-md" role="alert">{@error}</div>
-      {/unless}
+      <%= unless is_nil(@info) do %>
+        <div class="shadow p-5 bg-green-300 rounded-md" role="alert"><%= @info %></div>
+      <% end %>
+      <%= unless is_nil(@error) do %>
+        <div class="shadow p-5 bg-red-300 rounded-md" role="alert"><%= @error %></div>
+      <% end %>
     </div>
 
     <div class="mt-5 md:mt-0 flex flex-row gap-6">
@@ -48,7 +48,7 @@ defmodule NoozoWeb.Admin.Post.EditView do
                   Title
                 </label>
                 <div class="mt-1">
-                  <input type="text" name="title" value={@post.title} phx-debounce="500">
+                  <input type="text" name="title" value={@post.title } phx-debounce="500">
                 </div>
               </div>
 
@@ -58,7 +58,7 @@ defmodule NoozoWeb.Admin.Post.EditView do
                 </label>
                 <div class="mt-1">
                   <textarea class="w-full" type="text" name="content" rows="15" phx-debounce="500">
-                    {@post.content}
+                    {@post.content }
                   </textarea>
                 </div>
               </div>
@@ -73,25 +73,25 @@ defmodule NoozoWeb.Admin.Post.EditView do
                     name="status"
                     phx-blur="update-status"
                   >
-                    {TemplateUtils.status_item("draft", "Draft", @post)}
-                    {TemplateUtils.status_item("published", "Published", @post)}
+                    {TemplateUtils.status_item("draft", "Draft", @post) }
+                    {TemplateUtils.status_item("published", "Published", @post) }
                   </select>
                 </div>
               </div>
 
               <div>
-                {#for {_ref, msg} <- @uploads.cover_photo.errors}
+                <%= for {_ref, msg} <- @uploads.cover_photo.errors do %>
                   <p class="alert alert-danger" role="alert">
-                    {Phoenix.Naming.humanize(msg)}
+                    <%= Phoenix.Naming.humanize(msg) %>
                   </p>
-                {/for}
+                <% end %>
 
-                {live_file_input(@uploads.cover_photo)}
+                <%= live_file_input(@uploads.cover_photo) %>
 
-                {#for entry <- @uploads.cover_photo.entries}
+                <%= for entry <- @uploads.cover_photo.entries do %>
                   <div class="columns">
                     <div class="column img-preview">
-                      {live_img_preview(entry, height: 80)}
+                      <.live_img_preview entry={entry} height={80} />
                     </div>
                     <div class="column">
                       <progress max="100" value={entry.progress} />
@@ -102,37 +102,37 @@ defmodule NoozoWeb.Admin.Post.EditView do
                       </a>
                     </div>
                   </div>
-                {/for}
+                <% end %>
 
                 <input class="btn" type="submit" value="Upload">
               </div>
             </div>
           </div>
         </form>
-        {live_component(Admin.Components.TitleSuggester, id: :title_suggester, post: @post)}
-        <TagEditor id={:tag_editor} post={@post} />
+        <.live_component module={Admin.Components.TitleSuggester} id={:title_suggester} post={@post} />
+        <.live_component module={TagEditor} id={:tag_editor} post={@post} />
       </div>
 
       <div class="max-w-full border-2 border-dashed border-gray-200 p-4 prose lg:prose-xl">
-        <h2>{@post.title}</h2>
+        <h2><%= @post.title %></h2>
         <div class="date">
-          {TemplateUtils.format_date(@post.published_at)}
+          <%= TemplateUtils.format_date(@post.published_at) %>
         </div>
-        {#if @post.image}
+        <%= if @post.image do %>
           <div
             class="block is-pulled-left mr-6"
             phx-click="remove-cover-photo"
             data-confirm="Remove image?"
           >
-            {data = Base.encode64(@post.image)
+            <%= data = Base.encode64(@post.image)
 
             Phoenix.HTML.raw(
               "<img src=\"data:" <> @post.image_type <> ";base64," <> data <> "\" width=\"200px\">"
-            )}
+            ) %>
           </div>
-        {/if}
+        <% end %>
         <div class="block">
-          {TemplateUtils.post_content(@post)}
+          <%= TemplateUtils.post_content(@post) %>
         </div>
       </div>
     </div>

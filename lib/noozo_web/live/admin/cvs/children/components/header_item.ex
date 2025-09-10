@@ -2,19 +2,16 @@ defmodule NoozoWeb.Admin.Cvs.Children.Components.HeaderItem do
   @moduledoc """
   Header item component
   """
-  use NoozoWeb, :surface_component
+  use NoozoWeb, :live_component
 
   alias Noozo.Cvs
 
   require Logger
-
-  prop item, :struct, required: true
-
   @impl true
   def render(assigns) do
-    ~F"""
+    ~H"""
     <div id={@id}>
-      <form phx-change="save" phx-debounce="500">
+      <form phx-change="save" phx-target={@myself} phx-debounce="500">
         <input
           class="mr-4 flex-col"
           type="text"

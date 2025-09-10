@@ -2,14 +2,14 @@ defmodule NoozoWeb.Admin.Todo.Label.IndexView do
   @moduledoc """
   Label management
   """
-  use NoozoWeb, :surface_view
+  use NoozoWeb, :live_view
 
   alias Noozo.Pagination
   alias Noozo.Todo
 
   @impl true
   def render(assigns) do
-    ~F"""
+    ~H"""
     <div class="mb-6">
       <span class="btn cursor-pointer" phx-click="create-label">Create label</span>
     </div>
@@ -22,7 +22,7 @@ defmodule NoozoWeb.Admin.Todo.Label.IndexView do
           <th>Preview</th>
         </thead>
         <tbody>
-          {#for label <- @labels.entries}
+          <%= for label <- @labels.entries do %>
             <tr>
               <td>
                 <form phx-change={"update-title-#{label.id}"} phx-debounce="500">
@@ -44,16 +44,16 @@ defmodule NoozoWeb.Admin.Todo.Label.IndexView do
                   class="rounded-lg p-4"
                   style={"background-color: #{label.color_hex}; color: #{label.text_color_hex}"}
                 >
-                  {label.title}
+                  <%= label.title %>
                 </div>
               </td>
             </tr>
-          {/for}
+          <% end %>
         </tbody>
       </table>
     </div>
 
-    <Pagination source_assigns={assigns} entries={@labels} module={__MODULE__} />
+    <%= Noozo.Pagination.render(%{source_assigns: assigns, entries: @labels, module: __MODULE__}) %>
     """
   end
 

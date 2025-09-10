@@ -2,29 +2,26 @@ defmodule NoozoWeb.Admin.Todo.Components.ItemLabel do
   @moduledoc """
   Show a label for a single item
   """
-  use NoozoWeb, :surface_component
+  use NoozoWeb, :live_component
 
   alias Noozo.Todo
-
-  prop item, :struct, required: true
-
   @impl true
   def render(assigns) do
-    ~F"""
+    ~H"""
     <div id={@id} class="flex flex-col">
       <div class="text-xs">Label</div>
       <div class="flex flex-wrap flex-row gap-2">
-        {#for label <- Todo.list_labels()}
-          {border = if label.id == @item.label_id, do: "ring-4 ring-gray-400", else: ""}
+        <%= for label <- Todo.list_labels() do %>
+          <% border = if label.id == @item.label_id, do: "ring-4 ring-gray-400", else: "" %>
           <div
             class={"text-xs text-center align-middle h-8 p-2 cursor-pointer rounded-lg #{border}"}
             style={"background-color: #{label.color_hex}; color: #{label.text_color_hex}"}
-            phx-click="select_label"
+            phx-click="select_label" phx-target={@myself}
             phx-value-label_id={label.id}
           >
-            {label.title}
+            <%= label.title %>
           </div>
-        {/for}
+        <% end %>
       </div>
     </div>
     """

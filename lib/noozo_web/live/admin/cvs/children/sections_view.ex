@@ -1,5 +1,5 @@
 defmodule NoozoWeb.Admin.Cvs.Children.SectionsView do
-  use NoozoWeb, :surface_view
+  use NoozoWeb, :live_view
 
   alias Noozo.Cvs
   alias Noozo.Cvs.CvSection
@@ -11,28 +11,27 @@ defmodule NoozoWeb.Admin.Cvs.Children.SectionsView do
 
   @impl true
   def render(assigns) do
-    ~F"""
+    ~H"""
     <div class="mt-6" x-data="{collapsed: false}">
       <div class="text-lg mb-4 cursor-pointer" @click="collapsed = !collapsed">
-        <ExpandCollapse var="collapsed" />
+        <ExpandCollapse.render var="collapsed" />
         Sections
       </div>
 
       <a
         class="btn cursor-pointer"
         phx-click="add-section"
-        :class="{'hidden': collapsed, 'visible': !collapsed}"
       >
         Add Section
       </a>
 
-      <div class="mt-6" :class="{'hidden': collapsed, 'visible': !collapsed}">
-        {#for section <- @sections}
+      <div class="mt-6" x-bind:class="{'hidden': collapsed, 'visible': !collapsed}">
+        <%= for section <- @sections do %>
           <div id={"section_container_#{section.uuid}"}>
             <div class="mb-6" x-data="{sectionCollapsed: true}">
               <div class="flex">
                 <div @click="sectionCollapsed = !sectionCollapsed">
-                  <ExpandCollapse var="sectionCollapsed" />
+                  <ExpandCollapse.render var="sectionCollapsed" />
                 </div>
                 <form phx-change="update-section" phx-debounce="500">
                   <input type="hidden" name="section_uuid" value={section.uuid}>
@@ -56,12 +55,12 @@ defmodule NoozoWeb.Admin.Cvs.Children.SectionsView do
                 >Down</a>
               </div>
 
-              <div class="mt-2 ml-4" :class="{'hidden': sectionCollapsed, 'visible': !sectionCollapsed}">
-                <SectionItems id={"cv_section_items_#{section.uuid}"} section_uuid={section.uuid} />
+              <div class="mt-2 ml-4" x-bind:class="{'hidden': sectionCollapsed, 'visible': !sectionCollapsed}">
+                <.live_component module={SectionItems} id={"cv_section_items_#{section.uuid}"} section_uuid={section.uuid} />
               </div>
             </div>
           </div>
-        {/for}
+        <% end %>
       </div>
     </div>
     """

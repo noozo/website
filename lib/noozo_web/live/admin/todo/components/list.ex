@@ -2,7 +2,7 @@ defmodule NoozoWeb.Admin.Todo.Components.List do
   @moduledoc """
   List component
   """
-  use NoozoWeb, :surface_component
+  use NoozoWeb, :live_component
 
   alias Noozo.Repo
   alias Noozo.Todo
@@ -10,13 +10,9 @@ defmodule NoozoWeb.Admin.Todo.Components.List do
   alias NoozoWeb.Admin.Todo.Components.{Item, ItemCreator, ListHeader}
 
   import Ecto.Query, warn: false
-
-  data list, :struct
-  prop search_result_ids, :list, required: true
-
   @impl true
   def render(assigns) do
-    ~F"""
+    ~H"""
     <div
       id={@id}
       class="bg-gray-100 text-sm rounded-lg p-4 border border-gray-300 shadow list"
@@ -28,14 +24,14 @@ defmodule NoozoWeb.Admin.Todo.Components.List do
       style="min-width: 250px; max-width: 250px;"
     >
       <div phx-hook="DropContainer" id={"#{@id}_drop_container"} class="h-full flex flex-col gap-2">
-        <ListHeader id={"list_header_#{@list.id}"} list={@list} />
+        <.live_component module={ListHeader} id={"list_header_#{@list.id}"} list={@list} />
         <div class="flex flex-col gap-1">
-          {#if @list.open}
-            {#for item <- @list.items |> Enum.sort_by(& &1.inserted_at)}
-              <Item id={item.id} search_result_ids={@search_result_ids} />
-            {/for}
-            <ItemCreator id={"item_creator_#{@list.id}"} list={@list} />
-          {/if}
+          <%= if @list.open do %>
+            <%= for item <- @list.items |> Enum.sort_by(& &1.inserted_at) do %>
+              <.live_component module={Item} id={item.id} search_result_ids={@search_result_ids} />
+            <% end %>
+            <.live_component module={ItemCreator} id={"item_creator_#{@list.id}"} list={@list} />
+          <% end %>
         </div>
       </div>
     </div>

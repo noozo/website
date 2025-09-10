@@ -2,43 +2,39 @@ defmodule NoozoWeb.Admin.Todo.Board.ShowView do
   @moduledoc """
   Show a single board
   """
-  use NoozoWeb, :surface_view
+  use NoozoWeb, :live_view
 
   alias Noozo.Todo
   alias NoozoWeb.Admin.Todo.Components.ItemModal
   alias NoozoWeb.Admin.Todo.Components.List
   alias NoozoWeb.Admin.Todo.Components.ListCreator
   alias NoozoWeb.Admin.Todo.Components.Search
-
-  prop board, :struct, required: true
-  data search_result_ids, :list, default: []
-
   @impl true
   def render(assigns) do
-    ~F"""
+    ~H"""
     <div>
       <div class="text-xl font-bold mb-6">
         Board: {@board.title}
       </div>
-      <Search id={:search} current_user={@current_user} />
+      <.live_component module={Search} id={:search} current_user={@current_user} />
       <div
         class="bg-gray-200 p-5 rounded-lg border border-gray-300 overflow-scroll"
         style="max-width: 90vw"
       >
         <div class="lists flex flex-col sm:flex-row gap-6">
-          {#for list <- @lists}
-            <List id={list.id} search_result_ids={@search_result_ids} />
-          {/for}
-          <ListCreator id={:list_creator} board={@board} />
+          <%= for list <- @lists do %>
+            <.live_component module={List} id={list.id} search_result_ids={@search_result_ids} />
+          <% end %>
+          <.live_component module={ListCreator} id={:list_creator} board={@board} />
         </div>
       </div>
     </div>
 
-    {#if @selected_item}
+    <%= if @selected_item do %>
       <div x-data="{modalOpen: true}" x-title="Modal Background">
-        <ItemModal id={:item_modal} item={@selected_item} />
+        <.live_component module={ItemModal} id={:item_modal} item={@selected_item} />
       </div>
-    {/if}
+    <% end %>
     """
   end
 

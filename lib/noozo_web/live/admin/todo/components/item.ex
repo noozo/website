@@ -2,17 +2,12 @@ defmodule NoozoWeb.Admin.Todo.Components.Item do
   @moduledoc """
   Item component
   """
-  use NoozoWeb, :surface_component
+  use NoozoWeb, :live_component
 
   alias Noozo.Repo
   alias Noozo.Todo
 
   import Ecto.Query, warn: false
-
-  prop item, :struct
-  prop search_result_ids, :list
-  data opacity, :integer, default: 100
-
   @impl true
   def update(%{id: id, item: item, search_result_ids: search_result_ids} = _assigns, socket) do
     # Update opacity depending if id is in search_result_ids (the ones that didnt match)
@@ -58,7 +53,9 @@ defmodule NoozoWeb.Admin.Todo.Components.Item do
     hardcoded_styles =
       "background-color: #{label_bg}; color: #{label_color}; opacity: #{opacity};"
 
-    ~F"""
+    assigns = assign(assigns, :hardcoded_styles, hardcoded_styles)
+
+    ~H"""
     <div
       id={@id}
       class="p-1 pl-2 pr-2 hover:bg-opacity-50 border cursor-pointer text-xs rounded-md"
@@ -66,13 +63,13 @@ defmodule NoozoWeb.Admin.Todo.Components.Item do
       draggable="true"
       phx-value-draggable_id={@item.id}
       phx-value-draggable_type="item"
-      phx-click="item_clicked"
-      style={hardcoded_styles}
+      phx-click="item_clicked" phx-target={@myself}
+      style={@hardcoded_styles}
     >
-      {@item.title}
-      {#if @item.content}
+      <%= @item.title %>
+      <%= if @item.content do %>
         <div class="tag-xs bg-white">...</div>
-      {/if}
+      <% end %>
     </div>
     """
   end

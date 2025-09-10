@@ -1,5 +1,5 @@
 defmodule NoozoWeb.Gallery.IndexView do
-  use NoozoWeb, :surface_view
+  use NoozoWeb, :live_view
 
   alias Noozo.Gallery
   alias Noozo.Gallery.Image
@@ -21,33 +21,33 @@ defmodule NoozoWeb.Gallery.IndexView do
 
   @impl true
   def render(assigns) do
-    ~F"""
+    ~H"""
     <h1 class="text-2xl font-bold">Some of my doings in the workshop</h1>
-    {#if Enum.any?(@images)}
+    <%= if Enum.any?(@images) do %>
       <div class="w-full flex flex-row flex-wrap gap-6 mx-auto p-8">
-        {#for image <- @images}
+        <%= for image <- @images do %>
           <div class="w-60 h-auto bg-white rounded shadow-md" x-data="{open: false}">
             <div class="cursor-pointer text-grey-darkest no-underline" x-on:click.prevent="open = true">
-              <h1 class="text-xl p-6">{image.title}.</h1>
-              {#if image.image}
+              <h1 class="text-xl p-6"><%= image.title %>.</h1>
+              <%= if image.image do %>
                 <div class="align-bottom">
                   <img alt={image.title} class="w-60" src={Image.image_url(image)}>
                 </div>
-              {/if}
+              <% end %>
             </div>
 
             <div
               x-show.transition.opacity="open"
               x-on:click.away="open = false"
               class="p-4 hidden flex justify-center items-center inset-0 bg-black bg-opacity-75 z-50"
-              :class="{'fixed': open, 'hidden': !open}"
+              x-bind:class="{'fixed': open, 'hidden': !open}"
             >
               <div
                 x-show.transition="open"
                 class="container max-w-3xl max-h-full bg-white rounded-xl shadow-lg overflow-auto"
               >
                 <div class="px-8 py-4 border-b border-gray-200">
-                  <h2>{image.title}.</h2>
+                  <h2><%= image.title %>.</h2>
                 </div>
                 <div class="px-8 py-4">
                   <img alt={image.title} class="w-full" src={Image.image_url(image)}>
@@ -63,12 +63,12 @@ defmodule NoozoWeb.Gallery.IndexView do
               </div>
             </div>
           </div>
-        {/for}
+        <% end %>
       </div>
-      <Pagination source_assigns={assigns} entries={@images} module={__MODULE__} />
-    {#else}
+      <%= Noozo.Pagination.render(%{source_assigns: assigns, entries: @images, module: __MODULE__}) %>
+    <% else %>
       <p class="mt-6 text-center">There are no images in the gallery. <a class="underline" href="/admin/gallery">Add some</a>?</p>
-    {/if}
+    <% end %>
     """
   end
 end

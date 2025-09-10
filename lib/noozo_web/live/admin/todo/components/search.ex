@@ -2,16 +2,13 @@ defmodule NoozoWeb.Admin.Todo.Components.Search do
   @moduledoc """
   Search component to highlight items in board
   """
-  use NoozoWeb, :surface_component
+  use NoozoWeb, :live_component
 
   alias Noozo.Todo
-
-  prop current_user, :struct, required: true
-
   @impl true
   def render(assigns) do
-    ~F"""
-    <div id={@id} class="mb-6">
+    ~H"""
+    <div id={@id } class="mb-6">
       <form change="search">
         <div class="flex flex-row items-center gap-2">
           <label for="title">Search</label>
