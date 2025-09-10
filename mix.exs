@@ -10,7 +10,8 @@ defmodule Noozo.MixProject do
       compilers: Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+      listeners: listeners(Mix.env())
     ]
   end
 
@@ -24,6 +25,7 @@ defmodule Noozo.MixProject do
         :logger,
         :ueberauth,
         :ueberauth_identity,
+        :ueberauth_google,
         :runtime_tools,
         :timex,
         :scrivener_ecto
@@ -34,6 +36,10 @@ defmodule Noozo.MixProject do
   # Specifies which paths to compile per environment.
   defp elixirc_paths(:test), do: ["lib", "test/support"]
   defp elixirc_paths(_), do: ["lib"]
+
+  # Specifies listeners per environment.
+  defp listeners(:dev), do: [Phoenix.CodeReloader]
+  defp listeners(_), do: []
 
   # Specifies your project dependencies.
   #
@@ -47,6 +53,7 @@ defmodule Noozo.MixProject do
       {:phoenix_live_dashboard, "~> 0.8.3"},
       {:phoenix_live_view, "~> 1.0"},
       {:phoenix_view, ">= 2.0.0"},
+      {:plug_cowboy, "~> 2.7"},
       {:ecto_psql_extras, "~> 0.7.10"},
       {:telemetry, "~> 1.1.0"},
       {:telemetry_metrics, "~> 0.6.1"},
@@ -57,13 +64,14 @@ defmodule Noozo.MixProject do
       {:curtail, "~> 2.0.0"},
       {:ueberauth, "~> 0.10.3"},
       {:ueberauth_identity, "~> 0.4.2"},
+      {:ueberauth_google, "~> 0.10"},
       {:httpoison, "~> 1.8.2"},
       {:bcrypt_elixir, "~> 3.0.1"},
       {:scrivener_ecto, "~> 2.7.0"},
       {:html_sanitize_ex, "~> 1.4.2"},
       {:pdf_generator, "~> 0.6.2"},
       {:atomex, "~> 0.5.1"},
-      {:site_encrypt, "~> 0.4.2"},
+      {:site_encrypt, "~> 0.6"},
       {:decimal, "~> 2.0.0"},
       {:comeonin, "~> 5.3.3"},
       {:elixir_feed_parser, "~> 2.1.0"},

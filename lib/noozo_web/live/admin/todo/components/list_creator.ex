@@ -7,7 +7,7 @@ defmodule NoozoWeb.Admin.Todo.Components.ListCreator do
   alias Noozo.Todo
   @impl true
   def render(assigns) do
-    assigns = assign(assigns, :height, if(assigns.creating, do: "28", else: "16"))
+    assigns = assign(assigns, :height, if(Map.get(assigns, :creating, false), do: "28", else: "16"))
 
     ~H"""
     <div
@@ -15,7 +15,7 @@ defmodule NoozoWeb.Admin.Todo.Components.ListCreator do
       class={"h-#{@height} bg-gray-200 hover:bg-gray-300 text-sm rounded-lg p-4"}
       style="min-width: 250px;"
     >
-      <%= if @creating do %>
+      <%= if Map.get(assigns, :creating, false) do %>
         <form phx-submit="create_list" phx-target={@myself}>
           <input type="hidden" name="board_id" value={@board.id}>
           <div class="flex flex-col gap-2">

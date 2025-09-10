@@ -5,17 +5,13 @@ defmodule NoozoWeb.Admin.Page.IndexView do
   use NoozoWeb, :live_view
 
   alias Noozo.Core
-  alias Noozo.Pagination
-
-  alias NoozoWeb.Admin.Page.CreateView
-  alias NoozoWeb.Admin.Page.EditView
   @impl true
   def render(assigns) do
     ~H"""
     <%= if @loading do %>
       <div>Loading information...</div>
     <% else %>
-      <.link to={Routes.live_path(@socket, CreateView)} class="btn">Create Page</.link>
+      <.link navigate={~p"/admin/pages/new"} class="btn">Create Page</.link>
 
       <div class="flex flex-col mt-6">
         <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -36,7 +32,7 @@ defmodule NoozoWeb.Admin.Page.IndexView do
                   <%= for page <- @pages.entries do %>
                     <tr>
                       <td>
-                        <.link to={Routes.live_path(@socket, EditView, page.id)} class="btn"><%= page.title %></.link>
+                        <.link navigate={~p"/admin/pages/#{page.id}/edit"} class="btn"><%= page.title %></.link>
                       </td>
                       <td>
                         <%= page.slug %>

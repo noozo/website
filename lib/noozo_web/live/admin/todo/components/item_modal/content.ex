@@ -9,7 +9,7 @@ defmodule NoozoWeb.Admin.Todo.Components.ItemModal.Content do
   def render(assigns) do
     ~H"""
     <div id={@id}>
-      <%= if @editing do %>
+      <%= if Map.get(assigns, :editing, false) do %>
         <form class="" submit="update_content">
           <div class="flex flex-col gap-6">
             <textarea

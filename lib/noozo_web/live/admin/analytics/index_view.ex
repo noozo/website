@@ -35,7 +35,7 @@ defmodule NoozoWeb.Admin.Analytics.IndexView do
                   class="input"
                   type="text"
                   name="start_date"
-                  value={@start_date |> Timex.format!("{ISOdate }")}
+                  value={@start_date |> Timex.format!("{ISOdate}")}
                 />
               </div>
             </div>
@@ -49,7 +49,7 @@ defmodule NoozoWeb.Admin.Analytics.IndexView do
                   class="input"
                   type="text"
                   name="end_date"
-                  value={@end_date |> Timex.format!("{ISOdate }")}
+                  value={@end_date |> Timex.format!("{ISOdate}")}
                 />
               </div>
             </div>
@@ -178,8 +178,8 @@ defmodule NoozoWeb.Admin.Analytics.IndexView do
        socket,
        to:
          Routes.live_path(socket, NoozoWeb.Admin.Analytics.IndexView,
-           start_date: start_date |> Timex.format!("{ISOdate }"),
-           end_date: end_date |> Timex.format!("{ISOdate }"),
+           start_date: start_date |> Timex.format!("{ISOdate}"),
+           end_date: end_date |> Timex.format!("{ISOdate}"),
            sort_by: sort_by,
            path: socket.assigns.path
          )
@@ -193,8 +193,8 @@ defmodule NoozoWeb.Admin.Analytics.IndexView do
        socket,
        to:
          Routes.live_path(socket, NoozoWeb.Admin.Analytics.IndexView,
-           start_date: socket.assigns.start_date |> Timex.format!("{ISOdate }"),
-           end_date: socket.assigns.end_date |> Timex.format!("{ISOdate }"),
+           start_date: socket.assigns.start_date |> Timex.format!("{ISOdate}"),
+           end_date: socket.assigns.end_date |> Timex.format!("{ISOdate}"),
            sort_by: socket.assigns.sort_by,
            path: path
          )
@@ -251,8 +251,8 @@ defmodule NoozoWeb.Admin.Analytics.IndexView do
        socket,
        to:
          Routes.live_path(socket, NoozoWeb.Admin.Analytics.IndexView,
-           start_date: start_date |> Timex.format!("{ISOdate }"),
-           end_date: end_date |> Timex.format!("{ISOdate }"),
+           start_date: start_date |> Timex.format!("{ISOdate}"),
+           end_date: end_date |> Timex.format!("{ISOdate}"),
            sort_by: socket.assigns.sort_by,
            path: socket.assigns.path
          )
@@ -297,14 +297,14 @@ defmodule NoozoWeb.Admin.Analytics.IndexView do
   defp parse_params(params) do
     start_date =
       if params["start_date"] do
-        Timex.parse!(params["start_date"], "{ISOdate }")
+        Timex.parse!(params["start_date"], "{ISOdate}")
       else
         Timex.now() |> Timex.subtract(Duration.from_weeks(4.5)) |> Timex.to_date()
       end
 
     end_date =
       if params["end_date"] do
-        Timex.parse!(params["end_date"], "{ISOdate }")
+        Timex.parse!(params["end_date"], "{ISOdate}")
       else
         Timex.now() |> Timex.add(Duration.from_days(1)) |> Timex.to_date()
       end

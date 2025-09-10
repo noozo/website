@@ -9,7 +9,7 @@ defmodule NoozoWeb.Admin.Todo.Components.ItemCreator do
   def render(assigns) do
     ~H"""
     <div id={@id}>
-      <%= if @creating do %>
+      <%= if Map.get(assigns, :creating, false) do %>
         <form phx-submit="create_item" phx-target={@myself}>
           <input type="hidden" name="list_id" value={@list.id}>
           <div class="flex flex-col gap-2">

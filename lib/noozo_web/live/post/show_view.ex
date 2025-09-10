@@ -2,7 +2,6 @@ defmodule NoozoWeb.Post.ShowView do
   use NoozoWeb, :live_view
 
   alias Noozo.Core
-  alias NoozoWeb.Post.IndexView
 
   @impl true
   def render(assigns) do
@@ -41,7 +40,7 @@ defmodule NoozoWeb.Post.ShowView do
         <div class="mt-5 flex lg:mt-0 lg:ml-4">
           <span class="hidden sm:block">
             <.link
-              to={Routes.live_path(@socket, NoozoWeb.Admin.Post.EditView, @post.id)}
+              navigate={~p"/admin/posts/#{@post.id}/edit"}
               class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-black bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
               <svg
@@ -101,7 +100,7 @@ defmodule NoozoWeb.Post.ShowView do
     </div>
 
     <div class="block mt-6">
-      <.link to={Routes.live_path(@socket, IndexView)} class="btn">
+      <.link navigate={~p"/posts"} class="btn">
         &lt;&lt; back to posts
       </.link>
     </div>
@@ -113,7 +112,7 @@ defmodule NoozoWeb.Post.ShowView do
     <%= if length(assigns.post.tags) > 0 do %>
       <%= for tag <- assigns.post.tags do %>
         <div class="tag">
-          <a href={Routes.live_path(@socket, NoozoWeb.Post.IndexView, tag.name)}>
+          <a href={~p"/tag/#{tag.name}"}>
             <%= tag.name %>
           </a>
         </div>

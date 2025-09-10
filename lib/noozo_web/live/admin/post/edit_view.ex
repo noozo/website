@@ -5,7 +5,6 @@ defmodule NoozoWeb.Admin.Post.EditView do
   use NoozoWeb, :live_view
 
   alias Noozo.Core
-  alias NoozoWeb.Admin.Post.IndexView
 
   alias Admin.Components.TagEditor
 
@@ -25,7 +24,7 @@ defmodule NoozoWeb.Admin.Post.EditView do
   @impl true
   def render(assigns) do
     ~H"""
-    <.link to={Routes.live_path(@socket, IndexView) } class="btn">
+    <.link navigate={~p"/admin/posts"} class="btn">
       Back to list
     </.link>
 

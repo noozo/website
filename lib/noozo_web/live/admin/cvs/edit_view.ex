@@ -9,7 +9,6 @@ defmodule NoozoWeb.Admin.Cvs.EditView do
   alias NoozoWeb.Admin.Cvs.Children.HeaderItemsView, as: HeaderItems
   alias NoozoWeb.Admin.Cvs.Children.PreviewView, as: Preview
   alias NoozoWeb.Admin.Cvs.Children.SectionsView, as: Sections
-  alias NoozoWeb.Admin.Cvs.IndexView
 
   @impl true
   def mount(_params, _session, socket) do
@@ -28,7 +27,7 @@ defmodule NoozoWeb.Admin.Cvs.EditView do
   @impl true
   def render(assigns) do
     ~H"""
-    <.link to={Routes.live_path(@socket, IndexView)} class="btn">Back to list</.link>
+    <.link navigate={~p"/admin/cvs"} class="btn">Back to list</.link>
 
     <div class="flex-none p-5">
       <%= unless is_nil(@info) do %>
@@ -105,7 +104,7 @@ defmodule NoozoWeb.Admin.Cvs.EditView do
                 <% end %>
 
                 <div class="flex">
-                  <%= live_file_input(@uploads.image) %>
+                  <.live_file_input upload={@uploads.image} />
                   <input class="btn flex-col cursor-pointer" type="submit" value="Upload">
                 </div>
               </div>

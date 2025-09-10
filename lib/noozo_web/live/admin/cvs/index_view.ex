@@ -5,16 +5,13 @@ defmodule NoozoWeb.Admin.Cvs.IndexView do
   use NoozoWeb, :live_view
 
   alias Noozo.Cvs
-  alias Noozo.Pagination
-  alias NoozoWeb.Admin.Cvs.CreateView
-  alias NoozoWeb.Admin.Cvs.EditView
   @impl true
   def render(assigns) do
     ~H"""
     <%= if @loading do %>
       <div>Loading information...</div>
     <% else %>
-      <.link to={Routes.live_path(@socket, CreateView)} class="btn">CreateCV</.link>
+      <.link navigate={~p"/admin/cvs/new"} class="btn">CreateCV</.link>
 
       <div class="flex flex-col mt-6">
         <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -35,7 +32,7 @@ defmodule NoozoWeb.Admin.Cvs.IndexView do
                   <%= for cv <- @cvs.entries do %>
                     <tr>
                       <td>
-                        <.link to={Routes.live_path(@socket, EditView, cv.uuid)} class="btn"><%= cv.title %></.link>
+                        <.link navigate={~p"/admin/cvs/#{cv.uuid}/edit"} class="btn"><%= cv.title %></.link>
                       </td>
                       <td>
                         <%= cv.user.email %>

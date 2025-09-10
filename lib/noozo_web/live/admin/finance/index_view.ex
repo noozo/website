@@ -30,7 +30,7 @@ defmodule NoozoWeb.Admin.Finance.IndexView do
       ] = String.split(csv_line, ";")
 
       %Line{
-        date: date_from |> Timex.parse!("{D }-{0M }-{YYYY }") |> Timex.to_date(),
+        date: date_from |> Timex.parse!("{D}-{0M}-{YYYY}") |> Timex.to_date(),
         description: description,
         debit: parse_value(debit),
         credit: parse_value(credit),
@@ -68,9 +68,9 @@ defmodule NoozoWeb.Admin.Finance.IndexView do
   def handle_params(params, _session, socket) do
     start_date =
       params["start_date"] ||
-        Timex.today() |> Timex.shift(years: -2) |> Timex.format!("{YYYY }-{0M }-{D }")
+        Timex.today() |> Timex.shift(years: -2) |> Timex.format!("{YYYY}-{0M}-{D}")
 
-    end_date = params["end_date"] || Timex.today() |> Timex.format!("{YYYY }-{0M }-{D }")
+    end_date = params["end_date"] || Timex.today() |> Timex.format!("{YYYY}-{0M}-{D}")
 
     params =
       params
@@ -97,8 +97,8 @@ defmodule NoozoWeb.Admin.Finance.IndexView do
     <div class="text-lg mb-6 font-medium">Finances</div>
 
     <form phx-change="update-dates">
-      <input type="date" name="start_date" max={Timex.today() } value={@params["start_date"] }>
-      <input type="date" name="end_date" max={Timex.today() } value={@params["end_date"] }>
+      <input type="date" name="start_date" max={Timex.today()} value={@params["start_date"]}>
+      <input type="date" name="end_date" max={Timex.today()} value={@params["end_date"]}>
     </form>
     <table>
       <thead>
@@ -154,7 +154,7 @@ defmodule NoozoWeb.Admin.Finance.IndexView do
     <% end %>
 
         <div class="flex">
-          <%= live_file_input(@uploads.csv) %>
+          <.live_file_input upload={@uploads.csv} />
           <input class="btn flex-col cursor-pointer" type="submit" value="Upload">
         </div>
       </div>
@@ -191,9 +191,7 @@ defmodule NoozoWeb.Admin.Finance.IndexView do
       |> Map.put("end_date", end_date)
 
     {:noreply,
-     push_redirect(socket,
-       to: Routes.live_path(socket, __MODULE__, params)
-     )}
+     push_navigate(socket, to: ~p"/admin/finance?#{params}")}
   end
 
   @impl true
@@ -297,19 +295,19 @@ defmodule NoozoWeb.Admin.Finance.IndexView do
 
   defp sort(data, :week) do
     data
-    |> Enum.sort_by(&(&1 |> Map.get(:date) |> Timex.format!("{YYYY }-{0Wiso }")), &<=/2)
-    |> Enum.group_by(&(&1 |> Map.get(:date) |> Timex.format!("{YYYY }-{0Wiso }")))
+    |> Enum.sort_by(&(&1 |> Map.get(:date) |> Timex.format!("{YYYY}-{0Wiso}")), &<=/2)
+    |> Enum.group_by(&(&1 |> Map.get(:date) |> Timex.format!("{YYYY}-{0Wiso}")))
   end
 
   defp sort(data, :month) do
     data
-    |> Enum.sort_by(&(&1 |> Map.get(:date) |> Timex.format!("{YYYY }-{0M }")), &<=/2)
-    |> Enum.group_by(&(&1 |> Map.get(:date) |> Timex.format!("{YYYY }-{0M }")))
+    |> Enum.sort_by(&(&1 |> Map.get(:date) |> Timex.format!("{YYYY}-{0M}")), &<=/2)
+    |> Enum.group_by(&(&1 |> Map.get(:date) |> Timex.format!("{YYYY}-{0M}")))
   end
 
   defp sort(data, :year) do
     data
-    |> Enum.sort_by(&(&1 |> Map.get(:date) |> Timex.format!("{YYYY }")), &<=/2)
-    |> Enum.group_by(&(&1 |> Map.get(:date) |> Timex.format!("{YYYY }")))
+    |> Enum.sort_by(&(&1 |> Map.get(:date) |> Timex.format!("{YYYY}")), &<=/2)
+    |> Enum.group_by(&(&1 |> Map.get(:date) |> Timex.format!("{YYYY}")))
   end
 end

@@ -2,8 +2,6 @@ defmodule NoozoWeb.Post.IndexView do
   use NoozoWeb, :live_view
 
   alias Noozo.Core
-  alias Noozo.Pagination
-
   alias NoozoWeb.Post.Components.Post
 
   @impl true

@@ -5,9 +5,6 @@ defmodule NoozoWeb.Admin.DailyLog.IndexView do
   use NoozoWeb, :live_view
 
   alias Noozo.DailyLog
-  alias Noozo.DailyLog.Entry
-  alias Noozo.Pagination
-  alias NoozoWeb.Admin.DailyLog.EditView
   @impl true
   def render(assigns) do
     ~H"""
@@ -16,9 +13,9 @@ defmodule NoozoWeb.Admin.DailyLog.IndexView do
     <% else %>
       <div class="flex flex-col gap-6">
         <div class="flex-auto flex gap-3">
-          <.link to={Routes.live_path(@socket, EditView, %Entry{date: last_friday()})} class="btn">Last Friday</.link>
-          <.link to={Routes.live_path(@socket, EditView, %Entry{date: yesterday()})} class="btn">Yesterday</.link>
-          <.link to={Routes.live_path(@socket, EditView, %Entry{date: Timex.today()})} class="btn">Today</.link>
+          <.link navigate={~p"/admin/log/#{Date.to_string(last_friday())}"} class="btn">Last Friday</.link>
+          <.link navigate={~p"/admin/log/#{Date.to_string(yesterday())}"} class="btn">Yesterday</.link>
+          <.link navigate={~p"/admin/log/#{Date.to_string(Timex.today())}"} class="btn">Today</.link>
         </div>
 
         <table class="">
@@ -31,7 +28,7 @@ defmodule NoozoWeb.Admin.DailyLog.IndexView do
             <%= for entry <- @entries.entries do %>
               <tr>
                 <td>
-                  <.link to={Routes.live_path(@socket, EditView, entry)} class=""><%= entry.date %></.link>
+                  <.link navigate={~p"/admin/log/#{Date.to_string(entry.date)}"} class=""><%= entry.date %></.link>
                 </td>
                 <td><%= entry.date |> Timex.weekday() |> Timex.day_name() %></td>
                 <td><%= Curtail.truncate(entry.content || "", omission: "...", length: 50) %></td>

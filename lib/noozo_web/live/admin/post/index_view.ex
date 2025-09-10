@@ -5,14 +5,15 @@ defmodule NoozoWeb.Admin.Post.IndexView do
   use NoozoWeb, :live_view
 
   alias Noozo.Core
-  alias Noozo.Pagination
 
-  alias NoozoWeb.Admin.Post.CreateView
-  alias NoozoWeb.Admin.Post.EditView
-  alias NoozoWeb.Router.Helpers, as: Routes
   alias NoozoWeb.TemplateUtils
 
   @doc "Wether the data is loading or not"
+
+  @impl true
+  def mount(_params, _session, socket) do
+    {:ok, socket}
+  end
 
   @impl true
   def handle_info({:load_posts, params}, socket) do
@@ -26,7 +27,7 @@ defmodule NoozoWeb.Admin.Post.IndexView do
   @impl true
   def handle_params(params, _uri, socket) do
     send(self(), {:load_posts, params})
-    {:noreply, socket}
+    {:noreply, assign(socket, loading: true)}
   end
 
   @impl true
@@ -35,7 +36,7 @@ defmodule NoozoWeb.Admin.Post.IndexView do
     <%= if @loading do %>
       <div>Loading information...</div>
     <% else %>
-      <.link to={Routes.live_path(@socket, CreateView)} class="btn">Create Post</.link>
+      <.link navigate={~p"/admin/posts/new"} class="btn">Create Post</.link>
 
       <!-- This example requires Tailwind CSS v2.0+ -->
       <div class="flex flex-col mt-6">
@@ -63,7 +64,7 @@ defmodule NoozoWeb.Admin.Post.IndexView do
                   <%= for post <- @posts.entries do %>
                     <tr>
                       <td>
-                        <.link to={Routes.live_path(@socket, EditView, post.id)} class="btn"><%= post.title %></.link>
+                        <.link navigate={~p"/admin/posts/#{post.id}/edit"} class="btn"><%= post.title %></.link>
                       </td>
                       <td>
                         <%= post.slug %>

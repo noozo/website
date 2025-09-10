@@ -12,7 +12,7 @@ defmodule NoozoWeb.Admin.DailyLog.EditView do
     ~H"""
     <div class="flex flex-col gap-6">
       <div>
-        <.link to={Routes.live_path(@socket, IndexView) } class="btn">Back to list</.link>
+        <.link navigate={~p"/admin/log"} class="btn">Back to list</.link>
       </div>
 
       <div class="pros">

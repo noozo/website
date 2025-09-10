@@ -3,7 +3,6 @@ defmodule NoozoWeb.Gallery.IndexView do
 
   alias Noozo.Gallery
   alias Noozo.Gallery.Image
-  alias Noozo.Pagination
 
   @impl true
   def handle_params(params, _uri, socket) do

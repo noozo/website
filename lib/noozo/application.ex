@@ -18,7 +18,7 @@ defmodule Noozo.Application do
       # Analytics
       Noozo.Analytics,
       # Start the endpoint when the application starts
-      {SiteEncrypt.Phoenix, NoozoWeb.Endpoint}
+      NoozoWeb.Endpoint
       # Starts a worker by calling: Noozo.Worker.start_link(arg)
       # {Noozo.Worker, arg},
       # Genserver to periodically fetch posts from medium.com

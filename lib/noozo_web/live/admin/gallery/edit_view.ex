@@ -7,7 +7,6 @@ defmodule NoozoWeb.Admin.Gallery.EditView do
   alias Noozo.Gallery
 
   alias NoozoWeb.Admin.Gallery.IndexView
-  alias NoozoWeb.Router.Helpers, as: Routes
 
   @impl true
   def render(assigns) do

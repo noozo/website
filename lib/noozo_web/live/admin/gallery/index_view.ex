@@ -16,7 +16,7 @@ defmodule NoozoWeb.Admin.Gallery.IndexView do
   @impl true
   def render(assigns) do
     ~H"""
-    <.link to={Routes.live_path(@socket, CreateView) } class="btn">Upload Image</.link>
+    <.link navigate={~p"/admin/gallery/new"} class="btn">Upload Image</.link>
 
     <div class="flex flex-col mt-6">
       <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -34,7 +34,7 @@ defmodule NoozoWeb.Admin.Gallery.IndexView do
                 <%= for image <- @images.entries do %>
                   <tr>
                     <td>
-                      <.link to={Routes.live_path(@socket, EditView, image.uuid)}><%= image.title %></.link>
+                      <.link navigate={~p"/admin/gallery/#{image.uuid}/edit"}><%= image.title %></.link>
                     </td>
                     <td>
                       <%= Phoenix.HTML.raw("<img class=\"h-20\" src=\"data:" <> image.image_type <> ";base64," <> Base.encode64(image.image) <> "\">") %>

@@ -150,7 +150,7 @@ defmodule Noozo.Core do
         {:ok, post |> Repo.preload(:post_likes)}
 
       {:error, :post_like, _failed_value, _changes_so_far} ->
-        Logger.warn("User #{ga_id} already liked post #{post_id}")
+        Logger.warning("User #{ga_id} already liked post #{post_id}")
         {:ok, post |> Repo.preload(:post_likes)}
 
       {:error, _failed_operation, failed_value, _changes_so_far} ->
@@ -174,7 +174,7 @@ defmodule Noozo.Core do
         {:ok, post |> Repo.preload(:post_likes)}
 
       {:error, :post_like, _failed_value, _changes_so_far} ->
-        Logger.warn("User #{ga_id} already disliked post #{post_id}")
+        Logger.warning("User #{ga_id} already disliked post #{post_id}")
         {:ok, post |> Repo.preload(:post_likes)}
 
       {:error, _failed_operation, failed_value, _changes_so_far} ->
@@ -238,7 +238,7 @@ defmodule Noozo.Core do
     Repo.all(Tag)
   end
 
-  def suggest_tags(name) do
+  def suggest_tags(_name) do
     query =
       from(t in Tag,
         where: ilike(t.name, ^"%#{}name %")

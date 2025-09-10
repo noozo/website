@@ -42,8 +42,10 @@ defmodule NoozoWeb.TemplateUtils do
 
   def format_date(date) do
     # date |> Timex.format!("{0D} {Mfull } {YYYY }")
-    {:ok, relative_str} = date |> Timex.format("{relative }", :relative)
-    relative_str
+    case Timex.format(date, "{relative}", :relative) do
+      {:ok, relative_str} -> relative_str
+      {:error, _} -> "Unknown date"
+    end
   end
 
   # sobelow_skip ["XSS.Raw"]

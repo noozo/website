@@ -49,8 +49,13 @@ config :ueberauth, Ueberauth,
       {Ueberauth.Strategy.Identity,
        [
          callback_methods: ["POST"]
-       ]}
+       ]},
+    google: {Ueberauth.Strategy.Google, []}
   ]
+
+config :ueberauth, Ueberauth.Strategy.Google.OAuth,
+  client_id: System.get_env("GOOGLE_CLIENT_ID") || "development_placeholder",
+  client_secret: System.get_env("GOOGLE_CLIENT_SECRET") || "development_placeholder"
 
 config :money,
   default_currency: :EUR

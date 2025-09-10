@@ -5,14 +5,14 @@
         <div class="hidden md:block">
           <div class="flex items-baseline space-x-4">
             <a href="/admin" class="btn-nav">Admin</a>
-            <%= link "Website", to: NoozoWeb.Router.Helpers.live_path(@conn, NoozoWeb.Post.IndexView), class: "btn-nav" %>
-            <%= link "Posts", to: NoozoWeb.Router.Helpers.live_path(@conn, NoozoWeb.Admin.Post.IndexView), class: "btn-nav #{NoozoWeb.TemplateUtils.active(@conn, ["/admin/posts"])}" %>
-            <%= link "Pages", to: NoozoWeb.Router.Helpers.live_path(@conn, NoozoWeb.Admin.Page.IndexView), class: "btn-nav #{NoozoWeb.TemplateUtils.active(@conn, ["/admin/pages"])}" %>
-            <%= link "Daily Log", to: NoozoWeb.Router.Helpers.live_path(@conn, NoozoWeb.Admin.DailyLog.IndexView), class: "btn-nav #{NoozoWeb.TemplateUtils.active(@conn, ["/admin/log"])}" %>
+            <%= link "Website", to: ~p"/", class: "btn-nav" %>
+            <%= link "Posts", to: ~p"/admin/posts", class: "btn-nav #{NoozoWeb.TemplateUtils.active(@conn, ["/admin/posts"])}" %>
+            <%= link "Pages", to: ~p"/admin/pages", class: "btn-nav #{NoozoWeb.TemplateUtils.active(@conn, ["/admin/pages"])}" %>
+            <%= link "Daily Log", to: ~p"/admin/log", class: "btn-nav #{NoozoWeb.TemplateUtils.active(@conn, ["/admin/log"])}" %>
             <%
               todo_link = case Noozo.Todo.list_boards().entries do
-                [board] -> NoozoWeb.Router.Helpers.live_path(@conn, NoozoWeb.Admin.Todo.Board.ShowView, board.id)
-                list when is_list(list) -> NoozoWeb.Router.Helpers.live_path(@conn, NoozoWeb.Admin.Todo.Board.IndexView)
+                [board] -> ~p"/admin/todo/boards/#{board.id}"
+                list when is_list(list) -> ~p"/admin/todo"
               end
             %>
             <div class="hidden md:block" x-data="{todoMenuOpen: false}" @mouseover.away = "todoMenuOpen = false">
@@ -29,15 +29,15 @@
                     role="menu" aria-orientation="vertical" aria-labelledby="user-menu">
 
                 <%= link "Board(s)", to: todo_link, class: "btn-nav-dropdown" %>
-                <%= link "Labels", to: NoozoWeb.Router.Helpers.live_path(@conn, NoozoWeb.Admin.Todo.Label.IndexView), class: "btn-nav-dropdown" %>
+                <%= link "Labels", to: ~p"/admin/todo/labels", class: "btn-nav-dropdown" %>
               </div>
             </div>
-            <%= link "Analytics", to: NoozoWeb.Router.Helpers.live_path(@conn, NoozoWeb.Admin.Analytics.IndexView), class: "btn-nav #{NoozoWeb.TemplateUtils.active(@conn, ["/admin/analytics"])}" %>
-            <%= link "CVs", to: NoozoWeb.Router.Helpers.live_path(@conn, NoozoWeb.Admin.Cvs.IndexView), class: "btn-nav-mobile #{NoozoWeb.TemplateUtils.active(@conn, ["/admin/cvs"])}" %>
-            <%= link "Gallery", to: NoozoWeb.Router.Helpers.live_path(@conn, NoozoWeb.Admin.Gallery.IndexView), class: "btn-nav-mobile #{NoozoWeb.TemplateUtils.active(@conn, ["/admin/gallery"])}" %>
-            <%= link "Finance", to: NoozoWeb.Router.Helpers.live_path(@conn, NoozoWeb.Admin.Finance.IndexView), class: "btn-nav-mobile #{NoozoWeb.TemplateUtils.active(@conn, ["/admin/finance"])}" %>
-            <%= link "Accounts", to: NoozoWeb.Router.Helpers.live_path(@conn, NoozoWeb.Admin.Accounts.IndexView), class: "btn-nav-mobile #{NoozoWeb.TemplateUtils.active(@conn, ["/admin/accounts"])}" %>
-            <%= link "Live Dashboard", to: NoozoWeb.Router.Helpers.live_dashboard_path(@conn, :home), class: "btn-nav" %>
+            <%= link "Analytics", to: ~p"/admin/analytics", class: "btn-nav #{NoozoWeb.TemplateUtils.active(@conn, ["/admin/analytics"])}" %>
+            <%= link "CVs", to: ~p"/admin/cvs", class: "btn-nav-mobile #{NoozoWeb.TemplateUtils.active(@conn, ["/admin/cvs"])}" %>
+            <%= link "Gallery", to: ~p"/admin/gallery", class: "btn-nav-mobile #{NoozoWeb.TemplateUtils.active(@conn, ["/admin/gallery"])}" %>
+            <%= link "Finance", to: ~p"/admin/finance", class: "btn-nav-mobile #{NoozoWeb.TemplateUtils.active(@conn, ["/admin/finance"])}" %>
+            <%= link "Accounts", to: ~p"/admin/users", class: "btn-nav-mobile #{NoozoWeb.TemplateUtils.active(@conn, ["/admin/accounts"])}" %>
+            <%= link "Live Dashboard", to: ~p"/admin/dashboard", class: "btn-nav" %>
           </div>
         </div>
       </div>
@@ -82,24 +82,24 @@
           class="hidden md:hidden">
     <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
       <a href="/admin" class="btn-nav-mobile">Admin</a>
-      <%= link "Website", to: NoozoWeb.Router.Helpers.live_path(@conn, NoozoWeb.Post.IndexView), class: "btn-nav-mobile" %>
-      <%= link "Posts", to: NoozoWeb.Router.Helpers.live_path(@conn, NoozoWeb.Admin.Post.IndexView), class: "btn-nav-mobile #{NoozoWeb.TemplateUtils.active(@conn, ["/admin/posts"])}" %>
-      <%= link "Pages", to: NoozoWeb.Router.Helpers.live_path(@conn, NoozoWeb.Admin.Page.IndexView), class: "btn-nav-mobile #{NoozoWeb.TemplateUtils.active(@conn, ["/admin/pages"])}" %>
-      <%= link "Daily Log", to: NoozoWeb.Router.Helpers.live_path(@conn, NoozoWeb.Admin.DailyLog.IndexView), class: "btn-nav-mobile #{NoozoWeb.TemplateUtils.active(@conn, ["/admin/log"])}" %>
+      <%= link "Website", to: ~p"/", class: "btn-nav-mobile" %>
+      <%= link "Posts", to: ~p"/admin/posts", class: "btn-nav-mobile #{NoozoWeb.TemplateUtils.active(@conn, ["/admin/posts"])}" %>
+      <%= link "Pages", to: ~p"/admin/pages", class: "btn-nav-mobile #{NoozoWeb.TemplateUtils.active(@conn, ["/admin/pages"])}" %>
+      <%= link "Daily Log", to: ~p"/admin/log", class: "btn-nav-mobile #{NoozoWeb.TemplateUtils.active(@conn, ["/admin/log"])}" %>
       <%
         todo_link = case Noozo.Todo.list_boards().entries do
-          [board] -> NoozoWeb.Router.Helpers.live_path(@conn, NoozoWeb.Admin.Todo.Board.ShowView, board.id)
-          list when is_list(list) -> NoozoWeb.Router.Helpers.live_path(@conn, NoozoWeb.Admin.Todo.Board.IndexView)
+          [board] -> ~p"/admin/todo/boards/#{board.id}"
+          list when is_list(list) -> ~p"/admin/todo"
         end
       %>
       <%= link "Todo", to: todo_link, class: "btn-nav-mobile #{NoozoWeb.TemplateUtils.active(@conn, ["/admin/todo"])}" %>
-      <%= link "Todo (Labels)", to: NoozoWeb.Router.Helpers.live_path(@conn, NoozoWeb.Admin.Todo.Label.IndexView), class: "btn-nav-mobile #{NoozoWeb.TemplateUtils.active(@conn, ["/admin/todo/labels"])}" %>
-      <%= link "Analytics", to: NoozoWeb.Router.Helpers.live_path(@conn, NoozoWeb.Admin.Analytics.IndexView), class: "btn-nav-mobile #{NoozoWeb.TemplateUtils.active(@conn, ["/admin/analytics"])}" %>
-      <%= link "CVs", to: NoozoWeb.Router.Helpers.live_path(@conn, NoozoWeb.Admin.Cvs.IndexView), class: "btn-nav-mobile #{NoozoWeb.TemplateUtils.active(@conn, ["/admin/cvs"])}" %>
-      <%= link "Gallery", to: NoozoWeb.Router.Helpers.live_path(@conn, NoozoWeb.Admin.Gallery.IndexView), class: "btn-nav-mobile #{NoozoWeb.TemplateUtils.active(@conn, ["/admin/gallery"])}" %>
-      <%= link "Finance", to: NoozoWeb.Router.Helpers.live_path(@conn, NoozoWeb.Admin.Finance.IndexView), class: "btn-nav-mobile #{NoozoWeb.TemplateUtils.active(@conn, ["/admin/finance"])}" %>
-      <%= link "Accounts", to: NoozoWeb.Router.Helpers.live_path(@conn, NoozoWeb.Admin.Accounts.IndexView), class: "btn-nav-mobile #{NoozoWeb.TemplateUtils.active(@conn, ["/admin/accounts"])}" %>
-      <%= link "Live Dashboard", to: NoozoWeb.Router.Helpers.live_dashboard_path(@conn, :home), class: "btn-nav-mobile" %>
+      <%= link "Todo (Labels)", to: ~p"/admin/todo/labels", class: "btn-nav-mobile #{NoozoWeb.TemplateUtils.active(@conn, ["/admin/todo/labels"])}" %>
+      <%= link "Analytics", to: ~p"/admin/analytics", class: "btn-nav-mobile #{NoozoWeb.TemplateUtils.active(@conn, ["/admin/analytics"])}" %>
+      <%= link "CVs", to: ~p"/admin/cvs", class: "btn-nav-mobile #{NoozoWeb.TemplateUtils.active(@conn, ["/admin/cvs"])}" %>
+      <%= link "Gallery", to: ~p"/admin/gallery", class: "btn-nav-mobile #{NoozoWeb.TemplateUtils.active(@conn, ["/admin/gallery"])}" %>
+      <%= link "Finance", to: ~p"/admin/finance", class: "btn-nav-mobile #{NoozoWeb.TemplateUtils.active(@conn, ["/admin/finance"])}" %>
+      <%= link "Accounts", to: ~p"/admin/users", class: "btn-nav-mobile #{NoozoWeb.TemplateUtils.active(@conn, ["/admin/accounts"])}" %>
+      <%= link "Live Dashboard", to: ~p"/admin/dashboard", class: "btn-nav-mobile" %>
     </div>
   </div>
 </nav>

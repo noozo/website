@@ -26,6 +26,6 @@ defmodule NoozoWeb.Admin.Cvs.CreateView do
     {:noreply,
      socket
      |> put_flash(:info, "CV created")
-     |> redirect(to: Routes.live_path(socket, EditView, cv.uuid))}
+     |> redirect(to: ~p"/cvs/#{cv.uuid}/edit")}
   end
 end

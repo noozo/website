@@ -10,7 +10,7 @@ defmodule NoozoWeb.Admin.Todo.Components.ListHeader do
   def render(assigns) do
     ~H"""
     <div id={@id} class="flex flex-row text-xs">
-      <%= if @editing do %>
+      <%= if Map.get(assigns, :editing, false) do %>
         <form class="" submit="update_title">
           <div class="flex flex-row gap-6">
             <input

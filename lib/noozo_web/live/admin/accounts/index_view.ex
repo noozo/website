@@ -5,7 +5,6 @@ defmodule NoozoWeb.Admin.Accounts.IndexView do
   use NoozoWeb, :live_view
 
   alias Noozo.Accounts
-  alias Noozo.Pagination
 
   alias NoozoWeb.Admin.Accounts.{EditView, TwoFactorSetupView}
 
@@ -33,14 +32,14 @@ defmodule NoozoWeb.Admin.Accounts.IndexView do
                 <%= for user <- @users.entries do %>
                   <tr>
                     <td>
-                      <.link navigate={Routes.live_path(@socket, EditView, user.id)}><%= user.id %></.link>
+                      <.link navigate={~p"/admin/users/#{user.id}/edit"}><%= user.id %></.link>
                     </td>
                     <td>
-                      <.link navigate={Routes.live_path(@socket, EditView, user.id)}><%= user.email %></.link>
+                      <.link navigate={~p"/admin/users/#{user.id}/edit"}><%= user.email %></.link>
                     </td>
                     <td>
                       <%= user.has_2fa %>
-                      <.link navigate={Routes.live_path(@socket, TwoFactorSetupView, user.id)}>Setup/View</.link>
+                      <.link navigate={~p"/admin/users/#{user.id}/setup_2fa"}>Setup/View</.link>
                     </td>
                   </tr>
                 <% end %>

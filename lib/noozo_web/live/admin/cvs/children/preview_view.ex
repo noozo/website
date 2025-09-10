@@ -95,27 +95,74 @@ defmodule NoozoWeb.Admin.Cvs.Children.PreviewView do
   end
 
   defp month_year(nil), do: nil
+  defp month_year(""), do: nil
 
-  defp month_year(date) do
-    Timex.format!(date, "{Mshort } {YYYY }")
+  defp month_year(%Date{} = date) do
+    Timex.format!(date, "{Mshort} {YYYY}")
   end
+
+  defp month_year(date) when is_binary(date) do
+    case Date.from_iso8601(date) do
+      {:ok, parsed_date} -> month_year(parsed_date)
+      {:error, _} -> nil
+    end
+  end
+
+  defp month_year(_), do: nil
 
   defp duration(nil, nil), do: nil
   defp duration(nil, _date_to), do: nil
+  defp duration("", _date_to), do: nil
+  defp duration(_date_from, ""), do: nil
   defp duration(date_from, nil), do: duration(date_from, Timex.today())
 
   # sobelow_skip ["XSS.Raw"]
   defp duration(date_from, date_to) do
-    string =
-      date_from
-      |> Date.diff(date_to)
-      |> Timex.Duration.from_days()
-      |> HumanizedDuration.format()
+    # Convert string dates to Date structs if needed
+    from_date =
+      case date_from do
+        %Date{} = d ->
+          d
 
-    """
-    <div class="text-black text-xs">#{string}</div>
-    """
-    |> Phoenix.HTML.raw()
+        date_str when is_binary(date_str) ->
+          case Date.from_iso8601(date_str) do
+            {:ok, d} -> d
+            {:error, _} -> nil
+          end
+
+        _ ->
+          nil
+      end
+
+    to_date =
+      case date_to do
+        %Date{} = d ->
+          d
+
+        date_str when is_binary(date_str) ->
+          case Date.from_iso8601(date_str) do
+            {:ok, d} -> d
+            {:error, _} -> nil
+          end
+
+        _ ->
+          Timex.today()
+      end
+
+    if from_date && to_date do
+      string =
+        from_date
+        |> Date.diff(to_date)
+        |> Timex.Duration.from_days()
+        |> HumanizedDuration.format()
+
+      """
+      <div class="text-black text-xs">#{string}</div>
+      """
+      |> Phoenix.HTML.raw()
+    else
+      nil
+    end
   end
 
   defp render_dates_and_image(assigns, item) do

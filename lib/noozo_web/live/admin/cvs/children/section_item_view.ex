@@ -96,7 +96,7 @@ defmodule NoozoWeb.Admin.Cvs.Children.SectionItemView do
             <% end %>
 
             <div class="flex">
-              <%= live_file_input(@uploads.image) %>
+              <.live_file_input upload={@uploads.image} />
               <input class="btn flex-col cursor-pointer" type="submit" value="Upload">
             </div>
           </div>

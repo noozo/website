@@ -4,7 +4,6 @@ defmodule NoozoWeb.Admin.Todo.Board.IndexView do
   """
   use NoozoWeb, :live_view
 
-  alias Noozo.Pagination
   alias Noozo.Todo
 
   alias NoozoWeb.Admin.Todo.Board.CreateView
@@ -16,7 +15,7 @@ defmodule NoozoWeb.Admin.Todo.Board.IndexView do
     <%= if @loading do %>
       <div>Loading information...</div>
     <% else %>
-      <.link to={Routes.live_path(@socket, CreateView)}>Create Board</.link>
+      <.link navigate={~p"/admin/todo/boards/new"}>Create Board</.link>
       <div class="boards">
         <table class="table">
           <thead>
@@ -28,10 +27,10 @@ defmodule NoozoWeb.Admin.Todo.Board.IndexView do
             <%= for board <- @boards.entries do %>
               <tr>
                 <td>
-                  <.link to={Routes.live_path(@socket, ShowView, board.id)}><%= board.title %></.link>
+                  <.link navigate={~p"/admin/todo/boards/#{board.id}"}><%= board.title %></.link>
                 </td>
                 <td>
-                  <.link to={Routes.live_path(@socket, EditView, board.id)}>Rename</.link>
+                  <.link navigate={~p"/admin/todo/boards/#{board.id}/edit"}>Rename</.link>
                 </td>
                 <td><%= TemplateUtils.format_date(board.inserted_at) %></td>
               </tr>

@@ -5,7 +5,6 @@ defmodule NoozoWeb.Admin.Todo.Board.CreateView do
   use NoozoWeb, :live_view
 
   alias Noozo.Todo
-  alias NoozoWeb.Admin.Todo.Board.EditView
 
   @impl true
   def render(assigns) do
@@ -21,6 +20,6 @@ defmodule NoozoWeb.Admin.Todo.Board.CreateView do
     {:noreply,
      socket
      |> put_flash(:info, "Board started")
-     |> redirect(to: Routes.live_path(socket, EditView, board.id))}
+     |> redirect(to: ~p"/admin/todo/boards/#{board.id}/edit")}
   end
 end

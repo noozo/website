@@ -5,8 +5,6 @@ defmodule NoozoWeb.Post.Components.Post do
   use NoozoWeb, :live_component
 
   alias Noozo.Core.Post
-  alias NoozoWeb.Endpoint
-  alias NoozoWeb.Post.ShowView
 
   @impl true
   def render(assigns) do
@@ -15,7 +13,7 @@ defmodule NoozoWeb.Post.Components.Post do
       <div class="flex flex-row flex-grow gap-6">
         <div>
           <%= if @post.image do %>
-            <.link to={Routes.live_path(Endpoint, ShowView, @post.slug) }>
+            <.link navigate={~p"/posts/#{@post.slug}"} >
               <img
                 alt={@post.title}
                 class="w-24 h-auto md:w-32 md:rounded-none rounded-full"
@@ -33,7 +31,7 @@ defmodule NoozoWeb.Post.Components.Post do
             <div class="hidden md:inline">
               <%= for tag <- assigns.post.tags do %>
                 <div class="tag-xs text-xs inline">
-                  <a href={Routes.live_path(Endpoint, NoozoWeb.Post.IndexView, tag.name)}>
+                  <a href={~p"/tag/#{tag.name}"}>
                     <%= tag.name %>
                   </a>
                 </div>
@@ -43,7 +41,7 @@ defmodule NoozoWeb.Post.Components.Post do
 
           <div class="mt-2">
             <.link
-              to={Routes.live_path(Endpoint, ShowView, @post.slug)}
+              navigate={~p"/posts/#{@post.slug}"}
               class="text-2xl text-black font-bold hover:underline"
             >
               <%= @post.title %>
@@ -54,7 +52,7 @@ defmodule NoozoWeb.Post.Components.Post do
           </div>
 
           <div class="flex justify-between items-center mt-4">
-            <.link to={Routes.live_path(Endpoint, ShowView, @post.slug)} class="hover:underline">
+            <.link navigate={~p"/posts/#{@post.slug}"} class="hover:underline">
               Read more
             </.link>
             <div>

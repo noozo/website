@@ -2,13 +2,9 @@ defmodule Noozo.Pagination do
   @moduledoc """
   Live Pagination module
   """
-  use Phoenix.Component
+  use NoozoWeb, :html
 
   alias NoozoWeb.Endpoint
-
-  attr :source_assigns, :map, required: true
-  attr :entries, :any, required: true
-  attr :module, :atom, required: true
 
   def render(%{entries: []}), do: ""
 
@@ -21,17 +17,17 @@ defmodule Noozo.Pagination do
       ) do
     assigns =
       assigns
-      |> assign(:has_previous, entries.page_number > 1)
-      |> assign(:has_next, entries.page_number < entries.total_pages)
-      |> assign(:prev_page, entries.page_number - 1)
-      |> assign(:next_page, entries.page_number + 1)
-      |> assign(:params, source_assigns[:params] || %{})
+      |> Map.put(:has_previous, entries.page_number > 1)
+      |> Map.put(:has_next, entries.page_number < entries.total_pages)
+      |> Map.put(:prev_page, entries.page_number - 1)
+      |> Map.put(:next_page, entries.page_number + 1)
+      |> Map.put(:params, source_assigns[:params] || %{})
 
     ~H"""
     <div>
       <nav class="relative z-0 inline-flex shadow-sm -space-x-px mt-6" aria-label="Pagination">
         <.link
-          navigate={Routes.live_path(Endpoint, @module, Map.put(@params, :page, @prev_page))}
+          patch={"?#{URI.encode_query(Map.put(@params, :page, @prev_page))}"}
           class={"#{if @has_previous, do: "", else: "opacity-50"} relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"}
         >
           <span>Newer</span>
@@ -51,7 +47,7 @@ defmodule Noozo.Pagination do
           </svg>
         </.link>
         <.link
-          navigate={Routes.live_path(Endpoint, @module, Map.put(@params, :page, @next_page))}
+          patch={"?#{URI.encode_query(Map.put(@params, :page, @next_page))}"}
           class={"#{if @has_next, do: "", else: "opacity-50"} relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"}
         >
           <span>Older</span>

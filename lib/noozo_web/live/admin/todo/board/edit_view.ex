@@ -5,12 +5,11 @@ defmodule NoozoWeb.Admin.Todo.Board.EditView do
   use NoozoWeb, :live_view
 
   alias Noozo.Todo
-  alias NoozoWeb.Admin.Todo.Board.IndexView
 
   @impl true
   def render(assigns) do
     ~H"""
-    <.link to={Routes.live_path(@socket, IndexView) }>Back to list</.link>
+    <.link navigate={~p"/admin/todo"}>Back to list</.link>
 
     <div class="notifications">
       <%= unless is_nil(@info) do %>
