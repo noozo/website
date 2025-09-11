@@ -11,7 +11,7 @@ defmodule NoozoWeb.Admin.Gallery.EditView do
   @impl true
   def render(assigns) do
     ~H"""
-    <.link to={Routes.live_path(@socket, IndexView)} class="btn">Back to list</.link>
+    <.link patch={~p"/admin/gallery"} class="btn">Back to list</.link>
 
     <div class="flex-none p-5">
       <%= unless is_nil(@info) do %>
@@ -70,7 +70,7 @@ defmodule NoozoWeb.Admin.Gallery.EditView do
                 <% end %>
 
                 <div class="flex">
-                  <%= live_file_input(@uploads.image) %>
+                  <.live_file_input upload={@uploads.image} />
                   <input class="btn flex-col cursor-pointer" type="submit" value="Upload">
                 </div>
               </div>
