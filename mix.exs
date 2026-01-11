@@ -61,7 +61,7 @@ defmodule Noozo.MixProject do
       {:gettext, "~> 0.20.0"},
       {:jason, "~> 1.4.0"},
       {:timex, "~> 3.7.9"},
-      {:curtail, "~> 2.0.0"},
+      # {:curtail, "~> 2.0.0"},
       {:ueberauth, "~> 0.10.3"},
       {:ueberauth_identity, "~> 0.4.2"},
       {:ueberauth_google, "~> 0.10"},
@@ -81,16 +81,14 @@ defmodule Noozo.MixProject do
       {:nimble_totp, "~> 0.2.0"},
       {:eqrcode, "~> 0.1.10"},
       {:esbuild, "~> 0.5.0"},
-      # AI powered development
-      {:tidewave, "~> 0.5", only: :dev},
       {:phoenix_html_helpers, "~> 1.0"},
 
       # Testing and things
       {:floki, "~> 0.34.0", only: :test},
       {:phoenix_live_reload, "~> 1.6.1", only: :dev},
-      {:mix_test_watch, "~> 1.1.0", only: [:dev, :test], runtime: false},
+      # {:mix_test_watch, "~> 1.1.0", only: [:dev, :test], runtime: false},
       {:ex_unit_notifier, "~> 1.2.0", only: [:dev, :test], runtime: false},
-      {:credo, "~> 1.6.7", only: [:dev, :test], runtime: false},
+      # {:credo, "~> 1.6.7", only: [:dev, :test], runtime: false},
       {:mox, "~> 1.0.2", only: :test},
       {:dialyxir, "~> 1.2.0", only: [:dev, :test], runtime: false},
       {:sobelow, "~> 0.11.1", only: [:dev, :test], runtime: false}

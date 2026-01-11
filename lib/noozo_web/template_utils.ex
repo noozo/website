@@ -17,7 +17,7 @@ defmodule NoozoWeb.TemplateUtils do
   def abstract(html_content, max_size \\ 255) do
     html_content
     |> HtmlSanitizeEx.Scrubber.scrub(NoozoWeb.TextOnlyScrubber)
-    |> Curtail.truncate(omission: "...", length: max_size)
+    |> truncate_string(max_size, "...")
     |> Phoenix.HTML.raw()
   end
 
@@ -32,7 +32,7 @@ defmodule NoozoWeb.TemplateUtils do
 
         length ->
           post.content
-          |> Curtail.truncate(omission: post_read_more_link(post), length: length)
+          |> truncate_string(length, post_read_more_link(post))
       end
 
     content
@@ -58,5 +58,13 @@ defmodule NoozoWeb.TemplateUtils do
 
   defp post_read_more_link(post) do
     ~s(...<div class="read-more-link"><a href="/posts/#{post.id}">read more &gt;&gt;</a></div>)
+  end
+
+  defp truncate_string(str, length, omission) when is_binary(str) do
+    if String.length(str) <= length do
+      str
+    else
+      String.slice(str, 0, length) <> omission
+    end
   end
 end

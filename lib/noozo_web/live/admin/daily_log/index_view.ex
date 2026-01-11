@@ -31,7 +31,7 @@ defmodule NoozoWeb.Admin.DailyLog.IndexView do
                   <.link navigate={~p"/admin/log/#{Date.to_string(entry.date)}"} class=""><%= entry.date %></.link>
                 </td>
                 <td><%= entry.date |> Timex.weekday() |> Timex.day_name() %></td>
-                <td><%= Curtail.truncate(entry.content || "", omission: "...", length: 50) %></td>
+                <td><%= String.slice(entry.content || "", 0, 50) <> "..." %></td>
               </tr>
             <% end %>
           </tbody>
